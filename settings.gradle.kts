@@ -1,1 +1,1 @@
-rootProject.name = "resource-management"
+rootProject.name = "resource-management-service"
