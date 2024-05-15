@@ -9,4 +9,6 @@ public interface JwtAuthenticationManager {
     JwtPayload verifyAndDecodeToken(String token) throws JwtAuthenticationManagerException;
 
     JwtPayload convertDecodedJwtTokenToJwtPayload(DecodedJWT decodedJWT);
+
+    String createJwtToken(JwtPayload jwtPayload);
 }

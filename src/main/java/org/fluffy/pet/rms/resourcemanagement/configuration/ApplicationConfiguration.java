@@ -35,7 +35,7 @@ public class ApplicationConfiguration {
                 jwtTokenProperties.getRsaPublicKey()
         );
         JwtAuthenticationManagerConfiguration jwtAuthenticationManagerConfiguration = new JwtAuthenticationManagerConfiguration(
-                authenticationAlgorithm, jwtTokenProperties.getTokenIssuer()
+                authenticationAlgorithm, jwtTokenProperties.getTokenIssuer(), jwtTokenProperties.getTokenValidityDurationMillis()
         );
         return new JwtAuthenticationManagerImpl(jwtAuthenticationManagerConfiguration);
     }

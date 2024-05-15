@@ -5,6 +5,7 @@ import manager.authentication.algorithms.AuthenticationAlgorithm;
 
 public record JwtAuthenticationManagerConfiguration(
         AuthenticationAlgorithm authenticationAlgorithm,
-        String tokenIssuer
+        String tokenIssuer,
+        Long tokenValidityDurationMillis
 ) {
 }
