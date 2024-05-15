@@ -18,4 +18,6 @@ public final class MongoConstants {
     public static final String CREATED_BY = "_createdBy";
 
     public static final String UPDATED_BY = "_updatedBy";
+
+    public static final String INFRASTRUCTURE_TABLE = "infrastructure";
 }
