@@ -12,6 +12,9 @@ public enum ErrorCode {
     INVALID_JWT_TOKEN("003", "Invalid JWT token provided"),
     JWT_TOKEN_EXPIRED("004", "JWT token expired"),
     TOKEN_MUST_START_WITH_BEARER("005", "Token must start with Bearer"),
+    DUPLICATE_USER("006", "Duplicate User"),
+    USER_NOT_FOUND("007", "User not found"),
+    UN_AUTHORISED("008", "Un Authorised Action")
     ;
 
     private final String code;

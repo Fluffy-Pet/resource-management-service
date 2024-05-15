@@ -19,5 +19,11 @@ public final class MongoConstants {
 
     public static final String UPDATED_BY = "_updatedBy";
 
+    public static final String MOBILE = "mobile";
+
+    public static final String EMAIL = "email";
+
     public static final String INFRASTRUCTURE_TABLE = "infrastructure";
+
+    public static final String USER_TABLE = "user";
 }
