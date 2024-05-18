@@ -1,17 +1,15 @@
-package org.fluffy.pet.rms.resourcemanagement.model;
+package org.fluffy.pet.rms.resourcemanagement.model.infrastructure;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
 @SuperBuilder
-@Document(MongoConstants.VETERINARY_CLINIC_TABLE)
-public class VeterinaryClinic extends User {
+public class Clinic {
     @Field(MongoConstants.CLINIC_NAME)
     private String clinicName;
 
