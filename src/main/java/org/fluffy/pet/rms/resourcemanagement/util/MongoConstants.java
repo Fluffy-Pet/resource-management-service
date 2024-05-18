@@ -26,4 +26,19 @@ public final class MongoConstants {
     public static final String INFRASTRUCTURE_TABLE = "infrastructure";
 
     public static final String USER_TABLE = "user";
+    public static final String DOCTOR_TABLE = "doctor_table";
+    public static final String SPECIALIZATION = "specialization";
+    public static final String EXPERIENCE = "experience";
+    public static final String CLINIC_ADDRESS = "clinicAddress";
+    public static final String LICENSE_NUMBER ="licenseNumber" ;
+    public static final String VOLUNTEER_TABLE = "volunteer_table";
+    public static final String AVAILABILITY = "availability";
+    public static final String SKILLS = "skills";
+    public static final String AREA_OF_OPERATION = "areaOfOperation";
+    public static final String VETERINARY_CLINIC_TABLE = "veterinary_clinic_table";
+    public static final String CLINIC_NAME = "clinicName";
+    public static final String ADDRESS = "address";
+    public static final String PHONE_NUMBER = "phoneNumber";
+    public static final String SERVICES_OFFERED = "servicesOffered";
+    public static final String OPERATING_HOURS = "operatingHours";
 }
