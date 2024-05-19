@@ -49,4 +49,4 @@ jobs:
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
-          helm upgrade --install myapp ./helm-charts/myapp-chart --namespace default --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY --set image.tag=$IMAGE_TAG
+          helm upgrade --install fluffy-pet ./helm-charts/fluffy-pet-chart --namespace default --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY --set image.tag=$IMAGE_TAG
