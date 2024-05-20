@@ -47,10 +47,6 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: fluffy_pet_resource_management_system
           IMAGE_TAG: ${{ github.sha }}
-          KUBECONFIG: ~/.kube/config
-          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
-          DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
-          DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
           echo "Kubeconfig contents:"
           cat ~/.kube/config
