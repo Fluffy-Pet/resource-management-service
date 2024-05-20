@@ -65,6 +65,8 @@ jobs:
           DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
           DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
+          kubectl cluster-info
+          kubectl get pods -n default
           kubectl apply --validate=false -f deployment/deployment.yaml --v=8
           kubectl apply --validate=false -f deployment/service.yaml --v=8
 #        run: |
