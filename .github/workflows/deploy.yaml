@@ -58,16 +58,14 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: fluffy_pet_resource_management_system
           IMAGE_TAG: ${{ github.sha }}
-          $SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
           AWS_ACCESS_KEY_ID: ${{ secrets.DYNAMODB_ACCESS_KEY }}
-          $AWS_SECRET_ACCESS_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
           sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" \
           -i.bak "s|SPRING_PROFILES_ACTIVE_VALUE|$SPRING_PROFILES_ACTIVE|g" \
           -i.bak "s|AWS_SECRET_ACCESS_KEY_VALUE|$AWS_SECRET_ACCESS_KEY|g" \
-          -i.bak "s|AWS_ACCESS_KEY_ID_VALUE|AWS_ACCESS_KEY_ID|g" deployment/deployment.yaml &&  \
-          kubectl apply --dry-run=client -f deployment/deployment.yaml
-          kubectl apply --dry-run=client -f deployment/service.yaml
+          -i.bak "s|AWS_ACCESS_KEY_ID_VALUE|AWS_ACCESS_KEY_ID|g" deployment/deployment.yaml && \
           kubectl apply --validate=false -f deployment/deployment.yaml --v=8
           kubectl apply --validate=false -f deployment/service.yaml --v=8
       
