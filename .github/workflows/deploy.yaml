@@ -26,18 +26,18 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Log in to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build, tag, and push image to Amazon ECR
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: fluffy_pet_resource_management_system
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+#      - name: Log in to Amazon ECR
+#        id: login-ecr
+#        uses: aws-actions/amazon-ecr-login@v2
+#
+#      - name: Build, tag, and push image to Amazon ECR
+#        env:
+#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#          ECR_REPOSITORY: fluffy_pet_resource_management_system
+#          IMAGE_TAG: ${{ github.sha }}
+#        run: |
+#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Set up kubeconfig
         run: |
@@ -46,12 +46,25 @@ jobs:
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
-      - name: Verify AWS CLI and kubectl configuration
+      - name: Deploy to EKS with kubectl
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: fluffy_pet_resource_management_system
+          IMAGE_TAG: ${{ github.sha }}
+          KUBECONFIG: ~/.kube/config
+          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+          DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
+          DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
-          echo "Image Tag:"
-          echo ${{ github.sha }}
-          echo "ECR Registry:"
-          echo ${{ steps.login-ecr.outputs.registry }}
+          kubectl apply -f deployment/deployment.yaml
+          kubectl apply -f deployment/service.yaml
+
+#      - name: Verify AWS CLI and kubectl configuration
+#        run: |
+#          echo "Image Tag:"
+#          echo ${{ github.sha }}
+#          echo "ECR Registry:"
+#          echo ${{ steps.login-ecr.outputs.registry }}
 
 #      - name: Verify AWS CLI and kubectl configuration
 #        run: |
