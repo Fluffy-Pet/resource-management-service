@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set default Git branch to main
-        run: git config --global init.defaultBranch main
-
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -42,14 +39,8 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Checkout Helm chart repository
-        uses: actions/checkout@v2
-        with:
-          repository: Fluffy-Pet/platform
-          path: fluffy-pet-chart
-
       - name: Deploy with Helm
         env:
           KUBECONFIG: ${{ secrets.KUBECONFIG }}
         run: |
-          helm upgrade --install fluffy-pet ./helm-charts/fluffy-pet-chart --namespace default --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY --set image.tag=$IMAGE_TAG
+          helm upgrade --install fluffy-pet ./fluffy-pet-chart --namespace default --set image.repository=$ECR_REGISTRY/$ECR_REPOSITORY --set image.tag=$IMAGE_TAG
