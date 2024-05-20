@@ -43,4 +43,6 @@ public final class MongoConstants {
     public static final String OPERATING_HOURS = "operatingHours";
     public static final String INFORMATION = "information";
     public static final String SERVED_ORGANIZATIONS = "servedOrganizations";
+    public static final String DOCUMENT = "documents";
+    public static final String ASSOCIATED_CLINICS = "associatedClinics";
 }

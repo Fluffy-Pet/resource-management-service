@@ -23,4 +23,7 @@ public class Address {
 
     @Field("country")
     private String country;
+
+    @Field("coordinates")
+    private Coordinates coordinates;
 }

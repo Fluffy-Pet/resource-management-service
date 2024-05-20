@@ -15,4 +15,7 @@ public class Document {
 
     @Field("id_number")
     private String idNumber;
+
+    @Field("url")
+    private String url;
 }

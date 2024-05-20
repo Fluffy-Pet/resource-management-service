@@ -5,7 +5,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,8 +18,8 @@ public class ServedOrganization {
     private String role;
 
     @Field("start_date")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Field("end_date")
-    private Date endDate;
+    private LocalDate endDate;
 }

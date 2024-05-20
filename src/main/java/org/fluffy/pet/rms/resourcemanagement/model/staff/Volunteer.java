@@ -5,8 +5,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
 import org.fluffy.pet.rms.resourcemanagement.enums.SkillType;
-import org.fluffy.pet.rms.resourcemanagement.model.User;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Information;
+import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,16 +18,18 @@ import java.util.List;
 @Setter
 @SuperBuilder
 @Document(MongoConstants.VOLUNTEER_TABLE)
-public class Volunteer extends User {
+public class Volunteer extends BaseEntity {
     @Field(MongoConstants.AVAILABILITY)
     private List<AvailabilityType> availability; // List of availability types
 
     @Field(MongoConstants.SKILLS)
     private List<SkillType> skills; // List of skills
 
+    @Field(MongoConstants.DOCUMENT)
+    private List<Document> documents;
 
-    @Field(MongoConstants.INFORMATION)
-    private Information information; // Information details
+    @Field(MongoConstants.ADDRESS)
+    private Address address;
 
     @Field(MongoConstants.SERVED_ORGANIZATIONS)
     private List<ServedOrganization> servedOrganizations; // List of previously served organizations
