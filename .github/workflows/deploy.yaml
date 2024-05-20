@@ -44,6 +44,7 @@ jobs:
         with:
           repository: Fluffy-Pet/platform
           path: fluffy-pet-chart
+          ref: main
 
       - name: Deploy with Helm
         env:
