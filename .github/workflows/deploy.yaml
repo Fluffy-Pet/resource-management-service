@@ -49,6 +49,8 @@ jobs:
           kubectl config view
           kubectl config current-context
           kubectl cluster-info
+          echo "Kubeconfig Cluster Info Dump"
+          kubectl cluster-info dump
 
       - name: Deploy to EKS with kubectl
         env:
