@@ -63,9 +63,9 @@ jobs:
           $AWS_SECRET_ACCESS_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
           sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" \
-          -i.bak "s|\${SPRING_PROFILES_ACTIVE_VALUE}|$SPRING_PROFILES_ACTIVE|g" \
-          -i.bak "s|\${AWS_SECRET_ACCESS_KEY_VALUE}|$AWS_SECRET_ACCESS_KEY|g" \
-          -i.bak "s|\${AWS_ACCESS_KEY_ID_VALUE}|AWS_ACCESS_KEY_ID|g" deployment/deployment.yaml &&  \
+          -i.bak "s|SPRING_PROFILES_ACTIVE_VALUE|$SPRING_PROFILES_ACTIVE|g" \
+          -i.bak "s|AWS_SECRET_ACCESS_KEY_VALUE|$AWS_SECRET_ACCESS_KEY|g" \
+          -i.bak "s|AWS_ACCESS_KEY_ID_VALUE|AWS_ACCESS_KEY_ID|g" deployment/deployment.yaml &&  \
           kubectl apply --dry-run=client -f deployment/deployment.yaml
           kubectl apply --dry-run=client -f deployment/service.yaml
           kubectl apply --validate=false -f deployment/deployment.yaml --v=8
