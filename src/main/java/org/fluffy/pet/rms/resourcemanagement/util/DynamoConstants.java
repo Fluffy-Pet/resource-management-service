@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class MongoConstants {
+public final class DynamoConstants {
     public static final String ID = "_id";
 
     public static final String STATUS = "_status";
@@ -45,4 +45,10 @@ public final class MongoConstants {
     public static final String SERVED_ORGANIZATIONS = "servedOrganizations";
     public static final String DOCUMENT = "documents";
     public static final String ASSOCIATED_CLINICS = "associatedClinics";
+    public static final String INFRASTRUCTURE_NAME = "infrastructureName";
+    public static final String INFRASTRUCTURE_DESCRIPTION = "infrastructureDescription";
+    public static final String INFRASTRUCTURE_SERVICE = "infrastructureService";
+    public static final String INFRASTRUCTURE_TYPE = "infrastructureType";
+    public static final String INFRASTRUCTURE_SUB_TYPE = "infrastructureSubType";
+    public static final String PASSWORD = "password";
 }

@@ -1,24 +1,24 @@
 package org.fluffy.pet.rms.resourcemanagement.model;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
-import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 @Getter
 @Setter
 @SuperBuilder
-@Document(MongoConstants.USER_TABLE)
+@DynamoDBTable(tableName = DynamoConstants.USER_TABLE)
 public class User extends BaseEntity {
-    @Field(MongoConstants.MOBILE)
+    @DynamoDBAttribute(attributeName = DynamoConstants.MOBILE)
     private Mobile mobile;
 
-    @Field(MongoConstants.EMAIL)
+    @DynamoDBAttribute(attributeName = DynamoConstants.EMAIL)
     private Email email;
 
+    @DynamoDBAttribute(attributeName = DynamoConstants.PASSWORD)
     private String password;
 }
