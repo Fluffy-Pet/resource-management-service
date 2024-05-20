@@ -21,11 +21,11 @@ spec:
         - containerPort: 8080
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: prod
+          value: SPRING_PROFILES_ACTIVE_VALUE
         - name: AWS_ACCESS_KEY_ID
-          value: AKIATCKAQMYEYF6OEWN2
+          value: AWS_ACCESS_KEY_ID_VALUE
         - name: AWS_SECRET_ACCESS_KEY
-          value: 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
+          value: AWS_SECRET_ACCESS_KEY_VALUE
   strategy:
     type: RollingUpdate
     rollingUpdate:
