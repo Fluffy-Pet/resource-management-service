@@ -49,8 +49,11 @@ jobs:
           kubectl config view
           kubectl config current-context
           kubectl cluster-info
-          echo "Kubeconfig Cluster Info Dump"
-          kubectl cluster-info dump
+
+      - name: Validate deployment and service files
+        run: |
+          kubectl apply --dry-run=client -f deployment/deployment.yaml
+          kubectl apply --dry-run=client -f deployment/service.yaml
 
       - name: Deploy to EKS with kubectl
         env:
