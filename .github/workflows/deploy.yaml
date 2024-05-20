@@ -39,19 +39,24 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy to Cluster
-        uses: kodermax/kubectl-aws-eks@main
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name fluffy-pet-cluster  --region us-east-1
+
+      - name: Deploy to EKS with kubectl
         env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: fluffy_pet_resource_management_system
           IMAGE_TAG: ${{ github.sha }}
-        with:
-          args: set image deployment/$ECR_REPOSITORY $ECR_REPOSITORY=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-      - name: verify deployment
-        uses: kodermax/kubectl-aws-eks@main
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBECONFIG }}
-        with:
-          args: rollout status deployment/my-app
+          KUBECONFIG: ~/.kube/config
+          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+          DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
+          DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
+        run: |
+          sed -e "s|<ECR_REGISTRY>|$ECR_REGISTRY|g" \
+              -e "s|<ECR_REPOSITORY>|$ECR_REPOSITORY|g" \
+              -e "s|<IMAGE_TAG>|$IMAGE_TAG|g" \
+              -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
+              -e "s|\${AWS_SECRET_ACCESS_KEY}|$AWS_SECRET_ACCESS_KEY|g" \
+              -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
+              deployment/deployment.yaml | kubectl apply -f -
+          kubectl apply -f deployment/service.yaml
