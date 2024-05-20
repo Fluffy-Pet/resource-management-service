@@ -65,8 +65,8 @@ jobs:
           DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
           DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
-          kubectl apply --validate=false -f deployment/deployment.yaml
-          kubectl apply --validate=false -f deployment/service.yaml
+          kubectl apply --validate=false -f deployment/deployment.yaml --v=8
+          kubectl apply --validate=false -f deployment/service.yaml --v=8
 #        run: |
 #          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment/deployment.yaml && \
 #          kubectl apply -f - deployment/deployment.yaml
