@@ -42,13 +42,25 @@ jobs:
       - name: Update kube config
         run: aws eks update-kubeconfig --name fluffy-pet-cluster  --region us-east-1
 
-      - name: Verify kubeconfig and kubectl context
+      - name: Verify kubeconfig and kubectl context and Deploy Application
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: fluffy_pet_resource_management_system
+          IMAGE_TAG: ${{ github.sha }}
+          KUBECONFIG: ~/.kube/config
+          SPRING_PROFILES_ACTIVE: ${{ secrets.SPRING_PROFILES_ACTIVE }}
+          DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
+          DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
           echo "Kubeconfig contents:"
           cat ~/.kube/config
           kubectl config view
           kubectl config current-context
           kubectl cluster-info
+          
+          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment/deployment.yaml && \
+          kubectl apply --dry-run=client -f deployment/deployment.yaml
+          kubectl apply --dry-run=client -f deployment/service.yaml
           kubectl apply --validate=false -f deployment/deployment.yaml --v=8
           kubectl apply --validate=false -f deployment/service.yaml --v=8
 
