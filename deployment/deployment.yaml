@@ -15,14 +15,19 @@ spec:
     spec:
       containers:
       - name: fluffy-pet
-        image: <ECR_REGISTRY>/<ECR_REPOSITORY>:<IMAGE_TAG>
+        image: DOCKER_IMAGE
+        imagePullPolicy: Always
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: ${SPRING_PROFILES_ACTIVE}
+          value: prod
         - name: AWS_ACCESS_KEY_ID
-          value: ${AWS_ACCESS_KEY_ID}
+          value: AKIATCKAQMYEYF6OEWN2
         - name: AWS_SECRET_ACCESS_KEY
-          value: ${AWS_SECRET_ACCESS_KEY}
-
+          value: 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
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1

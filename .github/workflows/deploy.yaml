@@ -52,11 +52,6 @@ jobs:
           DYNAMODB_ACCESS_KEY: ${{ secrets.DYNAMODB_ACCESS_KEY }}
           DYNAMODB_SECRET_KEY: ${{ secrets.DYNAMODB_SECRET_KEY }}
         run: |
-          sed -e "s|<ECR_REGISTRY>|$ECR_REGISTRY|g" \
-              -e "s|<ECR_REPOSITORY>|$ECR_REPOSITORY|g" \
-              -e "s|<IMAGE_TAG>|$IMAGE_TAG|g" \
-              -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
-              -e "s|\${AWS_SECRET_ACCESS_KEY}|$AWS_SECRET_ACCESS_KEY|g" \
-              -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
-              deployment/deployment.yaml | kubectl apply -f -
+          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment/deployment.yaml && \
+          kubectl apply -f - deployment/deployment.yaml
           kubectl apply -f deployment/service.yaml
