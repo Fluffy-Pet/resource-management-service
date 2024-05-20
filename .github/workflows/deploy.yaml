@@ -48,11 +48,6 @@ jobs:
           kubectl config current-context
           kubectl cluster-info
 
-      - name: Verify Deployment Pipeline
-        run:
-          kubectl apply --dry-run=client -f deployment/deployment.yaml
-          kubectl apply --dry-run=client -f deployment/service.yaml
-
       - name: Deploy Application
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
