@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fluffy-pet
+  namespace: default
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: fluffy-pet
+  template:
+    metadata:
+      labels:
+        app: fluffy-pet
+    spec:
+      containers:
+      - name: fluffy-pet
+        image: <ECR_REGISTRY>/<ECR_REPOSITORY>:<IMAGE_TAG>
+        ports:
+        - containerPort: 80
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: ${SPRING_PROFILES_ACTIVE}
+        - name: AWS_ACCESS_KEY_ID
+          value: ${AWS_ACCESS_KEY_ID}
+        - name: AWS_SECRET_ACCESS_KEY
+          value: ${AWS_SECRET_ACCESS_KEY}
+

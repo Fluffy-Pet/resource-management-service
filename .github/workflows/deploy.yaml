@@ -62,5 +62,5 @@ jobs:
               -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
               -e "s|\${AWS_SECRET_ACCESS_KEY}|$AWS_SECRET_ACCESS_KEY|g" \
               -e "s|\${SPRING_PROFILES_ACTIVE}|$SPRING_PROFILES_ACTIVE|g" \
-              deployment.yaml | kubectl apply -f -
-          kubectl apply -f service.yaml
+              deployment/deployment.yaml | kubectl apply -f -
+          kubectl apply -f deployment/service.yaml
