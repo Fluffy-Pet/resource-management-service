@@ -49,6 +49,8 @@ jobs:
           kubectl config view
           kubectl config current-context
           kubectl cluster-info
+          kubectl apply --validate=false -f deployment/deployment.yaml --v=8
+          kubectl apply --validate=false -f deployment/service.yaml --v=8
 
       - name: Validate deployment and service files
         run: |
