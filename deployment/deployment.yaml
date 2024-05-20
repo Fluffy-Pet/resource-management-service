@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: fluffy-pet
-        image: DOCKER_IMAGE
+        image: 211125560841.dkr.ecr.us-east-1.amazonaws.com/fluffy_pet_resource_management_system:973cc736f0660a75b4361d4808a59ca9b6403fbf
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
