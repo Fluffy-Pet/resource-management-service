@@ -23,7 +23,7 @@ public class Doctor extends BaseEntity {
     private List<PetType> specialization;
 
     @DynamoDBAttribute(attributeName = DynamoConstants.EXPERIENCE)
-    private Double experience; // in years
+    private Double experience;
 
     @DynamoDBAttribute(attributeName = DynamoConstants.DOCUMENT)
     private List<Document> documents;

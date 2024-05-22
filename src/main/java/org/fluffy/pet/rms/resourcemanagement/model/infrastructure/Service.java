@@ -1,7 +1,9 @@
 package org.fluffy.pet.rms.resourcemanagement.model.infrastructure;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
+import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 @Getter
 @Setter
@@ -9,9 +11,12 @@ import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class Service {
+    @DynamoDBAttribute(attributeName = DynamoConstants.SERVICE_GROUP)
     private String serviceGroup;
 
+    @DynamoDBAttribute(attributeName = DynamoConstants.SERVICE_SUB_GROUP)
     private String serviceSubGroup;
 
+    @DynamoDBAttribute(attributeName = DynamoConstants.PET_CATEGORY)
     private PetCategory petCategory;
 }

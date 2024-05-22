@@ -20,10 +20,10 @@ import java.util.List;
 @DynamoDBTable(tableName = DynamoConstants.VOLUNTEER_TABLE)
 public class Volunteer extends BaseEntity {
     @DynamoDBAttribute(attributeName = DynamoConstants.AVAILABILITY)
-    private List<AvailabilityType> availability; // List of availability types
+    private List<AvailabilityType> availability;
 
     @DynamoDBAttribute(attributeName = DynamoConstants.SKILLS)
-    private List<SkillType> skills; // List of skills
+    private List<SkillType> skills;
 
     @DynamoDBAttribute(attributeName = DynamoConstants.DOCUMENT)
     private List<Document> documents;
@@ -32,5 +32,5 @@ public class Volunteer extends BaseEntity {
     private Address address;
 
     @DynamoDBAttribute(attributeName = DynamoConstants.SERVED_ORGANIZATIONS)
-    private List<ServedOrganization> servedOrganizations; // List of previously served organizations
+    private List<ServedOrganization> servedOrganizations;
 }

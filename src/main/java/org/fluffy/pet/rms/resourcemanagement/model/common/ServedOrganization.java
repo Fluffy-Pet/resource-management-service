@@ -1,9 +1,10 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 import java.time.LocalDate;
 
@@ -11,15 +12,15 @@ import java.time.LocalDate;
 @Setter
 @SuperBuilder
 public class ServedOrganization {
-    @Field("organization_name")
+    @DynamoDBAttribute(attributeName = DynamoConstants.ORGANIZATION_NAME)
     private String organizationName;
 
-    @Field("role")
+    @DynamoDBAttribute(attributeName = DynamoConstants.ROLE)
     private String role;
 
-    @Field("start_date")
+    @DynamoDBAttribute(attributeName = DynamoConstants.START_DATE)
     private LocalDate startDate;
 
-    @Field("end_date")
+    @DynamoDBAttribute(attributeName = DynamoConstants.END_DATE)
     private LocalDate endDate;
 }

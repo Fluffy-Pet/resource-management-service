@@ -6,5 +6,5 @@ public enum AvailabilityType {
     EVENINGS,
     FULL_TIME,
     PART_TIME,
-    OTHER // Add more availability types as needed
+    OTHER
 }

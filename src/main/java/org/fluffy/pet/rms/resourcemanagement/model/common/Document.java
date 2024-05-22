@@ -1,21 +1,22 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 @Getter
 @Setter
 @SuperBuilder
 public class Document {
-    @Field("type")
+    @DynamoDBAttribute(attributeName = DynamoConstants.TYPE)
     private DocumentType type;
 
-    @Field("id_number")
+    @DynamoDBAttribute(attributeName = DynamoConstants.ID_NUMBER)
     private String idNumber;
 
-    @Field("url")
+    @DynamoDBAttribute(attributeName = DynamoConstants.URL)
     private String url;
 }

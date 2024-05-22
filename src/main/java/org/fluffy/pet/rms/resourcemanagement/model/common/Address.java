@@ -1,29 +1,30 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.mongodb.core.mapping.Field;
+import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 @Getter
 @Setter
 @SuperBuilder
 public class Address {
-    @Field("street")
+    @DynamoDBAttribute(attributeName = DynamoConstants.STREET)
     private String street;
 
-    @Field("city")
+    @DynamoDBAttribute(attributeName = DynamoConstants.CITY)
     private String city;
 
-    @Field("state")
+    @DynamoDBAttribute(attributeName = DynamoConstants.STATE)
     private String state;
 
-    @Field("zip_code")
+    @DynamoDBAttribute(attributeName = DynamoConstants.ZIP_CODE)
     private String zipCode;
 
-    @Field("country")
+    @DynamoDBAttribute(attributeName = DynamoConstants.COUNTRY)
     private String country;
 
-    @Field("coordinates")
+    @DynamoDBAttribute(attributeName = DynamoConstants.COORDINATES)
     private Coordinates coordinates;
 }
