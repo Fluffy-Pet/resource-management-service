@@ -107,4 +107,5 @@ public final class DynamoConstants {
     public static final String SERVICE_SUB_GROUP = "serviceSubGroup";
 
     public static final String PET_CATEGORY = "petCategory";
+    public static final String CLINIC_TABLE = "clinic_table";
 }
