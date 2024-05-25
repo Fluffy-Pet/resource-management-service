@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @SuperBuilder
+@DynamoDBDocument
 public class ServedOrganization {
     @DynamoDBAttribute(attributeName = DynamoConstants.ORGANIZATION_NAME)
     private String organizationName;

@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -9,6 +10,7 @@ import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 @Getter
 @Setter
 @SuperBuilder
+@DynamoDBDocument
 public class Address {
     @DynamoDBAttribute(attributeName = DynamoConstants.STREET)
     private String street;
