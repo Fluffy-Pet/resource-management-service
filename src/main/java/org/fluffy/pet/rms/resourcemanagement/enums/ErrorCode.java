@@ -14,8 +14,9 @@ public enum ErrorCode {
     TOKEN_MUST_START_WITH_BEARER("005", "Token must start with Bearer"),
     DUPLICATE_USER("006", "Duplicate User"),
     USER_NOT_FOUND("007", "User not found"),
-    UN_AUTHORISED("008", "Un Authorised Action")
-    ;
+    UN_AUTHORISED("008", "Un Authorised Action"),
+    DUPLICATE_INFRASTRUCTURE("009", "Infrastructure already exists"),
+    INFRASTRUCTURE_NOT_FOUND("010", "Infrastructure not found");
 
     private final String code;
 
