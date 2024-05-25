@@ -14,6 +14,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.DynamoDBTableConfig;
 import org.fluffy.pet.rms.resourcemanagement.annotations.GlobalSecondaryIndexAnnotation;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.AwsProperties;
 import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
+import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.reflections.util.ClasspathHelper;
@@ -110,8 +111,7 @@ public class DynamoDbConfiguration {
                     TableDescription tableDescription = amazonDynamoDB.describeTable(tableRequest.getTableName()).getTable();
                     List<GlobalSecondaryIndexDescription> existingIndexes = tableDescription.getGlobalSecondaryIndexes();
                     for (GlobalSecondaryIndex gsi : globalSecondaryIndices) {
-                        boolean indexExists = existingIndexes.stream()
-                                .anyMatch(index -> index.getIndexName().equals(gsi.getIndexName()));
+                        boolean indexExists = StreamUtils.emptyIfNull(existingIndexes).anyMatch(index -> index.getIndexName().equals(gsi.getIndexName()));
 
                         if (!indexExists) {
                             UpdateTableRequest updateTableRequest = new UpdateTableRequest()
