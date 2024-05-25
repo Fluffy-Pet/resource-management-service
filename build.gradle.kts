@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("com.amazonaws:aws-java-sdk-dynamodb:1.12.725")
 	implementation("io.github.boostchicken:spring-data-dynamodb:5.2.5")
+	implementation("org.reflections:reflections:0.10.2")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	annotationProcessor("org.projectlombok:lombok")

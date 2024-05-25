@@ -13,15 +13,16 @@ import org.springframework.stereotype.Repository;
 public class DoctorRepositoryImpl implements DoctorRepository {
     private final AmazonDynamoDB amazonDynamoDB;
 
+    private final DynamoDBMapper dynamoDBMapper;
+
     @Autowired
-    public DoctorRepositoryImpl(AmazonDynamoDB amazonDynamoDB) {
+    public DoctorRepositoryImpl(AmazonDynamoDB amazonDynamoDB, DynamoDBMapper dynamoDBMapper) {
         this.amazonDynamoDB = amazonDynamoDB;
+        this.dynamoDBMapper = dynamoDBMapper;
     }
 
     @Override
     public CommonRepository<Doctor, String> getCommonRepository() {
-        DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
-
         return new CommonRepositoryImpl<>(
                 dynamoDBMapper,
                 amazonDynamoDB,
