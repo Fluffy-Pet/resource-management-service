@@ -5,14 +5,15 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
 
 @Getter
 @Setter
 @SuperBuilder
-@DynamoDBTable(tableName = "VeterinaryClinic")
-public class Clinic {
+@DynamoDBTable(tableName = DynamoConstants.CLINIC_TABLE)
+public class Clinic extends BaseEntity {
     @DynamoDBAttribute(attributeName = DynamoConstants.CLINIC_NAME)
     private String clinicName;
 
