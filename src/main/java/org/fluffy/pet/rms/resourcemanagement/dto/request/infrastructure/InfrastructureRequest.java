@@ -1,5 +1,8 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -10,13 +13,16 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class InfrastructureRequest {
+    @NotBlank
     private String name;
 
     private String description;
 
-    private List<ServiceRequest> services;
+    private List<@NotNull @Valid ServiceRequest> services;
 
+    @NotBlank
     private String type;
 
+    @NotBlank
     private String subType;
 }
