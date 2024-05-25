@@ -13,15 +13,16 @@ import org.springframework.stereotype.Repository;
 public class VolunteerRepositoryImpl implements VolunteerRepository {
     private final AmazonDynamoDB amazonDynamoDB;
 
+    private final DynamoDBMapper dynamoDBMapper;
+
     @Autowired
-    public VolunteerRepositoryImpl(AmazonDynamoDB amazonDynamoDB) {
+    public VolunteerRepositoryImpl(AmazonDynamoDB amazonDynamoDB, DynamoDBMapper dynamoDBMapper) {
         this.amazonDynamoDB = amazonDynamoDB;
+        this.dynamoDBMapper = dynamoDBMapper;
     }
 
     @Override
     public CommonRepository<Volunteer, String> getCommonRepository() {
-        DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(amazonDynamoDB);
-
         return new CommonRepositoryImpl<>(
                 dynamoDBMapper,
                 amazonDynamoDB,
