@@ -84,11 +84,14 @@ public class DynamoDbConfiguration {
             DynamoDBTableConfig tableConfig = clazz.getAnnotation(DynamoDBTableConfig.class);
             if (tableConfig != null) {
                 List<GlobalSecondaryIndex> globalSecondaryIndices = new ArrayList<>();
+                List<AttributeDefinition> attributeDefinitions = new ArrayList<>();
                 for (GlobalSecondaryIndexAnnotation gsiAnnotation : tableConfig.globalSecondaryIndexes()) {
                     List<KeySchemaElement> keySchemaElements = new ArrayList<>();
                     keySchemaElements.add(new KeySchemaElement(gsiAnnotation.hashKey(), KeyType.HASH));
+                    attributeDefinitions.add(new AttributeDefinition(gsiAnnotation.hashKey(), ScalarAttributeType.S));
                     if (!gsiAnnotation.rangeKey().isEmpty()) {
                         keySchemaElements.add(new KeySchemaElement(gsiAnnotation.rangeKey(), KeyType.RANGE));
+                        attributeDefinitions.add(new AttributeDefinition(gsiAnnotation.rangeKey(), ScalarAttributeType.S));
                     }
                     GlobalSecondaryIndex gsi = new GlobalSecondaryIndex()
                             .withIndexName(gsiAnnotation.indexName())
@@ -104,31 +107,42 @@ public class DynamoDbConfiguration {
                     globalSecondaryIndices.add(gsi);
                 }
                 tableRequest.withGlobalSecondaryIndexes(globalSecondaryIndices);
+                tableRequest.withAttributeDefinitions(attributeDefinitions);
 
                 if (!amazonDynamoDB.listTables().getTableNames().contains(tableRequest.getTableName())) {
                     amazonDynamoDB.createTable(tableRequest);
-                } else {
-                    TableDescription tableDescription = amazonDynamoDB.describeTable(tableRequest.getTableName()).getTable();
-                    List<GlobalSecondaryIndexDescription> existingIndexes = tableDescription.getGlobalSecondaryIndexes();
-                    for (GlobalSecondaryIndex gsi : globalSecondaryIndices) {
-                        boolean indexExists = StreamUtils.emptyIfNull(existingIndexes).anyMatch(index -> index.getIndexName().equals(gsi.getIndexName()));
-
-                        if (!indexExists) {
-                            UpdateTableRequest updateTableRequest = new UpdateTableRequest()
-                                    .withTableName(tableRequest.getTableName())
-                                    .withGlobalSecondaryIndexUpdates(new GlobalSecondaryIndexUpdate()
-                                            .withCreate(new CreateGlobalSecondaryIndexAction()
-                                                    .withIndexName(gsi.getIndexName())
-                                                    .withKeySchema(gsi.getKeySchema())
-                                                    .withProjection(gsi.getProjection())
-                                                    .withProvisionedThroughput(gsi.getProvisionedThroughput())));
-
-                            amazonDynamoDB.updateTable(updateTableRequest);
-                        }
-                    }
                 }
             }
         }
         return dynamoDBTemplate;
+    }
+
+    @SuppressWarnings("unused")
+    // Fix this method so that index can be created on the fly, put it in the else block of table creation in the above bean
+    private void createIndexForTable(
+            AmazonDynamoDB amazonDynamoDB,
+            CreateTableRequest tableRequest,
+            List<GlobalSecondaryIndex> globalSecondaryIndices,
+            List<AttributeDefinition> attributeDefinitions
+    ) {
+        TableDescription tableDescription = amazonDynamoDB.describeTable(tableRequest.getTableName()).getTable();
+        List<GlobalSecondaryIndexDescription> existingIndexes = tableDescription.getGlobalSecondaryIndexes();
+        for (GlobalSecondaryIndex gsi : globalSecondaryIndices) {
+            boolean indexExists = StreamUtils.emptyIfNull(existingIndexes).anyMatch(index -> index.getIndexName().equals(gsi.getIndexName()));
+
+            if (!indexExists) {
+                UpdateTableRequest updateTableRequest = new UpdateTableRequest()
+                        .withTableName(tableRequest.getTableName())
+                        .withAttributeDefinitions(attributeDefinitions)
+                        .withGlobalSecondaryIndexUpdates(new GlobalSecondaryIndexUpdate()
+                                .withCreate(new CreateGlobalSecondaryIndexAction()
+                                        .withIndexName(gsi.getIndexName())
+                                        .withKeySchema(gsi.getKeySchema())
+                                        .withProjection(gsi.getProjection())
+                                        .withProvisionedThroughput(gsi.getProvisionedThroughput())));
+
+                amazonDynamoDB.updateTable(updateTableRequest);
+            }
+        }
     }
 }
