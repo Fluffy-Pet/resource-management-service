@@ -97,10 +97,6 @@ public final class DynamoConstants {
 
     public static final String EMAIL_ID = "emailId";
 
-    public static final String COUNTRY_CODE = "countryCode";
-
-    public static final String MOBILE_NUMBER = "mobileNumber";
-
     public static final String ORGANIZATION_NAME = "organizationName";
 
     public static final String ROLE = "role";
@@ -116,4 +112,10 @@ public final class DynamoConstants {
     public static final String PET_CATEGORY = "petCategory";
 
     public static final String CLINIC_TABLE = "clinic_table";
+
+    public static final String EMAIL_INDEX = "EmailIndex";
+
+    public static final String MOBILE_INDEX = "MobileIndex";
+
+    public static final String STATUS_INDEX = "StatusIndex";
 }
