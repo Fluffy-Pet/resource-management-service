@@ -20,6 +20,13 @@ import java.util.List;
 @SuperBuilder
 @Document(MongoConstants.DOCTOR_TABLE)
 public class Doctor extends BaseEntity {
+
+    @Field(MongoConstants.FIRST_NAME)
+    private String firstName;
+
+    @Field(MongoConstants.LAST_NAME)
+    private String lastName;
+
     @Field(MongoConstants.SPECIALIZATION)
     private List<PetType> specialization;
 

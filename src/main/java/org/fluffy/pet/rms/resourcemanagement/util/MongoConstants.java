@@ -107,4 +107,12 @@ public final class MongoConstants {
     public static final String PET_CATEGORY = "petCategory";
 
     public static final String CLINIC_TABLE = "clinic_table";
+
+    public static final String EMAIL_INDEX = "EmailIndex";
+
+    public static final String MOBILE_INDEX = "MobileIndex";
+
+    public static final String STATUS_INDEX = "StatusIndex";
+    public static final String FIRST_NAME = "firstName";
+    public static final String LAST_NAME = "lastName";
 }
