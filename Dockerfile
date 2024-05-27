@@ -13,4 +13,4 @@ ARG APP_ENV
 ENV APP_ENV=$APP_ENV
 WORKDIR /app
 COPY --from=builder /app/build/libs/resource-management-service-0.0.1.jar app.jar
-CMD java -Dspring.profiles.active=$APP_ENV -jar app.jar
+CMD java -jar app.jar
