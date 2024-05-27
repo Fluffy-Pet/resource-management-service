@@ -1,28 +1,26 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
-import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
+import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@SuperBuilder
-@DynamoDBDocument
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class ServedOrganization {
-    @DynamoDBAttribute(attributeName = DynamoConstants.ORGANIZATION_NAME)
+    @Field(MongoConstants.ORGANIZATION_NAME)
     private String organizationName;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.ROLE)
+    @Field(MongoConstants.ROLE)
     private String role;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.START_DATE)
+    @Field(MongoConstants.START_DATE)
     private LocalDate startDate;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.END_DATE)
+    @Field(MongoConstants.END_DATE)
     private LocalDate endDate;
 }

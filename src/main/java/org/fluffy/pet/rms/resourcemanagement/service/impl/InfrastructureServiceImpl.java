@@ -1,6 +1,5 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.InfrastructureRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.infrastructure.InfrastructureResponse;
@@ -13,6 +12,7 @@ import org.fluffy.pet.rms.resourcemanagement.repository.InfrastructureRepository
 import org.fluffy.pet.rms.resourcemanagement.service.InfrastructureService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.InfrastructureTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -34,9 +34,9 @@ public class InfrastructureServiceImpl implements InfrastructureService {
         Infrastructure infrastructure = infrastructureTransformer.convertRequestToModel(createInfrastructureRequest);
         infrastructure.setStatus(Status.ACTIVE);
         try {
-            infrastructureRepository.save(infrastructure);
-            return infrastructureTransformer.convertModelToResponse(infrastructure);
-        } catch (ConditionalCheckFailedException e) {
+            Infrastructure createdInfrastructure = infrastructureRepository.save(infrastructure);
+            return infrastructureTransformer.convertModelToResponse(createdInfrastructure);
+        } catch (DuplicateKeyException e) {
             log.error(
                     String.format("Exception happened in creating infrastructure for %s", createInfrastructureRequest.getName()), e
             );
@@ -58,8 +58,8 @@ public class InfrastructureServiceImpl implements InfrastructureService {
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.INFRASTRUCTURE_NOT_FOUND))
         );
         infrastructureTransformer.updateInfrastructure(infrastructure, updateInfrastructureRequest);
-        infrastructureRepository.save(infrastructure);
-        return infrastructureTransformer.convertModelToResponse(infrastructure);
+        Infrastructure updatedInfrastructure = infrastructureRepository.save(infrastructure);
+        return infrastructureTransformer.convertModelToResponse(updatedInfrastructure);
     }
 
     @Override

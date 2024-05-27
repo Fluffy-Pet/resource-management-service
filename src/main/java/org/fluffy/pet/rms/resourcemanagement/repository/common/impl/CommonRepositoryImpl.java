@@ -1,95 +1,52 @@
 package org.fluffy.pet.rms.resourcemanagement.repository.common.impl;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.QueryResultPage;
-import com.amazonaws.services.dynamodbv2.model.*;
+import com.mongodb.client.result.UpdateResult;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.CommonRepository;
-import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
+import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 public class CommonRepositoryImpl<T, ID> implements CommonRepository<T, ID> {
-    private final DynamoDBMapper dynamoDBMapper;
-
-    private final AmazonDynamoDB amazonDynamoDB;
+    private final MongoTemplate mongoTemplate;
 
     private final Class<T> entityClass;
 
-    private final DynamoDBTable table;
-
-    public CommonRepositoryImpl(DynamoDBMapper dynamoDBMapper, AmazonDynamoDB amazonDynamoDB, Class<T> entityClass) {
-        this.dynamoDBMapper = dynamoDBMapper;
-        this.amazonDynamoDB = amazonDynamoDB;
+    public CommonRepositoryImpl(
+            MongoTemplate mongoTemplate,
+            Class<T> entityClass
+    ) {
+        this.mongoTemplate = mongoTemplate;
         this.entityClass = entityClass;
-        this.table = entityClass.getAnnotation(DynamoDBTable.class);
     }
 
     @Override
-    public void save(T entity) {
-        dynamoDBMapper.save(entity);
+    public T save(T entity) {
+        return mongoTemplate.save(entity);
     }
 
     @Override
     public Optional<T> findById(ID id) {
-        DynamoDBQueryExpression<T> dynamoDBQueryExpression = new DynamoDBQueryExpression<>();
-        dynamoDBQueryExpression = dynamoDBQueryExpression.addExpressionAttributeValuesEntry(
-                DynamoConstants.ID,
-                new AttributeValue().withS(id.toString())
-        );
-        dynamoDBQueryExpression = dynamoDBQueryExpression.addExpressionAttributeValuesEntry(
-                DynamoConstants.STATUS,
-                new AttributeValue().withS(Status.ACTIVE.name())
-        );
-        QueryResultPage<T> queryResultPage = dynamoDBMapper.queryPage(entityClass, dynamoDBQueryExpression);
-        List<T> results = queryResultPage.getResults();
-        return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
+        Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.ID).is(id));
+        return Optional.ofNullable(mongoTemplate.findOne(query, entityClass));
     }
 
     @Override
-    // This has no optimistic lock implemented
     public boolean deleteById(ID id) {
-        HashMap<String, AttributeValue> itemKey = new HashMap<>();
-        itemKey.put(DynamoConstants.ID, new AttributeValue().withS(id.toString()));
-        itemKey.put(DynamoConstants.STATUS, new AttributeValue().withS(Status.ACTIVE.name()));
-
-        HashMap<String, AttributeValueUpdate> updatedValues = new HashMap<>();
-        updatedValues.put(
-                DynamoConstants.STATUS,
-                new AttributeValueUpdate().withValue(
-                        new AttributeValue().withS(Status.INACTIVE.name())
-                ).withAction(AttributeAction.PUT)
-        );
-
-        UpdateItemRequest updateItemRequest = new UpdateItemRequest();
-        updateItemRequest.setTableName(table.tableName());
-        updateItemRequest.setKey(itemKey);
-        updateItemRequest.setAttributeUpdates(updatedValues);
-
-        UpdateItemResult updateItemResult = amazonDynamoDB.updateItem(updateItemRequest);
-        ConsumedCapacity consumedCapacity = updateItemResult.getConsumedCapacity();
-        Double capacityUnits = consumedCapacity.getCapacityUnits();
-        return capacityUnits != null && capacityUnits > 0;
+        Update update = Update.update(MongoConstants.STATUS, Status.INACTIVE);
+        Query query = new Query(Criteria.where(MongoConstants.ID).is(id).and(MongoConstants.STATUS).is(Status.ACTIVE));
+        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, entityClass);
+        return updateResult.getModifiedCount() > 0;
     }
 
     @Override
     public List<T> findAllByIds(Iterable<ID> ids) {
-        List<Map<String, AttributeValue>> keys = new ArrayList<>();
-        ids.forEach(id -> keys.add(Map.of(DynamoConstants.ID, new AttributeValue().withS(id.toString()))));
-
-        Map<String, KeysAndAttributes> requestItems = new HashMap<>();
-        requestItems.put(table.tableName(), new KeysAndAttributes().withKeys(keys));
-
-        BatchGetItemRequest batchGetItemRequest = new BatchGetItemRequest().withRequestItems(requestItems);
-        BatchGetItemResult result = amazonDynamoDB.batchGetItem(batchGetItemRequest);
-
-        List<Map<String, AttributeValue>> responses = result.getResponses().get(table.tableName());
-        return responses.stream()
-                .map(item -> dynamoDBMapper.marshallIntoObject(entityClass, item))
-                .collect(Collectors.toList());
+        Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.ID).in(ids));
+        return mongoTemplate.find(query, entityClass);
     }
 }

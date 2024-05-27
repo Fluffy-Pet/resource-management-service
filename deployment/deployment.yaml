@@ -26,6 +26,8 @@ spec:
           value: AKIATCKAQMYEYF6OEWN2
         - name: AWS_SECRET_ACCESS_KEY
           value: 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
+        - name: MONGO_DB_URL
+          value: mongodb://fluffyPet:fluffy-pet-document-db-root@fluffy-pet-document-db-211125560841.us-east-1.docdb-elastic.amazonaws.com:27017/resource-management?ssl=true&replicaSet=rs0&readpreference=secondaryPreferred&retrywrites=false
   strategy:
     type: RollingUpdate
     rollingUpdate:

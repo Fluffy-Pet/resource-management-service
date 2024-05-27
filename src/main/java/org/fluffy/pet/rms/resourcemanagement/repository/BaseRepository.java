@@ -8,16 +8,16 @@ import java.util.Optional;
 public interface BaseRepository<T, ID> {
     CommonRepository<T, ID> getCommonRepository();
 
-    default void save(T t) {
-        getCommonRepository().save(t);
+    default T save(T t) {
+        return getCommonRepository().save(t);
     }
 
     default Optional<T> findById(ID id) {
         return getCommonRepository().findById(id);
     }
 
-    default boolean deleteById(ID id) {
-        return getCommonRepository().deleteById(id);
+    default void deleteById(ID id) {
+        getCommonRepository().deleteById(id);
     }
 
     default List<T> findAllByIds(Iterable<ID> ids) {

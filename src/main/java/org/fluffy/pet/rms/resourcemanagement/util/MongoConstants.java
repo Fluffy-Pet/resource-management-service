@@ -4,12 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class DynamoConstants {
-    public static final Long READ_CAPACITY_DEFAULT_UNITS = 500L;
-
-    public static final Long WRITE_CAPACITY_DEFAULT_UNITS = 10L;
-
-    public static final String DEFAULT_DB_MODEL_PACKAGE = "org.fluffy.pet.rms.resourcemanagement.model";
+public final class MongoConstants {
 
     public static final String ID = "_id";
 
@@ -57,7 +52,7 @@ public final class DynamoConstants {
 
     public static final String SERVED_ORGANIZATIONS = "servedOrganizations";
 
-    public static final String DOCUMENT = "documents";
+    public static final String DOCUMENT = "identityDocuments";
 
     public static final String ASSOCIATED_CLINICS = "associatedClinics";
 
@@ -112,10 +107,4 @@ public final class DynamoConstants {
     public static final String PET_CATEGORY = "petCategory";
 
     public static final String CLINIC_TABLE = "clinic_table";
-
-    public static final String EMAIL_INDEX = "EmailIndex";
-
-    public static final String MOBILE_INDEX = "MobileIndex";
-
-    public static final String STATUS_INDEX = "StatusIndex";
 }

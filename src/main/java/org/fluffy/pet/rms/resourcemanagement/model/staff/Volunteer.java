@@ -1,6 +1,5 @@
 package org.fluffy.pet.rms.resourcemanagement.model.staff;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -8,29 +7,31 @@ import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
 import org.fluffy.pet.rms.resourcemanagement.enums.SkillType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Document;
+import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
-import org.fluffy.pet.rms.resourcemanagement.util.DynamoConstants;
+import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
 @Getter
 @Setter
 @SuperBuilder
-@DynamoDBTable(tableName = DynamoConstants.VOLUNTEER_TABLE)
+@Document(MongoConstants.VOLUNTEER_TABLE)
 public class Volunteer extends BaseEntity {
-    @DynamoDBAttribute(attributeName = DynamoConstants.AVAILABILITY)
+    @Field(MongoConstants.AVAILABILITY)
     private List<AvailabilityType> availability;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.SKILLS)
+    @Field(MongoConstants.SKILLS)
     private List<SkillType> skills;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.DOCUMENT)
-    private List<Document> documents;
+    @Field(MongoConstants.DOCUMENT)
+    private List<IdentityDocument> identityDocuments;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.ADDRESS)
+    @Field(MongoConstants.ADDRESS)
     private Address address;
 
-    @DynamoDBAttribute(attributeName = DynamoConstants.SERVED_ORGANIZATIONS)
+    @Field(MongoConstants.SERVED_ORGANIZATIONS)
     private List<ServedOrganization> servedOrganizations;
 }

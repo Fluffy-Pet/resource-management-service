@@ -41,8 +41,8 @@ public class UserHelperImpl implements UserHelper {
         User user = userTransformer.convertSignupInputToModel(signupInput);
         user.setStatus(Status.ACTIVE);
         try {
-            userRepository.save(user);
-            JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(user);
+            User createdUser = userRepository.save(user);
+            JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(createdUser);
             String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
             SignupOutput signupOutput = userTransformer.convertUserToSignupOutput(jwtToken);
             return Result.success(signupOutput);

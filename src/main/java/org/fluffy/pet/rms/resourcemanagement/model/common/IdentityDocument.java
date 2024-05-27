@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.common;
 
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -9,10 +10,13 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class Coordinates {
-    @Field(MongoConstants.LATITUDE)
-    private double latitude;
+public class IdentityDocument {
+    @Field(MongoConstants.TYPE)
+    private DocumentType type;
 
-    @Field(MongoConstants.LONGITUDE)
-    private double longitude;
+    @Field(MongoConstants.ID_NUMBER)
+    private String idNumber;
+
+    @Field(MongoConstants.URL)
+    private String url;
 }
