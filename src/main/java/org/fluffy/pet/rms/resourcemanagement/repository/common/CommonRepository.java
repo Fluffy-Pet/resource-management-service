@@ -8,7 +8,7 @@ public interface CommonRepository<T, ID> {
 
     Optional<T> findById(ID id);
 
-    boolean deleteById(ID id);
+    void deleteById(ID id);
 
     List<T> findAllByIds(Iterable<ID> ids);
 }

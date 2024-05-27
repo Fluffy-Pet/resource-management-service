@@ -37,11 +37,11 @@ public class CommonRepositoryImpl<T, ID> implements CommonRepository<T, ID> {
     }
 
     @Override
-    public boolean deleteById(ID id) {
+    public void deleteById(ID id) {
         Update update = Update.update(MongoConstants.STATUS, Status.INACTIVE);
         Query query = new Query(Criteria.where(MongoConstants.ID).is(id).and(MongoConstants.STATUS).is(Status.ACTIVE));
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, entityClass);
-        return updateResult.getModifiedCount() > 0;
+        updateResult.getModifiedCount();
     }
 
     @Override
