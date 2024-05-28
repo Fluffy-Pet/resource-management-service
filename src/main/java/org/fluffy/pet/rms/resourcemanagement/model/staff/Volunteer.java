@@ -20,6 +20,12 @@ import java.util.List;
 @SuperBuilder
 @Document(MongoConstants.VOLUNTEER_TABLE)
 public class Volunteer extends BaseEntity {
+    @Field(MongoConstants.FIRST_NAME)
+    private String firstName;
+
+    @Field(MongoConstants.LAST_NAME)
+    private String lastName;
+
     @Field(MongoConstants.AVAILABILITY)
     private List<AvailabilityType> availability;
 

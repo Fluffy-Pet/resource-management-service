@@ -18,7 +18,8 @@ public enum ErrorCode {
     DUPLICATE_INFRASTRUCTURE("009", "Infrastructure already exists"),
     INFRASTRUCTURE_NOT_FOUND("010", "Infrastructure not found"),
     DOCTOR_ALREADY_EXISTS("010","Doctor already exist" ),
-    DOCTOR_NOT_FOUND("011","Doctor not found" );
+    DOCTOR_NOT_FOUND("011","Doctor not found" ),
+    VOLUNTEER_NOT_FOUND("012","Volunteer not found" );
 
     private final String code;
 

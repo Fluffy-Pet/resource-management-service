@@ -1,11 +1,11 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer;
 
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
+import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
+import org.fluffy.pet.rms.resourcemanagement.enums.SkillType;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
 
 import java.util.List;
 
@@ -14,18 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class DoctorResponse {
+public class VoluteerResponse {
     private String firstName;
 
     private String lastName;
 
-    private List<PetType> specialization;
+    private List<AvailabilityType> availability;
 
-    private Double experience;
+    private List<SkillType> skills;
 
-    private List<IdentityDocument> documents;
-
-    private List<Clinic> associatedClinics;
+    private List<IdentityDocument> identityDocuments;
 
     private Address address;
 

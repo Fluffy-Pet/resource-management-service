@@ -1,6 +1,5 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
-import com.amazonaws.services.dynamodbv2.model.ConditionalCheckFailedException;
 import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
@@ -12,6 +11,7 @@ import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.DoctorService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.DoctorTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +36,8 @@ public class DoctorServiceImpl implements DoctorService {
         try {
             doctorRepository.save(doctor);
             return doctorTransformer.convertModelToResponse(doctor);
-        } catch (ConditionalCheckFailedException e) {
-            log.error(
-                    String.format("Exception happened in creating user for %s", doctorRequest.getFirstName()), e
+        } catch (DuplicateKeyException e) {
+            log.error(String.format("Exception happened in creating user for %s", doctorRequest.getFirstName()), e
             );
             throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.DOCTOR_ALREADY_EXISTS));
         }

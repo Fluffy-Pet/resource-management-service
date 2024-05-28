@@ -4,7 +4,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Document;
+import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
@@ -14,8 +14,8 @@ import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 @Transformer
 public class DoctorTransformer {
 
-    public Document convertRequestToModel(DocumentRequest documentRequest){
-        return Document
+    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest){
+        return IdentityDocument
                 .builder()
                 .type(documentRequest.getDocumentType())
                 .idNumber(documentRequest.getIdNumber())
@@ -61,7 +61,7 @@ public class DoctorTransformer {
                 .lastName(doctorRequest.getLastName())
                 .specialization(StreamUtils.emptyIfNull(doctorRequest.getSpecialization()).toList())
                 .experience(doctorRequest.getExperience())
-                .documents(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(this::convertRequestToModel).toList())
+                .identityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(this::convertRequestToModel).toList())
                 .associatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(this::convertRequestToModel).toList())
                 .address(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), this::convertRequestToModel))
                 .servedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(this::convertRequestToModel).toList())
@@ -76,9 +76,9 @@ public class DoctorTransformer {
                 .lastName(doctor.getLastName())
                 .specialization(doctor.getSpecialization())
                 .experience(doctor.getExperience())
-                .documents(doctor.getDocuments())
+                .documents(doctor.getIdentityDocuments())
                 .associatedClinics(doctor.getAssociatedClinics())
-                .address(doctor.getAddress().toString())
+                .address(doctor.getAddress())
                 .servedOrganizations(doctor.getServedOrganizations())
                 .build();
     }
@@ -89,7 +89,7 @@ public class DoctorTransformer {
         doctor.setLastName(doctorRequest.getLastName());
         doctor.setSpecialization(doctorRequest.getSpecialization());
         doctor.setExperience(doctorRequest.getExperience());
-        doctor.setDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(this::convertRequestToModel).toList());
+        doctor.setIdentityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(this::convertRequestToModel).toList());
         doctor.setAssociatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(this::convertRequestToModel).toList());
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), this::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(this::convertRequestToModel).toList());
