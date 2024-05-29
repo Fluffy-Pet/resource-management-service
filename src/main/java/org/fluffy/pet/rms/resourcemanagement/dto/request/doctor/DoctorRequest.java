@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -25,6 +26,7 @@ public class DoctorRequest {
     private List<PetType> specialization;
 
     @NotNull
+    @Min(0)
     private Double experience;
 
     private List<@Valid @NotNull DocumentRequest> documents;

@@ -34,8 +34,8 @@ public class DoctorServiceImpl implements DoctorService {
     public DoctorResponse createDoctor(DoctorRequest doctorRequest) {
         Doctor doctor = doctorTransformer.convertRequestToModel(doctorRequest);
         try {
-            doctorRepository.save(doctor);
-            return doctorTransformer.convertModelToResponse(doctor);
+            Doctor createdDoctor = doctorRepository.save(doctor);
+            return doctorTransformer.convertModelToResponse(createdDoctor);
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", doctorRequest.getFirstName()), e
             );
@@ -57,8 +57,8 @@ public class DoctorServiceImpl implements DoctorService {
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.DOCTOR_NOT_FOUND))
         );
         doctorTransformer.updateDoctor(doctor, updateDoctorRequest);
-        doctorRepository.save(doctor);
-        return doctorTransformer.convertModelToResponse(doctor);
+        Doctor updatedDoctor = doctorRepository.save(doctor);
+        return doctorTransformer.convertModelToResponse(updatedDoctor);
     }
 
     @Override

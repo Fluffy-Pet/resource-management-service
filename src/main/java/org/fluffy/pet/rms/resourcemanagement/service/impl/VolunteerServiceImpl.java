@@ -34,8 +34,8 @@ public class VolunteerServiceImpl implements VolunteerService {
     public VoluteerResponse createVolunteer(VolunteerRequest volunteerRequest) {
         Volunteer volunteer = volunteerTransformer.convertRequestToModel(volunteerRequest);
         try {
-            volunteerRepository.save(volunteer);
-            return volunteerTransformer.convertModelToResponse(volunteer);
+            Volunteer createdVolunteer = volunteerRepository.save(volunteer);
+            return volunteerTransformer.convertModelToResponse(createdVolunteer);
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", volunteerRequest.getFirstName()), e
             );
@@ -57,8 +57,8 @@ public class VolunteerServiceImpl implements VolunteerService {
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );
         volunteerTransformer.updateVolunteer(volunteer, updatevolunteerRequest);
-        volunteerRepository.save(volunteer);
-        return volunteerTransformer.convertModelToResponse(volunteer);
+        Volunteer updatedVolunteer = volunteerRepository.save(volunteer);
+        return volunteerTransformer.convertModelToResponse(updatedVolunteer);
     }
 
     @Override

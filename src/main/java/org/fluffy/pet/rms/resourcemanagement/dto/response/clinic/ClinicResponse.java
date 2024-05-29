@@ -1,9 +1,8 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.clinic;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
+import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
 
 import java.util.List;
@@ -14,18 +13,13 @@ import java.util.List;
 @AllArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Builder
 public class ClinicResponse {
-    @NotBlank
     private String name;
 
-    @NotNull
     private Address address;
 
-    @NotBlank
     private String phoneNumber;
 
-    @NotBlank
-    private String openingHours;
+    private OperatingHours openingHours;
 
-    @NotNull
     private List<Service> servicesOffered;
 }

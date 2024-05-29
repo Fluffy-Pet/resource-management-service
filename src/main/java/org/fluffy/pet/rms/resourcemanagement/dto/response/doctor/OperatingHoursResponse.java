@@ -7,14 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class AddressResponse {
-    private String street;
+public class OperatingHoursResponse {
+    private String startTime;
 
-    private String city;
-
-    private String state;
-
-    private String country;
-
-    private String zipCode;
+    private String endTime;
 }

@@ -3,9 +3,11 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.AddressRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.OperatingHoursRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
+import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
@@ -20,8 +22,16 @@ public class ClinicTransformer {
                 .description(clinicRequest.getDescription())
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel))
                 .phoneNumber(clinicRequest.getPhoneNumber())
-                .operatingHours(clinicRequest.getOperatingHours())
+                .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), this::convertRequestToModel))
                 .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList())
+                .build();
+    }
+
+    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
+        return OperatingHours
+                .builder()
+                .startTime(operatingHours.getStartTime())
+                .endTime(operatingHours.getEndTime())
                 .build();
     }
     public Service convertRequestToModel(ServiceRequest serviceRequest) {
@@ -44,6 +54,7 @@ public class ClinicTransformer {
                 .build();
     }
 
+
     public ClinicResponse convertModelToResponse(Clinic clinic){
         return ClinicResponse
                 .builder()
@@ -60,7 +71,7 @@ public class ClinicTransformer {
         clinic.setDescription(clinicRequest.getDescription());
         clinic.setAddress(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel));
         clinic.setPhoneNumber(clinicRequest.getPhoneNumber());
-        clinic.setOperatingHours(clinicRequest.getOperatingHours());
+        clinic.setOperatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), this::convertRequestToModel));
         clinic.setServicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList());
     }
 }

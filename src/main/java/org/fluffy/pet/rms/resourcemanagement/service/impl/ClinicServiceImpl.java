@@ -33,8 +33,8 @@ public class ClinicServiceImpl implements ClinicService {
     public ClinicResponse createClinic(ClinicRequest clinicRequest) {
         Clinic clinic = clinicTransformer.convertRequestToModel(clinicRequest);
         try {
-            clinicRepository.save(clinic);
-            return clinicTransformer.convertModelToResponse(clinic);
+            Clinic createdClinic = clinicRepository.save(clinic);
+            return clinicTransformer.convertModelToResponse(createdClinic);
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", clinicRequest.getName()), e
             );
@@ -56,8 +56,8 @@ public class ClinicServiceImpl implements ClinicService {
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.CLINIC_NOT_FOUND))
         );
         clinicTransformer.updateClinic(clinic, updateClinicRequest);
-        clinicRepository.save(clinic);
-        return clinicTransformer.convertModelToResponse(clinic);
+        Clinic updatedClinic = clinicRepository.save(clinic);
+        return clinicTransformer.convertModelToResponse(updatedClinic);
     }
 
     @Override

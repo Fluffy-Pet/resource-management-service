@@ -7,6 +7,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceR
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
+import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
@@ -34,12 +35,20 @@ public class DoctorTransformer {
                 .build();
     }
 
+    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
+        return OperatingHours
+                .builder()
+                .startTime(operatingHours.getStartTime())
+                .endTime(operatingHours.getEndTime())
+                .build();
+    }
+
     public Clinic convertRequestToModel(ClinicRequest clinicRequest){
         return Clinic
                 .builder()
                 .clinicName(clinicRequest.getName())
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel))
-                .operatingHours(clinicRequest.getOperatingHours())
+                .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), this::convertRequestToModel))
                 .phoneNumber(clinicRequest.getPhoneNumber())
                 .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList())
                 .build();

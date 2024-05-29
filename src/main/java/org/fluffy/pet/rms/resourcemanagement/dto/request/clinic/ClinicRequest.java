@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.AddressRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.OperatingHoursRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceRequest;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class ClinicRequest {
     private String phoneNumber;
 
     @NotBlank
-    private String operatingHours;
+    private OperatingHoursRequest operatingHours;
 
     private List<@Valid @NotNull ServiceRequest> servicesOffered;
 }
