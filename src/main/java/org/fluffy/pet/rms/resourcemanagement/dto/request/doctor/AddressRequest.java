@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class AddressRequest {
-
+    @NotBlank
     private String street;
 
     @NotBlank

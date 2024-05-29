@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.clinic;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
@@ -16,7 +17,7 @@ public class ClinicResponse {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @NotNull
     private Address address;
 
     @NotBlank
@@ -25,6 +26,6 @@ public class ClinicResponse {
     @NotBlank
     private String openingHours;
 
-    @NotBlank
+    @NotNull
     private List<Service> servicesOffered;
 }

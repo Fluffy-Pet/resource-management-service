@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
 
@@ -16,6 +17,6 @@ public class ServiceRequest {
     @NotBlank
     private String serviceSubGroup;
 
-    @NotBlank
+    @NotNull
     private PetCategory petCategory;
 }

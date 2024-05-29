@@ -19,7 +19,7 @@ public class DoctorResponse {
 
     private String lastName;
 
-    private List<PetType> specialization;
+    private List< PetType> specialization;
 
     private Double experience;
 

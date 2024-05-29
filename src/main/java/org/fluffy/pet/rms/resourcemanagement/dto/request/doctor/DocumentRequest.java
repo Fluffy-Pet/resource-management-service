@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
 
@@ -13,7 +14,7 @@ public class DocumentRequest {
     @NotBlank
     private String idNumber;
 
-    @NotBlank
+    @NotNull
     private DocumentType documentType;
 
     @NotBlank

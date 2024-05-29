@@ -1,6 +1,8 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.clinic;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.AddressRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceRequest;
@@ -19,7 +21,8 @@ public class ClinicRequest {
     @NotBlank
     private String description;
 
-    @NotBlank
+    @Valid
+    @NotNull
     private AddressRequest address;
 
     @NotBlank
@@ -28,6 +31,5 @@ public class ClinicRequest {
     @NotBlank
     private String operatingHours;
 
-    @NotBlank
-    private List<ServiceRequest> servicesOffered;
+    private List<@Valid @NotNull ServiceRequest> servicesOffered;
 }
