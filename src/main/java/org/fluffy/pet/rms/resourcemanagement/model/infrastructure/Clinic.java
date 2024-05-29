@@ -9,6 +9,8 @@ import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.List;
+
 @Getter
 @Setter
 @SuperBuilder
@@ -17,6 +19,9 @@ public class Clinic extends BaseEntity {
     @Field(MongoConstants.CLINIC_NAME)
     private String clinicName;
 
+    @Field(MongoConstants.CLINIC_DESCRIPTION)
+    private String description;
+
     @Field(MongoConstants.ADDRESS)
     private Address address;
 
@@ -24,7 +29,7 @@ public class Clinic extends BaseEntity {
     private String phoneNumber;
 
     @Field(MongoConstants.SERVICES_OFFERED)
-    private String servicesOffered;
+    private List<Service> servicesOffered;
 
     @Field(MongoConstants.OPERATING_HOURS)
     private String operatingHours;

@@ -24,8 +24,6 @@ public final class MongoConstants {
 
     public static final String EMAIL = "email";
 
-    public static final String INFRASTRUCTURE_TABLE = "infrastructure";
-
     public static final String USER_TABLE = "user";
 
     public static final String DOCTOR_TABLE = "doctor_table";
@@ -56,15 +54,7 @@ public final class MongoConstants {
 
     public static final String ASSOCIATED_CLINICS = "associatedClinics";
 
-    public static final String INFRASTRUCTURE_NAME = "infrastructureName";
-
-    public static final String INFRASTRUCTURE_DESCRIPTION = "infrastructureDescription";
-
-    public static final String INFRASTRUCTURE_SERVICE = "infrastructureService";
-
-    public static final String INFRASTRUCTURE_TYPE = "infrastructureType";
-
-    public static final String INFRASTRUCTURE_SUB_TYPE = "infrastructureSubType";
+    public static final String CLINIC_DESCRIPTION = "clinicDescription";
 
     public static final String PASSWORD = "password";
 
@@ -107,12 +97,6 @@ public final class MongoConstants {
     public static final String PET_CATEGORY = "petCategory";
 
     public static final String CLINIC_TABLE = "clinic_table";
-
-    public static final String EMAIL_INDEX = "EmailIndex";
-
-    public static final String MOBILE_INDEX = "MobileIndex";
-
-    public static final String STATUS_INDEX = "StatusIndex";
 
     public static final String FIRST_NAME = "firstName";
 

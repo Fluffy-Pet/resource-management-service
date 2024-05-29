@@ -1,12 +1,15 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
 import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -22,15 +25,23 @@ public class DoctorTransformer {
                 .url(documentRequest.getDocumentUrl())
                 .build();
     }
+    public Service convertRequestToModel(ServiceRequest serviceRequest) {
+        return Service
+                .builder()
+                .serviceGroup(serviceRequest.getServiceGroup())
+                .serviceSubGroup(serviceRequest.getServiceSubGroup())
+                .petCategory(serviceRequest.getPetCategory())
+                .build();
+    }
 
     public Clinic convertRequestToModel(ClinicRequest clinicRequest){
         return Clinic
                 .builder()
                 .clinicName(clinicRequest.getName())
-                .address(clinicRequest.getAddress())
+                .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel))
                 .operatingHours(clinicRequest.getOperatingHours())
                 .phoneNumber(clinicRequest.getPhoneNumber())
-                .servicesOffered(clinicRequest.getServicesOffered())
+                .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList())
                 .build();
     }
 

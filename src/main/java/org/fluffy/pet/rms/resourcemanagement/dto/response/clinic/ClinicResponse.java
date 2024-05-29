@@ -1,8 +1,11 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.clinic;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
+import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +26,5 @@ public class ClinicResponse {
     private String openingHours;
 
     @NotBlank
-    private String servicesOffered;
+    private List<Service> servicesOffered;
 }

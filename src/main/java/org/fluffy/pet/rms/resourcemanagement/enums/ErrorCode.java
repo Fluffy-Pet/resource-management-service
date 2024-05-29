@@ -19,7 +19,9 @@ public enum ErrorCode {
     INFRASTRUCTURE_NOT_FOUND("010", "Infrastructure not found"),
     DOCTOR_ALREADY_EXISTS("010","Doctor already exist" ),
     DOCTOR_NOT_FOUND("011","Doctor not found" ),
-    VOLUNTEER_NOT_FOUND("012","Volunteer not found" );
+    VOLUNTEER_NOT_FOUND("012","Volunteer not found" ),
+    CLINIC_ALREADY_EXISTS("013","Clinic already exist" ),
+    CLINIC_NOT_FOUND("014","Clinic not found" );
 
     private final String code;
 

@@ -2,6 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 import java.util.List;
