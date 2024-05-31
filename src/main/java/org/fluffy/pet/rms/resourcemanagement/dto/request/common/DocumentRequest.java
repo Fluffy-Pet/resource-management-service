@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

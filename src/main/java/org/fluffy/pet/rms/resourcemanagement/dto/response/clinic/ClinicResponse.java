@@ -1,9 +1,9 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.clinic;
 
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.OperatingHoursResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ServiceResponse;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ import java.util.List;
 public class ClinicResponse {
     private String name;
 
-    private Address address;
+    private AddressResponse address;
 
     private String phoneNumber;
 
-    private OperatingHours openingHours;
+    private OperatingHoursResponse openingHours;
 
-    private List<Service> servicesOffered;
+    private List<ServiceResponse> servicesOffered;
 }

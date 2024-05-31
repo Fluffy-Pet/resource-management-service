@@ -1,6 +1,7 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.common;
 
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
 
 @Getter
 @Setter
@@ -10,7 +11,7 @@ import lombok.*;
 public class DocumentResponse {
     private String idNumber;
 
-    private String documentType;
+    private DocumentType documentType;
 
     private String documentUrl;
 }

@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.model.infrastructure;
+package org.fluffy.pet.rms.resourcemanagement.model.common;
 
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;

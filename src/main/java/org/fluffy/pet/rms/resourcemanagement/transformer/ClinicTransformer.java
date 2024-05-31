@@ -2,76 +2,49 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.AddressRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.OperatingHoursRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.infrastructure.ServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Service;
+import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Transformer
 public class ClinicTransformer {
+    private final CommonTransformer commonTransformer;
+
+    @Autowired
+    public ClinicTransformer(CommonTransformer commonTransformer) {
+        this.commonTransformer = commonTransformer;
+    }
     public Clinic convertRequestToModel(ClinicRequest clinicRequest){
         return Clinic
                 .builder()
                 .clinicName(clinicRequest.getName())
                 .description(clinicRequest.getDescription())
-                .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel))
+                .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .phoneNumber(clinicRequest.getPhoneNumber())
-                .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), this::convertRequestToModel))
-                .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList())
+                .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel))
+                .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList())
                 .build();
     }
-
-    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
-        return OperatingHours
-                .builder()
-                .startTime(operatingHours.getStartTime())
-                .endTime(operatingHours.getEndTime())
-                .build();
-    }
-    public Service convertRequestToModel(ServiceRequest serviceRequest) {
-        return Service
-                .builder()
-                .serviceGroup(serviceRequest.getServiceGroup())
-                .serviceSubGroup(serviceRequest.getServiceSubGroup())
-                .petCategory(serviceRequest.getPetCategory())
-                .build();
-    }
-
-    public Address convertRequestToModel(AddressRequest addressRequest){
-        return Address
-                .builder()
-                .street(addressRequest.getStreet())
-                .city(addressRequest.getCity())
-                .state(addressRequest.getState())
-                .country(addressRequest.getCountry())
-                .zipCode(addressRequest.getZipCode())
-                .build();
-    }
-
 
     public ClinicResponse convertModelToResponse(Clinic clinic){
         return ClinicResponse
                 .builder()
                 .name(clinic.getClinicName())
-                .address(clinic.getAddress())
+                .address(ObjectUtils.transformIfNotNull(clinic.getAddress(), commonTransformer::convertModelToResponse))
                 .phoneNumber(clinic.getPhoneNumber())
-                .openingHours(clinic.getOperatingHours())
-                .servicesOffered(clinic.getServicesOffered())
+                .openingHours(ObjectUtils.transformIfNotNull(clinic.getOperatingHours(), commonTransformer::convertModelToResponse))
+                .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(commonTransformer::convertModelToResponse).toList())
                 .build();
     }
 
     public void updateClinic(Clinic clinic, ClinicRequest clinicRequest){
         clinic.setClinicName(clinicRequest.getName());
         clinic.setDescription(clinicRequest.getDescription());
-        clinic.setAddress(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), this::convertRequestToModel));
+        clinic.setAddress(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel));
         clinic.setPhoneNumber(clinicRequest.getPhoneNumber());
-        clinic.setOperatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), this::convertRequestToModel));
-        clinic.setServicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(this::convertRequestToModel).toList());
+        clinic.setOperatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel));
+        clinic.setServicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList());
     }
 }

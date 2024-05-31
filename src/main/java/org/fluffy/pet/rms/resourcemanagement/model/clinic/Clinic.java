@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.model.infrastructure;
+package org.fluffy.pet.rms.resourcemanagement.model.clinic;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,6 +6,7 @@ import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Service;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

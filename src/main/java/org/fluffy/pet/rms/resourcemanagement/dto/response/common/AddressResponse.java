@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.common;
 
 import lombok.*;
 
@@ -17,4 +17,6 @@ public class AddressResponse {
     private String country;
 
     private String zipCode;
+
+    private CoordinatesResponse coordinates;
 }

@@ -6,7 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.repository.ClinicRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.ClinicService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.ClinicTransformer;

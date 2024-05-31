@@ -1,5 +1,7 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.response.infrastructure;
+package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
 
@@ -8,10 +10,13 @@ import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class ServiceResponse {
+public class ServiceRequest {
+    @NotBlank
     private String serviceGroup;
 
+    @NotBlank
     private String serviceSubGroup;
 
+    @NotNull
     private PetCategory petCategory;
 }

@@ -1,6 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.repository.impl;
 
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.repository.ClinicRepository;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.CommonRepository;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.impl.CommonRepositoryImpl;

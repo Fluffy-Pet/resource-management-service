@@ -1,6 +1,7 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
+package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -23,4 +24,7 @@ public class AddressRequest {
 
     @NotBlank
     private String zipCode;
+
+    @NotNull
+    private CoordinatesRequest coordinates;
 }

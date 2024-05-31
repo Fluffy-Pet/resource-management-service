@@ -1,12 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
 
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ServedOrganizationResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
-import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
-import org.fluffy.pet.rms.resourcemanagement.model.infrastructure.Clinic;
-
 import java.util.List;
 
 @Getter
@@ -23,11 +22,11 @@ public class DoctorResponse {
 
     private Double experience;
 
-    private List<IdentityDocument> documents;
+    private List<DocumentResponse> documents;
 
-    private List<Clinic> associatedClinics;
+    private List<ClinicResponse> associatedClinics;
 
-    private Address address;
+    private AddressResponse address;
 
-    private List<ServedOrganization> servedOrganizations;
+    private List<ServedOrganizationResponse> servedOrganizations;
 }
