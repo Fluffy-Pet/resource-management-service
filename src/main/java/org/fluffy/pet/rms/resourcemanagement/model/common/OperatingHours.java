@@ -4,6 +4,8 @@ import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.LocalDateTime;
+
 
 @Getter
 @Setter
@@ -12,8 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Builder
 public class OperatingHours {
     @Field(MongoConstants.START_TIME)
-    private String startTime;
+    private LocalDateTime startTime;
 
     @Field(MongoConstants.END_TIME)
-    private String endTime;
+    private LocalDateTime endTime;
 }

@@ -23,7 +23,7 @@ public class DoctorRequest {
     private String lastName;
 
     @NotNull
-    private List<PetType> specialization;
+    private List<@NotNull PetType> specialization;
 
     @NotNull
     @Min(0)
