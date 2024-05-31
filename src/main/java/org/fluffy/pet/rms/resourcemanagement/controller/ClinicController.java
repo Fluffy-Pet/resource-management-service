@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/clinic")
+@RequestMapping("/clinics")
 public class ClinicController {
     private final ClinicService clinicService;
 

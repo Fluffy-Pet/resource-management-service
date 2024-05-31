@@ -29,7 +29,8 @@ public class ClinicRequest {
     @NotBlank
     private String phoneNumber;
 
-    @NotBlank
+    @Valid
+    @NotNull
     private OperatingHoursRequest operatingHours;
 
     private List<@Valid @NotNull ServiceRequest> servicesOffered;
