@@ -2,13 +2,15 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class OperatingHoursResponse {
-    private String startTime;
+    private LocalDateTime startTime;
 
-    private String endTime;
+    private LocalDateTime endTime;
 }
