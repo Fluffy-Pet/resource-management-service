@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class VoluteerResponse {
+public class VolunteerResponse {
     private String firstName;
 
     private String lastName;

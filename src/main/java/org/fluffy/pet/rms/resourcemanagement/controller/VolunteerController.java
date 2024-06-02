@@ -2,7 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import jakarta.validation.Valid;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VoluteerResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
 import org.fluffy.pet.rms.resourcemanagement.service.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,28 +21,28 @@ public class VolunteerController{
     }
 
     @GetMapping("/{volunteerId}")
-    public ResponseEntity<ResponseWrapper<VoluteerResponse>> getVolunteer(
+    public ResponseEntity<ResponseWrapper<VolunteerResponse>> getVolunteer(
             @PathVariable("volunteerId") String volunteerId
     ) {
-        VoluteerResponse voluteerResponse = volunteerService.getVolunteer(volunteerId);
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(voluteerResponse));
+        VolunteerResponse volunteerResponse = volunteerService.getVolunteer(volunteerId);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<VoluteerResponse>> createVolunteer(
+    public ResponseEntity<ResponseWrapper<VolunteerResponse>> createVolunteer(
             @RequestBody @Valid VolunteerRequest createVolunteerRequest
     ) {
-        VoluteerResponse voluteerResponse = volunteerService.createVolunteer(createVolunteerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(voluteerResponse));
+        VolunteerResponse volunteerResponse = volunteerService.createVolunteer(createVolunteerRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(volunteerResponse));
     }
 
     @PutMapping("/{volunteerId}")
-    public ResponseEntity<ResponseWrapper<VoluteerResponse>> updateVolunteer(
+    public ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
             @PathVariable("volunteerId") String volunteerId,
             @RequestBody @Valid VolunteerRequest updateVolunteerRequest
     ) {
-        VoluteerResponse voluteerResponse = volunteerService.updateVolunteer(updateVolunteerRequest, volunteerId);
-        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(voluteerResponse));
+        VolunteerResponse volunteerResponse = volunteerService.updateVolunteer(updateVolunteerRequest, volunteerId);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
     @DeleteMapping("/{volunteerId}")

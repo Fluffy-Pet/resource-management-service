@@ -6,7 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VoluteerResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -34,8 +34,8 @@ public class VolunteerTransformer {
                 .build();
     }
 
-    public VoluteerResponse convertModelToResponse(Volunteer volunteer){
-        return VoluteerResponse
+    public VolunteerResponse convertModelToResponse(Volunteer volunteer){
+        return VolunteerResponse
                 .builder()
                 .firstName(volunteer.getFirstName())
                 .lastName(volunteer.getLastName())
@@ -43,7 +43,7 @@ public class VolunteerTransformer {
                 .skills(volunteer.getSkills())
                 .identityDocuments(volunteer.getIdentityDocuments())
                 .address(volunteer.getAddress())
-                .servedOrganizations(volunteer.getServedOrganizations())
+                .servedOrganizations(StreamUtils.emptyIfNull(volunteer.getServedOrganizations()).map(commonTransformer::convertModelToResponse).toList())
                 .build();
     }
 

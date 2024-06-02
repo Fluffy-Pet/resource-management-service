@@ -6,7 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VoluteerResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
@@ -42,7 +42,7 @@ public class VolunteerServiceImpl implements VolunteerService {
 
 
     @Override
-    public VoluteerResponse createVolunteer(VolunteerRequest volunteerRequest) {
+    public VolunteerResponse createVolunteer(VolunteerRequest volunteerRequest) {
         Volunteer volunteer = volunteerTransformer.convertRequestToModel(volunteerRequest);
         SignupInput signupInput=volunteerTransformer.convertRequestToSignupInput(volunteerRequest);
         Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
@@ -65,7 +65,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public VoluteerResponse getVolunteer(String id) {
+    public VolunteerResponse getVolunteer(String id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );
@@ -73,7 +73,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public VoluteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id) {
+    public VolunteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );

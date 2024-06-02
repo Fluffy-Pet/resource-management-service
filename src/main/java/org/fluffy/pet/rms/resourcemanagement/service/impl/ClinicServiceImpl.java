@@ -63,6 +63,5 @@ public class ClinicServiceImpl implements ClinicService {
     @Override
     public void deleteClinic(String id) {
         clinicRepository.deleteById(id);
-
     }
 }
