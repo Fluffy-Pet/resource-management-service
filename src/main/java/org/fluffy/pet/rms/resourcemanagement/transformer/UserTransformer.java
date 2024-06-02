@@ -22,11 +22,11 @@ public class UserTransformer {
         return JwtPayload.builder().sub(user.getId()).build();
     }
 
-    public SignupOutput convertUserToSignupOutput(String token) {
-        return new SignupOutput(token);
+    public SignupOutput convertUserToSignupOutput(String id,String token) {
+        return new SignupOutput(id, token);
     }
 
-    public SignInOutput convertUserToSigninOutput(String token) {
-        return new SignInOutput(token);
+    public SignInOutput convertUserToSigninOutput(String id,String token) {
+        return new SignInOutput(id,token);
     }
 }

@@ -1,6 +1,10 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Transformer
 public class DoctorTransformer {
+    private static final String COUNTRY_CODE = "+91";
     private final CommonTransformer commonTransformer;
 
     @Autowired
@@ -66,5 +71,17 @@ public class DoctorTransformer {
         doctor.setAssociatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(this::convertRequestToModel).toList());
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
+    }
+    public SignupInput convertRequestToSignupInput(DoctorRequest doctorRequest){
+        return new SignupInput(
+                new EmailInput(doctorRequest.getEmail()),
+                new MobileInput( COUNTRY_CODE,doctorRequest.getMobile()),
+                doctorRequest.getPassword());
+    }
+
+    public SignInEmailPassword convertRequestToSignInEmailPassword(DoctorRequest doctorRequest){
+        return new SignInEmailPassword(
+                new EmailInput(doctorRequest.getEmail()),
+                doctorRequest.getPassword());
     }
 }

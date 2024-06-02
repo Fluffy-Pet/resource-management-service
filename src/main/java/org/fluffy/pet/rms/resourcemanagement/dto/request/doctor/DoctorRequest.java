@@ -1,9 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
@@ -20,26 +18,31 @@ import java.util.List;
 @Builder
 public class DoctorRequest {
     @NotBlank
-    private String firstName;
+    @Email
+    private String email;
 
     @NotBlank
+    private String mobile;
+
+    @NotBlank
+    private String password;
+
+    private String firstName;
+
+
     private String lastName;
 
-    @NotNull
-    private List<@NotNull PetType> specialization;
 
-    @NotNull
-    @Min(0)
+    private List< PetType> specialization;
+
     private Double experience;
 
-    private List<@Valid @NotNull DocumentRequest> documents;
+    private List<DocumentRequest> documents;
 
-    private List<@Valid @NotNull ClinicRequest> associatedClinics;
+    private List<ClinicRequest> associatedClinics;
 
-    @Valid
-    @NotNull
     private AddressRequest address;
 
-    private List<@Valid @NotNull ServedOrganizationRequest> servedOrganizations;
+    private List<ServedOrganizationRequest> servedOrganizations;
 
 }

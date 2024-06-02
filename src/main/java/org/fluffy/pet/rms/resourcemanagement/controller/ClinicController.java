@@ -37,7 +37,7 @@ public class ClinicController {
     }
 
     @PutMapping("/{clinicId}")
-    public ResponseEntity<ResponseWrapper<ClinicResponse>> updateInfrastructure(
+    public ResponseEntity<ResponseWrapper<ClinicResponse>> updateClinic(
             @PathVariable("clinicId") String clinicId,
             @RequestBody @Valid ClinicRequest updateClinicRequest
     ) {

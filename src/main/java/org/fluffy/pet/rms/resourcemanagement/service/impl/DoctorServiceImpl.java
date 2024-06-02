@@ -1,19 +1,27 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
+import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.DoctorService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.DoctorTransformer;
+import org.fluffy.pet.rms.resourcemanagement.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
+import static org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode.DUPLICATE_USER;
 
 @Service
 @Slf4j
@@ -23,16 +31,28 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final DoctorTransformer doctorTransformer;
 
+    private final UserHelper userHelper;
+
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer){
+    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer,UserHelper userHelper){
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
+        this.userHelper= userHelper;
     }
-
 
     @Override
     public DoctorResponse createDoctor(DoctorRequest doctorRequest) {
         Doctor doctor = doctorTransformer.convertRequestToModel(doctorRequest);
+        SignupInput signupInput=doctorTransformer.convertRequestToSignupInput(doctorRequest);
+        Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
+        if (result.isSuccess()) {
+            doctor.setId(result.getData().id());
+        } else if(result.getError().equals(DUPLICATE_USER))
+        {
+            SignInEmailPassword signInEmailPassword = doctorTransformer.convertRequestToSignInEmailPassword(doctorRequest);
+            Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
+            doctor.setId(signInResult.getData().id());
+        }
         try {
             Doctor createdDoctor = doctorRepository.save(doctor);
             return doctorTransformer.convertModelToResponse(createdDoctor);
