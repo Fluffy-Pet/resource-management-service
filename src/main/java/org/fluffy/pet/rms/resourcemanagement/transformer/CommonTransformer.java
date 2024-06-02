@@ -32,6 +32,7 @@ public class CommonTransformer {
     public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
         return OperatingHours
                 .builder()
+                .workingDays(operatingHours.getWorkingDays())
                 .startTime(operatingHours.getStartTime())
                 .endTime(operatingHours.getEndTime())
                 .build();
@@ -68,6 +69,7 @@ public class CommonTransformer {
     public OperatingHoursResponse convertModelToResponse(OperatingHours operatingHours){
         return OperatingHoursResponse
                 .builder()
+                .workingDays(operatingHours.getWorkingDays())
                 .startTime(operatingHours.getStartTime())
                 .endTime(operatingHours.getEndTime())
                 .build();

@@ -103,4 +103,5 @@ public final class MongoConstants {
     public static final String LAST_NAME = "lastName";
     public static final String START_TIME = "startTime";
     public static final String END_TIME = "endTime";
+    public static final String WORKING_DAYS = "workingDays";
 }

@@ -1,7 +1,9 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
@@ -29,20 +31,18 @@ public class DoctorRequest {
 
     private String firstName;
 
-
     private String lastName;
-
 
     private List< PetType> specialization;
 
     private Double experience;
 
-    private List<DocumentRequest> documents;
+    private List<@NotNull @Valid DocumentRequest> documents;
 
-    private List<ClinicRequest> associatedClinics;
+    private List<@NotNull @Valid ClinicRequest> associatedClinics;
 
+    @Valid
     private AddressRequest address;
 
-    private List<ServedOrganizationRequest> servedOrganizations;
-
+    private List<@NotNull @Valid ServedOrganizationRequest> servedOrganizations;
 }

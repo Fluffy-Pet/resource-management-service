@@ -12,9 +12,9 @@ import lombok.*;
 public class CoordinatesRequest {
     @NotNull
     @Min(0)
-    private double latitude;
+    private Double latitude;
 
     @NotNull
     @Min(0)
-    private double longitude;
+    private Double longitude;
 }
