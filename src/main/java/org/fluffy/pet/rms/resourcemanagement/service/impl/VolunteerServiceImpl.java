@@ -47,12 +47,12 @@ public class VolunteerServiceImpl implements VolunteerService {
         SignupInput signupInput=volunteerTransformer.convertRequestToSignupInput(volunteerRequest);
         Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
         if (result.isSuccess()) {
-            volunteer.setId(result.getData().id());
+            volunteer.setId(result.getData().userId());
         } else if(result.getError().equals(DUPLICATE_USER))
         {
             SignInEmailPassword signInEmailPassword = volunteerTransformer.convertRequestToSignInEmailPassword(volunteerRequest);
             Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
-            volunteer.setId(signInResult.getData().id());
+            volunteer.setId(signInResult.getData().userId());
         }
         try {
             Volunteer createdVolunteer = volunteerRepository.save(volunteer);

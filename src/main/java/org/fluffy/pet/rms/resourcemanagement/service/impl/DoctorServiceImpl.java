@@ -46,12 +46,12 @@ public class DoctorServiceImpl implements DoctorService {
         SignupInput signupInput=doctorTransformer.convertRequestToSignupInput(doctorRequest);
         Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
         if (result.isSuccess()) {
-            doctor.setId(result.getData().id());
+            doctor.setId(result.getData().userId());
         } else if(result.getError().equals(DUPLICATE_USER))
         {
             SignInEmailPassword signInEmailPassword = doctorTransformer.convertRequestToSignInEmailPassword(doctorRequest);
             Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
-            doctor.setId(signInResult.getData().id());
+            doctor.setId(signInResult.getData().userId());
         }
         try {
             Doctor createdDoctor = doctorRepository.save(doctor);
