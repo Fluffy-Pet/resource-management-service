@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.DocumentRequest;
@@ -29,8 +30,10 @@ public class DoctorRequest {
     @NotBlank
     private String password;
 
+    @NullOrNotBlank
     private String firstName;
 
+    @NullOrNotBlank
     private String lastName;
 
     private List< PetType> specialization;
