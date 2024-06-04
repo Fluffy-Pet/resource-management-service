@@ -1,10 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
@@ -59,14 +56,20 @@ public class VolunteerTransformer {
 
     public SignupInput convertRequestToSignupInput(VolunteerRequest volunteerRequest){
         return new SignupInput(
-                new EmailInput(volunteerRequest.getEmail()),
-                new MobileInput( COUNTRY_CODE,volunteerRequest.getMobile()),
+                new EmailInput(volunteerRequest.getEmail().getEmail()),
+                new MobileInput( COUNTRY_CODE,volunteerRequest.getMobile().getCountryCode()),
                 volunteerRequest.getPassword());
     }
 
     public SignInEmailPassword convertRequestToSignInEmailPassword(VolunteerRequest volunteerRequest){
         return new SignInEmailPassword(
-                new EmailInput(volunteerRequest.getEmail()),
+                new EmailInput(volunteerRequest.getEmail().getEmail()),
+                volunteerRequest.getPassword());
+    }
+
+    public SignInMobilePassword convertRequestToSignInMobilePassword(VolunteerRequest volunteerRequest){
+        return new SignInMobilePassword(
+                new MobileInput(COUNTRY_CODE,volunteerRequest.getMobile().getCountryCode()),
                 volunteerRequest.getPassword());
     }
 }

@@ -2,6 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
@@ -50,9 +51,15 @@ public class VolunteerServiceImpl implements VolunteerService {
             volunteer.setId(result.getData().userId());
         } else if(result.getError().equals(DUPLICATE_USER))
         {
-            SignInEmailPassword signInEmailPassword = volunteerTransformer.convertRequestToSignInEmailPassword(volunteerRequest);
-            Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
-            volunteer.setId(signInResult.getData().userId());
+            if(volunteerRequest.getEmail()!=null) {
+                SignInEmailPassword signInEmailPassword = volunteerTransformer.convertRequestToSignInEmailPassword(volunteerRequest);
+                Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
+                volunteer.setId(signInResult.getData().userId());
+            }else if(volunteerRequest.getMobile()!=null){
+                SignInMobilePassword signInMobilePassword = volunteerTransformer.convertRequestToSignInMobilePassword(volunteerRequest);
+                Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInMobilePassword);
+                volunteer.setId(signInResult.getData().userId());
+            }
         }
         try {
             Volunteer createdVolunteer = volunteerRepository.save(volunteer);

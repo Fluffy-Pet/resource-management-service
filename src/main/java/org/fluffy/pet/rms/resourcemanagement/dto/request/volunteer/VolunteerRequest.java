@@ -5,9 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.DocumentRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.ServedOrganizationRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
 import org.fluffy.pet.rms.resourcemanagement.enums.SkillType;
 
@@ -19,12 +17,12 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class VolunteerRequest {
-    @NotBlank
+    @NotNull
     @Email
-    private String email;
+    private UserEmailRequest email;
 
-    @NotBlank
-    private String mobile;
+    @NotNull
+    private UserMobileRequest mobile;
 
     @NotBlank
     private String password;
