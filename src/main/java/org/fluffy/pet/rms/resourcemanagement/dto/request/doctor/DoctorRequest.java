@@ -7,9 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.DocumentRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.ServedOrganizationRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 import java.util.List;
@@ -20,12 +18,12 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class DoctorRequest {
-    @NotBlank
+    @NotNull
     @Email
-    private String email;
+    private UserEmailRequest email;
 
-    @NotBlank
-    private String mobile;
+    @NotNull
+    private UserMobileRequest mobile;
 
     @NotBlank
     private String password;

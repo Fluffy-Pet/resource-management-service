@@ -2,6 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
@@ -47,11 +48,16 @@ public class DoctorServiceImpl implements DoctorService {
         Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
         if (result.isSuccess()) {
             doctor.setId(result.getData().userId());
-        } else if(result.getError().equals(DUPLICATE_USER))
-        {
+        } else if(result.getError().equals(DUPLICATE_USER)) {
+            if (doctorRequest.getEmail() != null) {
             SignInEmailPassword signInEmailPassword = doctorTransformer.convertRequestToSignInEmailPassword(doctorRequest);
             Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
             doctor.setId(signInResult.getData().userId());
+            } else if (doctorRequest.getMobile() != null) {
+            SignInMobilePassword signInMobilePassword = doctorTransformer.convertRequestToSignInMobilePassword(doctorRequest);
+            Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInMobilePassword);
+            doctor.setId(signInResult.getData().userId());
+            }
         }
         try {
             Doctor createdDoctor = doctorRepository.save(doctor);

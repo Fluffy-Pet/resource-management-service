@@ -1,10 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
@@ -74,14 +71,20 @@ public class DoctorTransformer {
     }
     public SignupInput convertRequestToSignupInput(DoctorRequest doctorRequest){
         return new SignupInput(
-                new EmailInput(doctorRequest.getEmail()),
-                new MobileInput( COUNTRY_CODE,doctorRequest.getMobile()),
+                new EmailInput(doctorRequest.getEmail().getEmail()),
+                new MobileInput( COUNTRY_CODE,doctorRequest.getMobile().getCountryCode()),
                 doctorRequest.getPassword());
     }
 
     public SignInEmailPassword convertRequestToSignInEmailPassword(DoctorRequest doctorRequest){
         return new SignInEmailPassword(
-                new EmailInput(doctorRequest.getEmail()),
+                new EmailInput(doctorRequest.getEmail().getEmail()),
+                doctorRequest.getPassword());
+    }
+
+    public SignInMobilePassword convertRequestToSignInMobilePassword(DoctorRequest doctorRequest){
+        return new SignInMobilePassword(
+                new MobileInput(COUNTRY_CODE,doctorRequest.getMobile().getCountryCode()),
                 doctorRequest.getPassword());
     }
 }
