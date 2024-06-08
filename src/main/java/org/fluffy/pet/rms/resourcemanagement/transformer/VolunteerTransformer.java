@@ -2,6 +2,8 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
@@ -18,7 +20,8 @@ public class VolunteerTransformer {
     public VolunteerTransformer(CommonTransformer commonTransformer) {
         this.commonTransformer = commonTransformer;
     }
-    public Volunteer convertRequestToModel(VolunteerRequest volunteerRequest){
+
+    public <T> Volunteer convertRequestToModel(VolunteerRequest<T> volunteerRequest){
         return Volunteer
                 .builder()
                 .firstName(volunteerRequest.getFirstName())
@@ -44,7 +47,7 @@ public class VolunteerTransformer {
                 .build();
     }
 
-    public void updateVolunteer(Volunteer volunteer, VolunteerRequest volunteerRequest){
+    public <T> void updateVolunteer(Volunteer volunteer, VolunteerRequest<T> volunteerRequest){
         volunteer.setFirstName(volunteerRequest.getFirstName());
         volunteer.setLastName(volunteerRequest.getLastName());
         volunteer.setAvailability(volunteerRequest.getAvailability());
@@ -54,22 +57,33 @@ public class VolunteerTransformer {
         volunteer.setServedOrganizations(StreamUtils.emptyIfNull(volunteerRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
     }
 
-    public SignupInput convertRequestToSignupInput(VolunteerRequest volunteerRequest){
-        return new SignupInput(
-                new EmailInput(volunteerRequest.getEmail().getEmail()),
-                new MobileInput( COUNTRY_CODE,volunteerRequest.getMobile().getCountryCode()),
-                volunteerRequest.getPassword());
+    public <T> SignupInput convertRequestToSignupInput(VolunteerRequest<T> volunteerRequest) {
+        return switch (volunteerRequest.getSignupUserInfo()) {
+            case UserEmailRequest userEmailRequest -> new SignupInput(
+                    new EmailInput(userEmailRequest.getEmail()),
+                    null,
+                    volunteerRequest.getPassword()
+            );
+            case UserMobileRequest userMobileRequest -> new SignupInput(
+                    null,
+                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobile()),
+                    volunteerRequest.getPassword()
+            );
+            default -> null;
+        };
     }
 
-    public SignInEmailPassword convertRequestToSignInEmailPassword(VolunteerRequest volunteerRequest){
+    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
         return new SignInEmailPassword(
-                new EmailInput(volunteerRequest.getEmail().getEmail()),
-                volunteerRequest.getPassword());
+                new EmailInput(userEmailRequest.getEmail()),
+                password
+        );
     }
 
-    public SignInMobilePassword convertRequestToSignInMobilePassword(VolunteerRequest volunteerRequest){
+    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
         return new SignInMobilePassword(
-                new MobileInput(COUNTRY_CODE,volunteerRequest.getMobile().getCountryCode()),
-                volunteerRequest.getPassword());
+                new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
+                password
+        );
     }
 }

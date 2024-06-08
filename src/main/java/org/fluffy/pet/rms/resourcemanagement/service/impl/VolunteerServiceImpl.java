@@ -1,28 +1,26 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
+import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.repository.VolunteerRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.VolunteerService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.VolunteerTransformer;
-import org.fluffy.pet.rms.resourcemanagement.util.Result;
+import org.fluffy.pet.rms.resourcemanagement.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import static org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode.DUPLICATE_USER;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -43,24 +41,32 @@ public class VolunteerServiceImpl implements VolunteerService {
 
 
     @Override
-    public VolunteerResponse createVolunteer(VolunteerRequest volunteerRequest) {
+    public <Q> VolunteerResponse createVolunteer(VolunteerRequest<Q> volunteerRequest) {
         Volunteer volunteer = volunteerTransformer.convertRequestToModel(volunteerRequest);
-        SignupInput signupInput=volunteerTransformer.convertRequestToSignupInput(volunteerRequest);
-        Result<SignupOutput, ErrorCode> result = userHelper.signup(signupInput);
-        if (result.isSuccess()) {
-            volunteer.setId(result.getData().userId());
-        } else if(result.getError().equals(DUPLICATE_USER))
-        {
-            if(volunteerRequest.getEmail()!=null) {
-                SignInEmailPassword signInEmailPassword = volunteerTransformer.convertRequestToSignInEmailPassword(volunteerRequest);
-                Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInEmailPassword);
-                volunteer.setId(signInResult.getData().userId());
-            }else if(volunteerRequest.getMobile()!=null){
-                SignInMobilePassword signInMobilePassword = volunteerTransformer.convertRequestToSignInMobilePassword(volunteerRequest);
-                Result<SignInOutput, ErrorCode> signInResult = userHelper.signIn(signInMobilePassword);
-                volunteer.setId(signInResult.getData().userId());
-            }
+
+        String password = volunteerRequest.getPassword();
+        Optional<String> userId = switch (volunteerRequest.getSignupUserInfo()) {
+            case UserEmailRequest userEmailRequest -> UserUtils.fetchUserIdForSignup(
+                    volunteerRequest,
+                    volunteerTransformer.convertRequestToSignInEmailPassword(userEmailRequest, password),
+                    volunteerTransformer::convertRequestToSignupInput,
+                    userHelper::signup,
+                    userHelper::signIn
+            );
+            case UserMobileRequest userMobileRequest -> UserUtils.fetchUserIdForSignup(
+                    volunteerRequest,
+                    volunteerTransformer.convertRequestToSignInMobilePassword(userMobileRequest, password),
+                    volunteerTransformer::convertRequestToSignupInput,
+                    userHelper::signup,
+                    userHelper::signIn
+            );
+            default -> throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.INPUT_VALIDATION_ERROR));
+        };
+        if (userId.isEmpty()) {
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorResponse.from(ErrorCode.INTERNAL_SERVER_ERROR));
         }
+        volunteer.setId(userId.get());
+        volunteer.setStatus(Status.ACTIVE);
         try {
             Volunteer createdVolunteer = volunteerRepository.save(volunteer);
             return volunteerTransformer.convertModelToResponse(createdVolunteer);
@@ -80,7 +86,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public VolunteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id) {
+    public <T> VolunteerResponse updateVolunteer(VolunteerRequest<T> updatevolunteerRequest, String id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );

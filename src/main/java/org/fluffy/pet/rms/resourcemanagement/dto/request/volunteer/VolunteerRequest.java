@@ -16,10 +16,9 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Builder
-public class VolunteerRequest {
+public class VolunteerRequest<T> {
     @NotNull
-    @Email
-    private UserEmailRequest email;
+    private T signupUserInfo;
 
     @NotNull
     private UserMobileRequest mobile;
