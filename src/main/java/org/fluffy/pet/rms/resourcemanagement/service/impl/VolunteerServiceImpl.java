@@ -13,6 +13,7 @@ import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.repository.VolunteerRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.VolunteerService;
+import org.fluffy.pet.rms.resourcemanagement.transformer.CommonTransformer;
 import org.fluffy.pet.rms.resourcemanagement.transformer.VolunteerTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,16 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     private final VolunteerTransformer volunteerTransformer;
 
+    private final CommonTransformer commonTransformer;
+
     private final UserHelper userHelper;
 
     @Autowired
-    public VolunteerServiceImpl(VolunteerRepository volunteerRepository, VolunteerTransformer volunteerTransformer,UserHelper userHelper) {
+    public VolunteerServiceImpl(VolunteerRepository volunteerRepository, VolunteerTransformer volunteerTransformer,UserHelper userHelper, CommonTransformer commonTransformer) {
         this.volunteerRepository = volunteerRepository;
         this.volunteerTransformer = volunteerTransformer;
         this.userHelper=userHelper;
+        this.commonTransformer=commonTransformer;
     }
 
 
@@ -48,14 +52,14 @@ public class VolunteerServiceImpl implements VolunteerService {
         Optional<String> userId = switch (volunteerRequest.getSignupUserInfo()) {
             case UserEmailRequest userEmailRequest -> UserUtils.fetchUserIdForSignup(
                     volunteerRequest,
-                    volunteerTransformer.convertRequestToSignInEmailPassword(userEmailRequest, password),
+                    commonTransformer.convertRequestToSignInEmailPassword(userEmailRequest, password),
                     volunteerTransformer::convertRequestToSignupInput,
                     userHelper::signup,
                     userHelper::signIn
             );
             case UserMobileRequest userMobileRequest -> UserUtils.fetchUserIdForSignup(
                     volunteerRequest,
-                    volunteerTransformer.convertRequestToSignInMobilePassword(userMobileRequest, password),
+                    commonTransformer.convertRequestToSignInMobilePassword(userMobileRequest, password),
                     volunteerTransformer::convertRequestToSignupInput,
                     userHelper::signup,
                     userHelper::signIn

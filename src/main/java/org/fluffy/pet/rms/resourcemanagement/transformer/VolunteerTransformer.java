@@ -73,17 +73,5 @@ public class VolunteerTransformer {
         };
     }
 
-    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
-        return new SignInEmailPassword(
-                new EmailInput(userEmailRequest.getEmail()),
-                password
-        );
-    }
 
-    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
-        return new SignInMobilePassword(
-                new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
-                password
-        );
-    }
 }

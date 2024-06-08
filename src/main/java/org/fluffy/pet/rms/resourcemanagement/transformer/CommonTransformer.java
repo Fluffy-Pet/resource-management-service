@@ -1,6 +1,10 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
+import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
@@ -112,5 +116,19 @@ public class CommonTransformer {
                 .startDate(servedOrganization.getStartDate())
                 .endDate(servedOrganization.getEndDate())
                 .build();
+    }
+
+    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
+        return new SignInEmailPassword(
+                new EmailInput(userEmailRequest.getEmail()),
+                password
+        );
+    }
+
+    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
+        return new SignInMobilePassword(
+                new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
+                password
+        );
     }
 }
