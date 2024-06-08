@@ -3,6 +3,8 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
@@ -31,7 +33,7 @@ public class DoctorTransformer {
                 .build();
     }
 
-    public Doctor convertRequestToModel(DoctorRequest doctorRequest){
+    public <T> Doctor convertRequestToModel(DoctorRequest<T> doctorRequest){
         return Doctor
                 .builder()
                 .firstName(doctorRequest.getFirstName())
@@ -59,7 +61,7 @@ public class DoctorTransformer {
                 .build();
     }
 
-    public void updateDoctor(Doctor doctor, DoctorRequest doctorRequest){
+    public <T> void updateDoctor(Doctor doctor, DoctorRequest<T> doctorRequest){
         doctor.setFirstName(doctorRequest.getFirstName());
         doctor.setLastName(doctorRequest.getLastName());
         doctor.setSpecialization(doctorRequest.getSpecialization());
@@ -69,22 +71,20 @@ public class DoctorTransformer {
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
     }
-    public SignupInput convertRequestToSignupInput(DoctorRequest doctorRequest){
-        return new SignupInput(
-                new EmailInput(doctorRequest.getEmail().getEmail()),
-                new MobileInput( COUNTRY_CODE,doctorRequest.getMobile().getCountryCode()),
-                doctorRequest.getPassword());
-    }
 
-    public SignInEmailPassword convertRequestToSignInEmailPassword(DoctorRequest doctorRequest){
-        return new SignInEmailPassword(
-                new EmailInput(doctorRequest.getEmail().getEmail()),
-                doctorRequest.getPassword());
-    }
-
-    public SignInMobilePassword convertRequestToSignInMobilePassword(DoctorRequest doctorRequest){
-        return new SignInMobilePassword(
-                new MobileInput(COUNTRY_CODE,doctorRequest.getMobile().getCountryCode()),
-                doctorRequest.getPassword());
+    public <T> SignupInput convertRequestToSignupInput(DoctorRequest<T> doctorRequest) {
+        return switch (doctorRequest.getSignupUserInfo()) {
+            case UserEmailRequest userEmailRequest -> new SignupInput(
+                    new EmailInput(userEmailRequest.getEmail()),
+                    null,
+                    doctorRequest.getPassword()
+            );
+            case UserMobileRequest userMobileRequest -> new SignupInput(
+                    null,
+                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobile()),
+                    doctorRequest.getPassword()
+            );
+            default -> null;
+        };
     }
 }
