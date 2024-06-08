@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class OperatingHoursRequest {
     @NotNull
-    private List<WorkingDays> workingDays;
+    private List<@NotNull WorkingDays> workingDays;
 
     @JsonFormat(pattern = Constants.DATE_FORMAT)
     @NotBlank

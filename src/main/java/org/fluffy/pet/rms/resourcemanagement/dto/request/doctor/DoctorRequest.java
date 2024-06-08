@@ -32,7 +32,7 @@ public class DoctorRequest<T> {
     @NullOrNotBlank
     private String lastName;
 
-    private List< PetType> specialization;
+    private List<@NotNull PetType> specialization;
 
     private Double experience;
 
@@ -41,6 +41,7 @@ public class DoctorRequest<T> {
     private List<@NotNull @Valid ClinicRequest> associatedClinics;
 
     @Valid
+    @NotNull
     private AddressRequest address;
 
     private List<@NotNull @Valid ServedOrganizationRequest> servedOrganizations;

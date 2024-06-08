@@ -1,11 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer;
 
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ServedOrganizationResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
 import org.fluffy.pet.rms.resourcemanagement.enums.SkillType;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 
 import java.util.List;
 
@@ -23,9 +23,9 @@ public class VolunteerResponse {
 
     private List<SkillType> skills;
 
-    private List<IdentityDocument> identityDocuments;
+    private List<DocumentResponse> identityDocuments;
 
-    private Address address;
+    private AddressResponse address;
 
     private List<ServedOrganizationResponse> servedOrganizations;
 }
