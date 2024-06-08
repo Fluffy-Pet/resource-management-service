@@ -41,8 +41,8 @@ public class VolunteerTransformer {
                 .lastName(volunteer.getLastName())
                 .availability(volunteer.getAvailability())
                 .skills(volunteer.getSkills())
-                .identityDocuments(volunteer.getIdentityDocuments())
-                .address(volunteer.getAddress())
+                .identityDocuments(StreamUtils.emptyIfNull(volunteer.getIdentityDocuments()).map(commonTransformer::convertModelToResponse).toList())
+                .address(ObjectUtils.transformIfNotNull(volunteer.getAddress(), commonTransformer::convertModelToResponse))
                 .servedOrganizations(StreamUtils.emptyIfNull(volunteer.getServedOrganizations()).map(commonTransformer::convertModelToResponse).toList())
                 .build();
     }
