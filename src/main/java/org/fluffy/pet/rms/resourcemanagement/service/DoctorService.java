@@ -4,11 +4,11 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 
 public interface DoctorService {
-    DoctorResponse createDoctor(DoctorRequest doctorRequest);
+    <Q> DoctorResponse createDoctor(DoctorRequest<Q> doctorRequest);
 
     DoctorResponse getDoctor(String id);
 
-    DoctorResponse updateDoctor(DoctorRequest updateDoctorRequest, String id);
+    <T> DoctorResponse updateDoctor(DoctorRequest<T> updateDoctorRequest, String id);
 
     void deleteDoctor(String id);
 }

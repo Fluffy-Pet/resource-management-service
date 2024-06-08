@@ -1,7 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,10 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class DoctorRequest {
+public class DoctorRequest<T> {
     @NotNull
-    @Email
-    private UserEmailRequest email;
+    private T signupUserInfo;
 
     @NotNull
     private UserMobileRequest mobile;
