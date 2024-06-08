@@ -2,35 +2,31 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AssociatedClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
-import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+
 @Transformer
 public class DoctorTransformer {
     private static final String COUNTRY_CODE = "+91";
+
     private final CommonTransformer commonTransformer;
 
+    private final ClinicHelper clinicHelper;
+
     @Autowired
-    public DoctorTransformer(CommonTransformer commonTransformer) {
+    public DoctorTransformer(CommonTransformer commonTransformer, ClinicHelper clinicHelper) {
         this.commonTransformer = commonTransformer;
-    }
-    public Clinic convertRequestToModel(ClinicRequest clinicRequest){
-        return Clinic
-                .builder()
-                .clinicName(clinicRequest.getName())
-                .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))
-                .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel))
-                .phoneNumber(clinicRequest.getPhoneNumber())
-                .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList())
-                .build();
+        this.clinicHelper = clinicHelper;
     }
 
     public <T> Doctor convertRequestToModel(DoctorRequest<T> doctorRequest){
@@ -41,7 +37,7 @@ public class DoctorTransformer {
                 .specialization(StreamUtils.emptyIfNull(doctorRequest.getSpecialization()).toList())
                 .experience(doctorRequest.getExperience())
                 .identityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(commonTransformer::convertRequestToModel).toList())
-                .associatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(this::convertRequestToModel).toList())
+                .associatedClinics(ObjectUtils.transformIfNotNull(doctorRequest.getAssociatedClinics(), this::convertResquestToModel))
                 .address(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .servedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList())
                 .build();
@@ -55,9 +51,16 @@ public class DoctorTransformer {
                 .specialization(doctor.getSpecialization())
                 .experience(doctor.getExperience())
                 .documents(StreamUtils.emptyIfNull(doctor.getIdentityDocuments()).map(commonTransformer::convertModelToResponse).toList())
-                .associatedClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(commonTransformer::convertModelToResponse).toList())
+                .associatedClinics(StreamUtils.emptyIfNull(clinicHelper.getClinics(doctor.getAssociatedClinics().getClinicIds())).map(commonTransformer::convertModelToResponse).toList())
                 .address(ObjectUtils.transformIfNotNull(doctor.getAddress(), commonTransformer::convertModelToResponse))
                 .servedOrganizations(StreamUtils.emptyIfNull(doctor.getServedOrganizations()).map(commonTransformer::convertModelToResponse).toList())
+                .build();
+    }
+
+    public AssociatedClinic convertResquestToModel(AssociatedClinicRequest associatedClinicRequest){
+        return AssociatedClinic
+                .builder()
+                .clinicIds(associatedClinicRequest.getClinicIds())
                 .build();
     }
 
@@ -67,7 +70,7 @@ public class DoctorTransformer {
         doctor.setSpecialization(doctorRequest.getSpecialization());
         doctor.setExperience(doctorRequest.getExperience());
         doctor.setIdentityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(commonTransformer::convertRequestToModel).toList());
-        doctor.setAssociatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(this::convertRequestToModel).toList());
+        doctor.setAssociatedClinics(ObjectUtils.transformIfNotNull(doctorRequest.getAssociatedClinics(), this::convertResquestToModel));
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
     }

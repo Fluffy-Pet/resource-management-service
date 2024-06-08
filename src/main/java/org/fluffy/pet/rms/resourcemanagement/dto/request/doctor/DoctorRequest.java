@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
@@ -38,7 +37,7 @@ public class DoctorRequest<T> {
 
     private List<@NotNull @Valid DocumentRequest> documents;
 
-    private List<@NotNull @Valid ClinicRequest> associatedClinics;
+    private AssociatedClinicRequest associatedClinics;
 
     @Valid
     @NotNull

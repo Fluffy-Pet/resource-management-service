@@ -6,9 +6,9 @@ import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
+import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
 import org.fluffy.pet.rms.resourcemanagement.model.common.ServedOrganization;
-import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -37,7 +37,7 @@ public class Doctor extends BaseEntity {
     private List<IdentityDocument> identityDocuments;
 
     @Field(MongoConstants.ASSOCIATED_CLINICS)
-    private List<Clinic> associatedClinics;
+    private AssociatedClinic associatedClinics;
 
     @Field(MongoConstants.ADDRESS)
     private Address address;
