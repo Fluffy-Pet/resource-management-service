@@ -16,7 +16,13 @@ public enum ErrorCode {
     USER_NOT_FOUND("007", "User not found"),
     UN_AUTHORISED("008", "Un Authorised Action"),
     DUPLICATE_INFRASTRUCTURE("009", "Infrastructure already exists"),
-    INFRASTRUCTURE_NOT_FOUND("010", "Infrastructure not found");
+    INFRASTRUCTURE_NOT_FOUND("010", "Infrastructure not found"),
+    DOCTOR_ALREADY_EXISTS("010","Doctor already exist" ),
+    DOCTOR_NOT_FOUND("011","Doctor not found" ),
+    VOLUNTEER_NOT_FOUND("012","Volunteer not found" ),
+    CLINIC_ALREADY_EXISTS("013","Clinic already exist" ),
+    CLINIC_NOT_FOUND("014","Clinic not found" ),
+    VOLUNTEER_ALREADY_EXISTS("015","Volunteer already exist" );
 
     private final String code;
 

@@ -44,7 +44,7 @@ public class UserHelperImpl implements UserHelper {
             User createdUser = userRepository.save(user);
             JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(createdUser);
             String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
-            SignupOutput signupOutput = userTransformer.convertUserToSignupOutput(jwtToken);
+            SignupOutput signupOutput = userTransformer.convertUserToSignupOutput(user.getId(),jwtToken);
             return Result.success(signupOutput);
         } catch (DuplicateKeyException e) {
             return Result.error(ErrorCode.DUPLICATE_USER);
@@ -87,7 +87,7 @@ public class UserHelperImpl implements UserHelper {
         if (user.getPassword().equals(password)) {
             JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(user);
             String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
-            SignInOutput signInOutput = userTransformer.convertUserToSigninOutput(jwtToken);
+            SignInOutput signInOutput = userTransformer.convertUserToSigninOutput(user.getId(),jwtToken);
             return Result.success(signInOutput);
         }
         return Result.error(ErrorCode.UN_AUTHORISED);
