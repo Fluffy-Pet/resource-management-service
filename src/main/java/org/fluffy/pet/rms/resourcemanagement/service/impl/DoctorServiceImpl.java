@@ -9,7 +9,9 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
+import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.DoctorService;
@@ -21,6 +23,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -36,12 +39,15 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final UserHelper userHelper;
 
+    private final ClinicHelper clinicHelper;
+
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer,UserHelper userHelper, CommonTransformer commonTransformer){
+    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer,UserHelper userHelper, CommonTransformer commonTransformer, ClinicHelper clinicHelper){
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
         this.userHelper= userHelper;
         this.commonTransformer=commonTransformer;
+        this.clinicHelper=clinicHelper;
     }
 
     @Override
@@ -72,7 +78,7 @@ public class DoctorServiceImpl implements DoctorService {
         doctor.setStatus(Status.ACTIVE);
         try {
             Doctor createdDoctor = doctorRepository.save(doctor);
-            return doctorTransformer.convertModelToResponse(createdDoctor);
+            return doctorTransformer.convertModelToResponse(createdDoctor,getClinicsForDoctor(createdDoctor));
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", doctorRequest.getFirstName()), e
             );
@@ -85,7 +91,7 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.DOCTOR_NOT_FOUND))
         );
-        return doctorTransformer.convertModelToResponse(doctor);
+        return doctorTransformer.convertModelToResponse(doctor,getClinicsForDoctor(doctor));
     }
 
     @Override
@@ -95,11 +101,15 @@ public class DoctorServiceImpl implements DoctorService {
         );
         doctorTransformer.updateDoctor(doctor, updateDoctorRequest);
         Doctor updatedDoctor = doctorRepository.save(doctor);
-        return doctorTransformer.convertModelToResponse(updatedDoctor);
+        return doctorTransformer.convertModelToResponse(updatedDoctor,getClinicsForDoctor(doctor));
     }
 
     @Override
     public void deleteDoctor(String id) {
         doctorRepository.deleteById(id);
+    }
+
+    private List<Clinic> getClinicsForDoctor(Doctor doctor){
+        return clinicHelper.getClinics(doctor.getAssociatedClinics().getClinicIds());
     }
 }
