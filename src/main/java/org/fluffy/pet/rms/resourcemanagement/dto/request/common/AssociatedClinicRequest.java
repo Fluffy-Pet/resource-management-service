@@ -1,8 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -10,5 +9,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class AssociatedClinicRequest {
-    private List<String> clinicIds;
+    @NotBlank
+    private String clinicIds;
 }

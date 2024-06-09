@@ -37,7 +37,7 @@ public class DoctorRequest<T> {
 
     private List<@NotNull @Valid DocumentRequest> documents;
 
-    private AssociatedClinicRequest associatedClinics;
+    private List<AssociatedClinicRequest> associatedClinics;
 
     @Valid
     @NotNull

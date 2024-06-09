@@ -1,7 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.WorkingDays;
@@ -20,10 +19,10 @@ public class OperatingHoursRequest {
     private List<@NotNull WorkingDays> workingDays;
 
     @JsonFormat(pattern = Constants.DATE_FORMAT)
-    @NotBlank
+    @NotNull
     private LocalTime startTime;
 
     @JsonFormat(pattern = Constants.DATE_FORMAT)
-    @NotBlank
+    @NotNull
     private LocalTime endTime;
 }

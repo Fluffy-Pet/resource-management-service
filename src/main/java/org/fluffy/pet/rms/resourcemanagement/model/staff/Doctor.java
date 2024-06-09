@@ -37,7 +37,7 @@ public class Doctor extends BaseEntity {
     private List<IdentityDocument> identityDocuments;
 
     @Field(MongoConstants.ASSOCIATED_CLINICS)
-    private AssociatedClinic associatedClinics;
+    private List<AssociatedClinic> associatedClinics;
 
     @Field(MongoConstants.ADDRESS)
     private Address address;

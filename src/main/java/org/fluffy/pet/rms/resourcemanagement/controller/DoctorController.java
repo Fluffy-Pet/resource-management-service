@@ -29,17 +29,17 @@ public class DoctorController{
     }
 
     @PostMapping
-    public ResponseEntity<ResponseWrapper<DoctorResponse>> createDoctor(
-            @RequestBody @Valid DoctorRequest createDoctorRequest
+    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> createDoctor(
+            @RequestBody @Valid DoctorRequest<T> createDoctorRequest
     ) {
         DoctorResponse doctorResponse = doctorService.createDoctor(createDoctorRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(doctorResponse));
     }
 
     @PutMapping("/{doctorId}")
-    public ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
+    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
             @PathVariable("doctorId") String doctorId,
-            @RequestBody @Valid DoctorRequest updateDoctorRequest
+            @RequestBody @Valid DoctorRequest<T> updateDoctorRequest
     ) {
         DoctorResponse doctorResponse = doctorService.updateDoctor(updateDoctorRequest, doctorId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(doctorResponse));

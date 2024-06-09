@@ -59,6 +59,13 @@ public class CommonTransformer {
                 .build();
     }
 
+    public AssociatedClinic convertRequestToModel(AssociatedClinicRequest associatedClinicRequest){
+        return AssociatedClinic
+                .builder()
+                .clinicIds(associatedClinicRequest.getClinicIds())
+                .build();
+    }
+
     public AddressResponse convertModelToResponse(Address address){
         return AddressResponse
                 .builder()

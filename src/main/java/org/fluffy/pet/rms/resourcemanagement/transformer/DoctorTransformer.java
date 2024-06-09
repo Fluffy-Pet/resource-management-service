@@ -2,13 +2,11 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.*;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AssociatedClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
-import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -36,7 +34,7 @@ public class DoctorTransformer {
                 .specialization(StreamUtils.emptyIfNull(doctorRequest.getSpecialization()).toList())
                 .experience(doctorRequest.getExperience())
                 .identityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(commonTransformer::convertRequestToModel).toList())
-                .associatedClinics(ObjectUtils.transformIfNotNull(doctorRequest.getAssociatedClinics(), this::convertResquestToModel))
+                .associatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(commonTransformer::convertRequestToModel).toList())
                 .address(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .servedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList())
                 .build();
@@ -56,20 +54,13 @@ public class DoctorTransformer {
                 .build();
     }
 
-    public AssociatedClinic convertResquestToModel(AssociatedClinicRequest associatedClinicRequest){
-        return AssociatedClinic
-                .builder()
-                .clinicIds(associatedClinicRequest.getClinicIds())
-                .build();
-    }
-
     public <T> void updateDoctor(Doctor doctor, DoctorRequest<T> doctorRequest){
         doctor.setFirstName(doctorRequest.getFirstName());
         doctor.setLastName(doctorRequest.getLastName());
         doctor.setSpecialization(doctorRequest.getSpecialization());
         doctor.setExperience(doctorRequest.getExperience());
         doctor.setIdentityDocuments(StreamUtils.emptyIfNull(doctorRequest.getDocuments()).map(commonTransformer::convertRequestToModel).toList());
-        doctor.setAssociatedClinics(ObjectUtils.transformIfNotNull(doctorRequest.getAssociatedClinics(), this::convertResquestToModel));
+        doctor.setAssociatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(commonTransformer::convertRequestToModel).toList());
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
     }

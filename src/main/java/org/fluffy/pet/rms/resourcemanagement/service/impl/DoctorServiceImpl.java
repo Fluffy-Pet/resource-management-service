@@ -12,11 +12,13 @@ import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.DoctorService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.CommonTransformer;
 import org.fluffy.pet.rms.resourcemanagement.transformer.DoctorTransformer;
+import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -110,6 +112,6 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     private List<Clinic> getClinicsForDoctor(Doctor doctor){
-        return clinicHelper.getClinics(doctor.getAssociatedClinics().getClinicIds());
+        return clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList());
     }
 }
