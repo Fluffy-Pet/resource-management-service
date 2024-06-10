@@ -4,12 +4,15 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import manager.authentication.configurations.JwtAuthenticationManagerConfiguration;
+import manager.authentication.constants.JwtConstants;
 import manager.authentication.enums.JwtAuthenticationErrorCause;
 import manager.authentication.exceptions.JwtAuthenticationManagerException;
 import manager.authentication.models.JwtPayload;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 
 import java.time.Instant;
 import java.util.Date;
@@ -47,9 +50,11 @@ public class JwtAuthenticationManager implements manager.authentication.JwtAuthe
 
     @Override
     public JwtPayload convertDecodedJwtTokenToJwtPayload(DecodedJWT decodedJWT) {
+        Claim userTypeClaim = decodedJWT.getClaim(JwtConstants.USER_TYPE);
         return JwtPayload
                 .builder()
                 .sub(decodedJWT.getSubject())
+                .userType(userTypeClaim == null || userTypeClaim.isMissing() ? null : UserType.valueOf(userTypeClaim.asString()))
                 .build();
     }
 
@@ -60,6 +65,7 @@ public class JwtAuthenticationManager implements manager.authentication.JwtAuthe
         JWTCreator.Builder jwtBuilder = JWT.create()
                 .withIssuer(tokenIssuer)
                 .withSubject(jwtPayload.getSub())
+                .withClaim(JwtConstants.USER_TYPE, jwtPayload.getUserType().name())
                 .withIssuedAt(new Date(currentTimestamp))
                 .withExpiresAt(new Date(expiresAtTimestamp))
                 .withJWTId(UUID.randomUUID().toString());

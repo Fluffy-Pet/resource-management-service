@@ -45,7 +45,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 String token = authorizationHeader.substring(HeaderConstants.BEARER_SPACE.length());
                 JwtPayload jwtPayload = jwtAuthenticationManager.verifyAndDecodeToken(token);
                 // TODO: Fetch User with this ID to verify if it exists or not.
-                setupUserContext(userContext, jwtPayload, token);
+                setupUserContext(userContext, jwtPayload);
                 List<SimpleGrantedAuthority> grantedAuthorities = List.of();
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                         jwtPayload.getSub(), null, grantedAuthorities
@@ -58,9 +58,9 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private void setupUserContext(UserContext userContext, JwtPayload jwtPayload, String token) {
-        userContext.setToken(token);
+    private void setupUserContext(UserContext userContext, JwtPayload jwtPayload) {
         userContext.setUserId(jwtPayload.getSub());
+        userContext.setUserType(jwtPayload.getUserType());
     }
 
 }

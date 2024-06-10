@@ -7,6 +7,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileReques
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserEmail;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserMobile;
@@ -47,8 +48,8 @@ public class UserTransformer {
         return commonTransformer.convertMobileRequestToModel(userMobileRequest);
     }
 
-    public JwtPayload convertUserToJwtPayload(User user) {
-        return JwtPayload.builder().sub(user.getId()).build();
+    public JwtPayload convertUserToJwtPayload(User user, UserType userType) {
+        return JwtPayload.builder().sub(user.getId()).userType(userType).build();
     }
 
     public SignInResponse convertUserToSignInResponse(String jwtToken) {

@@ -23,7 +23,8 @@ public enum ErrorCode {
     CLINIC_ALREADY_EXISTS("013","Clinic already exist" ),
     CLINIC_NOT_FOUND("014","Clinic not found" ),
     VOLUNTEER_ALREADY_EXISTS("015","Volunteer already exist" ),
-    INVALID_CREDENTIALS("016", "Invalid Credentials");
+    INVALID_CREDENTIALS("016", "Invalid Credentials"),
+    INSUFFICIENT_PERMISSION("017", "Insufficient Permission for Action");
 
     private final String code;
 

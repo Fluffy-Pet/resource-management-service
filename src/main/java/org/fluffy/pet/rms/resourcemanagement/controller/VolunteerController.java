@@ -1,9 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,7 @@ public class VolunteerController{
     }
 
     @PutMapping("/{volunteerId}")
+    @CheckAccess(values = {UserType.VOLUNTEER})
     public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
             @PathVariable("volunteerId") String volunteerId,
             @RequestBody @Valid VolunteerRequest<T> updateVolunteerRequest
@@ -38,6 +41,7 @@ public class VolunteerController{
     }
 
     @DeleteMapping("/{volunteerId}")
+    @CheckAccess(values = {UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<Void>> deleteVolunteer(
             @PathVariable("volunteerId") String volunteerId
     ) {

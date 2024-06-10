@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
             if (entityCreationStatus.isFailure()) {
                 throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorResponse.from(entityCreationStatus.getError()));
             }
-            JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(createdUser);
+            JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(createdUser, userType);
             String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
             return userTransformer.convertUserToSignInResponse(jwtToken);
         } catch (DuplicateKeyException e) {
@@ -149,11 +149,10 @@ public class UserServiceImpl implements UserService {
         if (!entityExists) {
             throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.INVALID_CREDENTIALS));
         }
-        // Check for Entity Exists or not
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.INVALID_CREDENTIALS));
         }
-        JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(user);
+        JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(user, userType);
         String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
         return userTransformer.convertUserToSignInResponse(jwtToken);
     }
