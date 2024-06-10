@@ -47,7 +47,7 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public <T> DoctorResponse updateDoctor(DoctorRequest<T> updateDoctorRequest, String id) {
+    public DoctorResponse updateDoctor(DoctorRequest updateDoctorRequest, String id) {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.DOCTOR_NOT_FOUND))
         );

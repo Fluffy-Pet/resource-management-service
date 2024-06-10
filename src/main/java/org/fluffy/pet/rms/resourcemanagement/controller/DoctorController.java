@@ -32,9 +32,9 @@ public class DoctorController{
 
     @PutMapping("/{doctorId}")
     @CheckAccess(values = {UserType.DOCTOR})
-    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
+    public ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
             @PathVariable("doctorId") String doctorId,
-            @RequestBody @Valid DoctorRequest<T> updateDoctorRequest
+            @RequestBody @Valid DoctorRequest updateDoctorRequest
     ) {
         DoctorResponse doctorResponse = doctorService.updateDoctor(updateDoctorRequest, doctorId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(doctorResponse));

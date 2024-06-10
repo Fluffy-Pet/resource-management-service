@@ -37,7 +37,7 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public <T> VolunteerResponse updateVolunteer(VolunteerRequest<T> updatevolunteerRequest, String id) {
+    public VolunteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id) {
         Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );

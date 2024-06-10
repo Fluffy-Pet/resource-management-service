@@ -32,9 +32,9 @@ public class VolunteerController{
 
     @PutMapping("/{volunteerId}")
     @CheckAccess(values = {UserType.VOLUNTEER})
-    public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
+    public ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
             @PathVariable("volunteerId") String volunteerId,
-            @RequestBody @Valid VolunteerRequest<T> updateVolunteerRequest
+            @RequestBody @Valid VolunteerRequest updateVolunteerRequest
     ) {
         VolunteerResponse volunteerResponse = volunteerService.updateVolunteer(updateVolunteerRequest, volunteerId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));

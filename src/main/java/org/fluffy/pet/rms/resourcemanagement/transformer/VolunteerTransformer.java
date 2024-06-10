@@ -30,7 +30,7 @@ public class VolunteerTransformer {
                 .build();
     }
 
-    public <T> void updateVolunteer(Volunteer volunteer, VolunteerRequest<T> volunteerRequest){
+    public void updateVolunteer(Volunteer volunteer, VolunteerRequest volunteerRequest){
         volunteer.setFirstName(volunteerRequest.getFirstName());
         volunteer.setLastName(volunteerRequest.getLastName());
         volunteer.setAvailability(volunteerRequest.getAvailability());

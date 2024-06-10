@@ -36,7 +36,7 @@ public class DoctorTransformer {
                 .build();
     }
 
-    public <T> void updateDoctor(Doctor doctor, DoctorRequest<T> doctorRequest){
+    public void updateDoctor(Doctor doctor, DoctorRequest doctorRequest){
         doctor.setFirstName(doctorRequest.getFirstName());
         doctor.setLastName(doctorRequest.getLastName());
         doctor.setSpecialization(doctorRequest.getSpecialization());

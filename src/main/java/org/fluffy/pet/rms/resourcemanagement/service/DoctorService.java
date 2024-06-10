@@ -6,7 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 public interface DoctorService {
     DoctorResponse getDoctor(String id);
 
-    <T> DoctorResponse updateDoctor(DoctorRequest<T> updateDoctorRequest, String id);
+    DoctorResponse updateDoctor(DoctorRequest updateDoctorRequest, String id);
 
     void deleteDoctor(String id);
 }
