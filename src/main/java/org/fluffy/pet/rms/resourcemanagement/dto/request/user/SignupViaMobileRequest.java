@@ -1,5 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.user;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
 
@@ -9,5 +11,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileReques
 @NoArgsConstructor
 @Builder
 public final class SignupViaMobileRequest extends BaseUserSignupRequest {
+    @NotNull
+    @Valid
     private UserMobileRequest userMobileRequest;
 }

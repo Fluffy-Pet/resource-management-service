@@ -28,14 +28,6 @@ public class DoctorController{
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(doctorResponse));
     }
 
-    @PostMapping
-    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> createDoctor(
-            @RequestBody @Valid DoctorRequest<T> createDoctorRequest
-    ) {
-        DoctorResponse doctorResponse = doctorService.createDoctor(createDoctorRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(doctorResponse));
-    }
-
     @PutMapping("/{doctorId}")
     public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
             @PathVariable("doctorId") String doctorId,

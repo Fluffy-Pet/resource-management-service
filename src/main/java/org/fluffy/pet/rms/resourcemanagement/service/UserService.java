@@ -1,9 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.service;
 
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignInViaEmailRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignInViaMobileRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.user.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
 
 public interface UserService {
@@ -11,7 +8,9 @@ public interface UserService {
 
     SignInResponse signup(SignupViaEmailRequest signupViaEmailRequest);
 
-    SignInResponse signInViaMobile(SignInViaMobileRequest signInViaMobileRequest);
+    SignInResponse signIn(SignInViaMobileRequest signInViaMobileRequest);
 
-    SignInResponse signInViaMobile(SignInViaEmailRequest signInViaMobileRequest);
+    SignInResponse signIn(SignInViaEmailRequest signInViaMobileRequest);
+
+    void updatePassword(UpdatePasswordRequest updatePasswordRequest);
 }

@@ -2,10 +2,8 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import manager.authentication.JwtAuthenticationManager;
 import manager.authentication.models.JwtPayload;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignInViaEmailRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignInViaMobileRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.user.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
@@ -42,14 +40,17 @@ public class UserServiceImpl implements UserService {
 
     private final VolunteerHelper volunteerHelper;
 
+    private final UserContext userContext;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper) {
+    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper, UserContext userContext) {
         this.userRepository = userRepository;
         this.userTransformer = userTransformer;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationManager = jwtAuthenticationManager;
         this.doctorHelper = doctorHelper;
         this.volunteerHelper = volunteerHelper;
+        this.userContext = userContext;
     }
 
     @Override
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignInResponse signInViaMobile(SignInViaMobileRequest signInViaMobileRequest) {
+    public SignInResponse signIn(SignInViaMobileRequest signInViaMobileRequest) {
         return signInUserOrThrowException(
                 signInViaMobileRequest.getUserMobileRequest(),
                 signInViaMobileRequest.getPassword(),
@@ -84,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public SignInResponse signInViaMobile(SignInViaEmailRequest signInViaMobileRequest) {
+    public SignInResponse signIn(SignInViaEmailRequest signInViaMobileRequest) {
         return signInUserOrThrowException(
                 signInViaMobileRequest.getUserEmailRequest(),
                 signInViaMobileRequest.getPassword(),
@@ -92,6 +93,17 @@ public class UserServiceImpl implements UserService {
                 userTransformer::convertEmailRequestToModel,
                 userRepository::findUserByEmail
         );
+    }
+
+    @Override
+    public void updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+        Optional<User> optionalUser = userRepository.findById(userContext.getUserId());
+        if (optionalUser.isEmpty()) {
+            throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.USER_NOT_FOUND));
+        }
+        User user = optionalUser.get();
+        user.setPassword(passwordEncoder.encode(updatePasswordRequest.getPassword()));
+        userRepository.save(user);
     }
 
     private <T> SignInResponse signupUserOrThrowException(

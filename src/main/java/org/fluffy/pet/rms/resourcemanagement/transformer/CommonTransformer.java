@@ -1,10 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
@@ -125,28 +121,6 @@ public class CommonTransformer {
                 .build();
     }
 
-    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
-        return new SignInEmailPassword(
-                convertEmailRequestToInput(userEmailRequest),
-                password
-        );
-    }
-
-    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
-        return new SignInMobilePassword(
-                convertMobileRequestToInput(userMobileRequest),
-                password
-        );
-    }
-
-    public MobileInput convertMobileRequestToInput(UserMobileRequest userMobileRequest) {
-        return new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobileNumber());
-    }
-
-    public EmailInput convertEmailRequestToInput(UserEmailRequest userEmailRequest) {
-        return new EmailInput(userEmailRequest.getEmailId());
-    }
-
     public UserEmail convertEmailRequestToModel(UserEmailRequest userEmailRequest) {
         return UserEmail.builder().emailId(userEmailRequest.getEmailId()).build();
     }
@@ -154,13 +128,4 @@ public class CommonTransformer {
     public UserMobile convertMobileRequestToModel(UserMobileRequest userMobileRequest) {
         return UserMobile.builder().mobileNumber(userMobileRequest.getMobileNumber()).countryCode(userMobileRequest.getCountryCode()).build();
     }
-
-    public UserEmail convertEmailInputToModel(EmailInput emailInput) {
-        return UserEmail.builder().emailId(emailInput.emailId()).build();
-    }
-
-    public UserMobile convertMobileInputToModel(MobileInput mobileInput) {
-        return UserMobile.builder().countryCode(mobileInput.countryCode()).mobileNumber(mobileInput.mobileNumber()).build();
-    }
-
 }

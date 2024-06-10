@@ -28,14 +28,6 @@ public class VolunteerController{
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
-    @PostMapping
-    public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> createVolunteer(
-            @RequestBody @Valid VolunteerRequest<T> createVolunteerRequest
-    ) {
-        VolunteerResponse volunteerResponse = volunteerService.createVolunteer(createVolunteerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(volunteerResponse));
-    }
-
     @PutMapping("/{volunteerId}")
     public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
             @PathVariable("volunteerId") String volunteerId,
