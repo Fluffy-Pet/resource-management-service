@@ -44,7 +44,11 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain getSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         List<String> permittedRoutes = List.of(
-                "/health"
+                "/health",
+                "/users/sign-up/mobile",
+                "/users/sign-up/email",
+                "/users/sign-in/mobile",
+                "/users/sign-in/email"
         );
         String[] finalPermittedRoutes = Stream.concat(defaultPermittedRoutes.stream(), permittedRoutes.stream())
                 .toArray(String[]::new);

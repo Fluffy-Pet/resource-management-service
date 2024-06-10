@@ -5,6 +5,7 @@ import manager.authentication.models.JwtPayload;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.user.UserResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
@@ -128,6 +129,20 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public <T> UserResponse<T> getCurrentUser() {
+        Optional<User> optionalUser = userRepository.findById(userContext.getUserId());
+        if (optionalUser.isEmpty()) {
+            throw new RestException(HttpStatus.EXPECTATION_FAILED, ErrorResponse.from(ErrorCode.USER_NOT_FOUND));
+        }
+        Result<T, ErrorCode> userData = getUserData(userContext.getUserType(), userContext.getUserId());
+        if (userData.isFailure()) {
+            throw new RestException(HttpStatus.EXPECTATION_FAILED, ErrorResponse.from(userData.getError()));
+        }
+        T data = userData.getData();
+        return userTransformer.convertModelToResponse(optionalUser.get(), data);
+    }
+
     private <T> SignInResponse signupUserOrThrowException(
             T signupRequest,
             String password,
@@ -192,6 +207,18 @@ public class UserServiceImpl implements UserService {
             case VOLUNTEER -> volunteerHelper.checkUserEntityExists(userId);
             case DOCTOR -> doctorHelper.checkUserEntityExists(userId);
             case CLIENT -> false;
+        };
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Result<T, ErrorCode> getUserData(
+            UserType userType,
+            String userId
+    ) {
+        return switch (userType) {
+            case DOCTOR -> (Result<T, ErrorCode>) doctorHelper.getUserEntityById(userId);
+            case VOLUNTEER -> (Result<T, ErrorCode>) volunteerHelper.getUserEntityById(userId);
+            case CLIENT -> Result.success(null);
         };
     }
 }

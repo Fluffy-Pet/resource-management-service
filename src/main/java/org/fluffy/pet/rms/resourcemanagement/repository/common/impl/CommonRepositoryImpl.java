@@ -49,4 +49,10 @@ public class CommonRepositoryImpl<T, ID> implements CommonRepository<T, ID> {
         Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.ID).in(ids));
         return mongoTemplate.find(query, entityClass);
     }
+
+    @Override
+    public boolean exists(String id) {
+        Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.ID).is(id));
+        return mongoTemplate.exists(query, entityClass);
+    }
 }

@@ -23,4 +23,8 @@ public interface BaseRepository<T, ID> {
     default List<T> findAllByIds(Iterable<ID> ids) {
         return getCommonRepository().findAllByIds(ids);
     }
+
+    default boolean exists(String id) {
+        return getCommonRepository().exists(id);
+    }
 }

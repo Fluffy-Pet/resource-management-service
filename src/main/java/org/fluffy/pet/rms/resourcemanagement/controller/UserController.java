@@ -3,6 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.controller;
 import jakarta.validation.Valid;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.user.UserResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
 import org.fluffy.pet.rms.resourcemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/signup/mobile")
+    @GetMapping
+    public <T> ResponseEntity<ResponseWrapper<UserResponse<T>>> getCurrentUser() {
+        UserResponse<T> userResponse = userService.getCurrentUser();
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(userResponse));
+    }
+
+    @PostMapping("/sign-up/mobile")
     public ResponseEntity<ResponseWrapper<SignInResponse>> signupViaMobile(
             @RequestBody @Valid SignupViaMobileRequest signupViaMobileRequest
     ) {
@@ -28,7 +35,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(signInResponse));
     }
 
-    @PostMapping("/signup/email")
+    @PostMapping("/sign-up/email")
     public ResponseEntity<ResponseWrapper<SignInResponse>> signupViaEmail(
             @RequestBody @Valid SignupViaEmailRequest signupViaEmailRequest
     ) {

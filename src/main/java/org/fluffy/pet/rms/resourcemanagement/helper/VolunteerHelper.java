@@ -1,4 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.helper;
 
-public interface VolunteerHelper extends BaseUserEntityHelper {
+import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
+
+public interface VolunteerHelper extends BaseUserEntityHelper<VolunteerResponse> {
 }

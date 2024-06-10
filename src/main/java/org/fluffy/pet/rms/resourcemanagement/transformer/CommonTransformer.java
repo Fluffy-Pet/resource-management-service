@@ -128,4 +128,12 @@ public class CommonTransformer {
     public Mobile convertMobileRequestToModel(MobileRequest mobileRequest) {
         return Mobile.builder().mobileNumber(mobileRequest.getMobileNumber()).countryCode(mobileRequest.getCountryCode()).build();
     }
+
+    public EmailResponse convertModelToResponse(Email email) {
+        return EmailResponse.builder().emailId(email.getEmailId()).build();
+    }
+
+    public MobileResponse convertModelToResponse(Mobile mobile) {
+        return MobileResponse.builder().countryCode(mobile.getCountryCode()).mobileNumber(mobile.getMobileNumber()).build();
+    }
 }

@@ -7,10 +7,12 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.common.MobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.user.UserResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
+import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Transformer
@@ -58,5 +60,15 @@ public class UserTransformer {
 
     public SignInResponse convertUserToSignInResponse(String jwtToken) {
         return SignInResponse.builder().token(jwtToken).build();
+    }
+
+    public <T> UserResponse<T> convertModelToResponse(User user, T data) {
+        UserResponse<T> userResponse = new UserResponse<>();
+        userResponse.setUserData(data);
+        userResponse.setEmail(ObjectUtils.transformIfNotNull(user.getEmail(), commonTransformer::convertModelToResponse));
+        userResponse.setMobile(ObjectUtils.transformIfNotNull(user.getMobile(), commonTransformer::convertModelToResponse));
+        userResponse.setEmailValid(user.getEmailValid());
+        userResponse.setMobileValid(user.getMobileValid());
+        return userResponse;
     }
 }
