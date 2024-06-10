@@ -22,8 +22,6 @@ public final class MongoConstants {
 
     public static final String MOBILE = "mobile";
 
-    public static final String EMAIL = "email";
-
     public static final String USER_TABLE = "user";
 
     public static final String DOCTOR_TABLE = "doctor_table";
@@ -80,7 +78,7 @@ public final class MongoConstants {
 
     public static final String URL = "url";
 
-    public static final String EMAIL_ID = "emailId";
+    public static final String EMAIL = "email";
 
     public static final String ORGANIZATION_NAME = "organizationName";
 

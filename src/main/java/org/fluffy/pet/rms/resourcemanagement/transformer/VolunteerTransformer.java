@@ -60,13 +60,13 @@ public class VolunteerTransformer {
     public <T> SignupInput convertRequestToSignupInput(VolunteerRequest<T> volunteerRequest) {
         return switch (volunteerRequest.getSignupUserInfo()) {
             case UserEmailRequest userEmailRequest -> new SignupInput(
-                    new EmailInput(userEmailRequest.getEmail()),
+                    new EmailInput(userEmailRequest.getEmailId()),
                     null,
                     volunteerRequest.getPassword()
             );
             case UserMobileRequest userMobileRequest -> new SignupInput(
                     null,
-                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobile()),
+                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobileNumber()),
                     volunteerRequest.getPassword()
             );
             default -> null;

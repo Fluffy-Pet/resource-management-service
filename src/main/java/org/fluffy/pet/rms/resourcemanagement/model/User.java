@@ -14,12 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @SuperBuilder
 @Document(MongoConstants.USER_TABLE)
 public class User extends BaseEntity {
-    
     @Field(MongoConstants.MOBILE)
     private UserMobile mobile;
 
-    @Field(MongoConstants.EMAIL_ID)
-    private UserEmail emailId;
+    @Field(MongoConstants.EMAIL)
+    private UserEmail email;
 
     @Field(MongoConstants.PASSWORD)
     private String password;

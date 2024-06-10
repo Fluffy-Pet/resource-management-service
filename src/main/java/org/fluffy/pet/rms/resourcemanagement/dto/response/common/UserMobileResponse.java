@@ -10,5 +10,5 @@ import lombok.*;
 public class UserMobileResponse {
     private String countryCode;
 
-    private String mobile;
+    private String mobileNumber;
 }

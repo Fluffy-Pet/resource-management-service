@@ -57,7 +57,9 @@ public class UserHelperImpl implements UserHelper {
 
     @Override
     public Result<SignInOutput, ErrorCode> signIn(SignInEmailPassword signInEmailPassword) {
-        Optional<User> userByEmail = userRepository.findUserByEmail(signInEmailPassword.email().emailId());
+        Optional<User> userByEmail = userRepository.findUserByEmail(
+                userTransformer.convertEmailInputToModel(signInEmailPassword.email())
+        );
         if (userByEmail.isEmpty()) {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }
@@ -67,7 +69,9 @@ public class UserHelperImpl implements UserHelper {
 
     @Override
     public Result<SignInOutput, ErrorCode> signIn(SignInMobilePassword signInMobilePassword) {
-        Optional<User> userByMobile = userRepository.findUserByMobile(signInMobilePassword.mobile().toString());
+        Optional<User> userByMobile = userRepository.findUserByMobile(
+                userTransformer.convertMobileInputToModel(signInMobilePassword.mobile())
+        );
         if (userByMobile.isEmpty()) {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }

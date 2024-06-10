@@ -13,5 +13,5 @@ public class UserMobileRequest {
     private String countryCode;
 
     @NotBlank
-    private String mobile;
+    private String mobileNumber;
 }

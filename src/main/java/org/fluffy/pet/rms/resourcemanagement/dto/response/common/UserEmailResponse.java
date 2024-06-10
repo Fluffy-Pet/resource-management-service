@@ -8,5 +8,5 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class UserEmailResponse {
-    private String email;
+    private String emailId;
 }

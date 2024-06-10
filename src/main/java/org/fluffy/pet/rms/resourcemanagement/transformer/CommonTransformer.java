@@ -127,15 +127,40 @@ public class CommonTransformer {
 
     public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
         return new SignInEmailPassword(
-                new EmailInput(userEmailRequest.getEmail()),
+                convertEmailRequestToInput(userEmailRequest),
                 password
         );
     }
 
     public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
         return new SignInMobilePassword(
-                new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
+                convertMobileRequestToInput(userMobileRequest),
                 password
         );
     }
+
+    public MobileInput convertMobileRequestToInput(UserMobileRequest userMobileRequest) {
+        return new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobileNumber());
+    }
+
+    public EmailInput convertEmailRequestToInput(UserEmailRequest userEmailRequest) {
+        return new EmailInput(userEmailRequest.getEmailId());
+    }
+
+    public UserEmail convertEmailRequestToModel(UserEmailRequest userEmailRequest) {
+        return UserEmail.builder().emailId(userEmailRequest.getEmailId()).build();
+    }
+
+    public UserMobile convertMobileRequestToModel(UserMobileRequest userMobileRequest) {
+        return UserMobile.builder().mobileNumber(userMobileRequest.getMobileNumber()).countryCode(userMobileRequest.getCountryCode()).build();
+    }
+
+    public UserEmail convertEmailInputToModel(EmailInput emailInput) {
+        return UserEmail.builder().emailId(emailInput.emailId()).build();
+    }
+
+    public UserMobile convertMobileInputToModel(MobileInput mobileInput) {
+        return UserMobile.builder().countryCode(mobileInput.countryCode()).mobileNumber(mobileInput.mobileNumber()).build();
+    }
+
 }

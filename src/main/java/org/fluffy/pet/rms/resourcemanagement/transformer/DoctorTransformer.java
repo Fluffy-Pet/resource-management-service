@@ -68,13 +68,13 @@ public class DoctorTransformer {
     public <T> SignupInput convertRequestToSignupInput(DoctorRequest<T> doctorRequest) {
         return switch (doctorRequest.getSignupUserInfo()) {
             case UserEmailRequest userEmailRequest -> new SignupInput(
-                    new EmailInput(userEmailRequest.getEmail()),
+                    new EmailInput(userEmailRequest.getEmailId()),
                     null,
                     doctorRequest.getPassword()
             );
             case UserMobileRequest userMobileRequest -> new SignupInput(
                     null,
-                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobile()),
+                    new MobileInput(COUNTRY_CODE, userMobileRequest.getMobileNumber()),
                     doctorRequest.getPassword()
             );
             default -> null;
