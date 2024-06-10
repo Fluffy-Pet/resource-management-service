@@ -115,6 +115,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = optionalUser.get();
         user.setEmail(userTransformer.convertEmailRequestToModel(updateEmailRequest.getEmail()));
+        user.setEmailValid(false);
         userRepository.save(user);
     }
 
@@ -126,6 +127,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = optionalUser.get();
         user.setMobile(userTransformer.convertMobileRequestToModel(updateMobileRequest.getMobile()));
+        user.setMobileValid(false);
         userRepository.save(user);
     }
 
