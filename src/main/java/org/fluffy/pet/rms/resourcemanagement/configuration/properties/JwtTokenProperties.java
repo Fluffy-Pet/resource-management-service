@@ -24,4 +24,7 @@ public class JwtTokenProperties {
 
     @NotBlank
     private String rsaPublicKey;
+
+    @NotBlank
+    private String rsaPrivateKey;
 }
