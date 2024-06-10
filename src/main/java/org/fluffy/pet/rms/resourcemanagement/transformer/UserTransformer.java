@@ -10,15 +10,16 @@ import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserEmail;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserMobile;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Transformer
 public class UserTransformer {
-    public User convertSignupInputToModel(SignupInput signupInput) {
+    public User convertSignupInputToModel(SignupInput signupInput, PasswordEncoder passwordEncoder) {
         return User
                 .builder()
                 .emailId(convertEmailInputToModel(signupInput.email()))
                 .mobile(convertMobileInputToModel(signupInput.mobileInput()))
-                .password(signupInput.password())
+                .password(passwordEncoder.encode(signupInput.password()))
                 .build();
     }
     public UserEmail convertEmailInputToModel(EmailInput emailInput) {

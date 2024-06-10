@@ -18,6 +18,7 @@ import org.fluffy.pet.rms.resourcemanagement.transformer.UserTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -27,18 +28,21 @@ public class UserHelperImpl implements UserHelper {
 
     private final UserTransformer userTransformer;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final JwtAuthenticationManager jwtAuthenticationManager;
 
     @Autowired
-    public UserHelperImpl(UserRepository userRepository, UserTransformer userTransformer, JwtAuthenticationManager jwtAuthenticationManager) {
+    public UserHelperImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager) {
         this.userRepository = userRepository;
         this.userTransformer = userTransformer;
+        this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationManager = jwtAuthenticationManager;
     }
 
     @Override
     public Result<SignupOutput, ErrorCode> signup(SignupInput signupInput) {
-        User user = userTransformer.convertSignupInputToModel(signupInput);
+        User user = userTransformer.convertSignupInputToModel(signupInput, passwordEncoder);
         user.setStatus(Status.ACTIVE);
         try {
             User createdUser = userRepository.save(user);
@@ -84,7 +88,7 @@ public class UserHelperImpl implements UserHelper {
     }
 
     private Result<SignInOutput, ErrorCode> verifyPasswordAndSignInUser(User user, String password) {
-        if (user.getPassword().equals(password)) {
+        if (passwordEncoder.matches(password, user.getPassword())) {
             JwtPayload jwtPayload = userTransformer.convertUserToJwtPayload(user);
             String jwtToken = jwtAuthenticationManager.createJwtToken(jwtPayload);
             SignInOutput signInOutput = userTransformer.convertUserToSigninOutput(user.getId(),jwtToken);

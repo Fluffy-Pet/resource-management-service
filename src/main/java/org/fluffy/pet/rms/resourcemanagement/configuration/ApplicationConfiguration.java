@@ -8,10 +8,15 @@ import manager.authentication.configurations.JwtAuthenticationManagerConfigurati
 import manager.authentication.impl.JwtAuthenticationManager;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.RequestContext;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
+import org.fluffy.pet.rms.resourcemanagement.configuration.properties.BCryptProperties;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.JwtTokenProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.security.SecureRandom;
 
 @Configuration
 @EnableWebMvc
@@ -36,6 +41,11 @@ public class ApplicationConfiguration {
                 authenticationAlgorithm, jwtTokenProperties.getTokenIssuer(), jwtTokenProperties.getTokenValidityDurationMillis()
         );
         return new JwtAuthenticationManager(jwtAuthenticationManagerConfiguration);
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(BCryptProperties bCryptProperties) {
+        return new BCryptPasswordEncoder(bCryptProperties.getStrength(), new SecureRandom());
     }
 
     @Bean
