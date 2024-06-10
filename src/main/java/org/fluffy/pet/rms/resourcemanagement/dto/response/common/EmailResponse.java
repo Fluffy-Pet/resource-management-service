@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.model.common;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.common;
 
 import lombok.*;
 
@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class UserEmail {
+public class EmailResponse {
     private String emailId;
 }

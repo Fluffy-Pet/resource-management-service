@@ -1,7 +1,5 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.user;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.EmailRequest;
 
@@ -10,8 +8,6 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.common.EmailRequest;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
 @Builder
-public final class SignupViaEmailRequest extends BaseUserSignupRequest {
-    @NotNull
-    @Valid
+public class UpdateEmailRequest {
     private EmailRequest email;
 }

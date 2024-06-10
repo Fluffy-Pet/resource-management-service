@@ -99,7 +99,14 @@ public final class MongoConstants {
     public static final String FIRST_NAME = "firstName";
 
     public static final String LAST_NAME = "lastName";
+
     public static final String START_TIME = "startTime";
+
     public static final String END_TIME = "endTime";
+
     public static final String WORKING_DAYS = "workingDays";
+
+    public static final String MOBILE_VALID = "mobileValid";
+
+    public static final String EMAIL_VALID = "emailValid";
 }

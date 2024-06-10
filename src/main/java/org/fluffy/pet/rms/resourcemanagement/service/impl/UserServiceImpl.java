@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SignInResponse signIn(SignInViaMobileRequest signInViaMobileRequest) {
         return signInUserOrThrowException(
-                signInViaMobileRequest.getUserMobileRequest(),
+                signInViaMobileRequest.getMobile(),
                 signInViaMobileRequest.getPassword(),
                 signInViaMobileRequest.getUserType(),
                 userTransformer::convertMobileRequestToModel,
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public SignInResponse signIn(SignInViaEmailRequest signInViaMobileRequest) {
         return signInUserOrThrowException(
-                signInViaMobileRequest.getUserEmailRequest(),
+                signInViaMobileRequest.getEmail(),
                 signInViaMobileRequest.getPassword(),
                 signInViaMobileRequest.getUserType(),
                 userTransformer::convertEmailRequestToModel,
@@ -96,13 +96,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(UpdatePasswordRequest updatePasswordRequest) {
+    public void updateCredentials(UpdatePasswordRequest updatePasswordRequest) {
         Optional<User> optionalUser = userRepository.findById(userContext.getUserId());
         if (optionalUser.isEmpty()) {
             throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.USER_NOT_FOUND));
         }
         User user = optionalUser.get();
         user.setPassword(passwordEncoder.encode(updatePasswordRequest.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateCredentials(UpdateEmailRequest updateEmailRequest) {
+        Optional<User> optionalUser = userRepository.findById(userContext.getUserId());
+        if (optionalUser.isEmpty()) {
+            throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.USER_NOT_FOUND));
+        }
+        User user = optionalUser.get();
+        user.setEmail(userTransformer.convertEmailRequestToModel(updateEmailRequest.getEmail()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateCredentials(UpdateMobileRequest updateMobileRequest) {
+        Optional<User> optionalUser = userRepository.findById(userContext.getUserId());
+        if (optionalUser.isEmpty()) {
+            throw new RestException(HttpStatus.UNAUTHORIZED, ErrorResponse.from(ErrorCode.USER_NOT_FOUND));
+        }
+        User user = optionalUser.get();
+        user.setMobile(userTransformer.convertMobileRequestToModel(updateMobileRequest.getMobile()));
         userRepository.save(user);
     }
 

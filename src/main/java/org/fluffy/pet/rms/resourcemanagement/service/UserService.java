@@ -12,5 +12,9 @@ public interface UserService {
 
     SignInResponse signIn(SignInViaEmailRequest signInViaMobileRequest);
 
-    void updatePassword(UpdatePasswordRequest updatePasswordRequest);
+    void updateCredentials(UpdatePasswordRequest updatePasswordRequest);
+
+    void updateCredentials(UpdateEmailRequest updateEmailRequest);
+
+    void updateCredentials(UpdateMobileRequest updateMobileRequest);
 }

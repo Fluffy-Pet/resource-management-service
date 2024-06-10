@@ -21,7 +21,7 @@ public class VolunteerRequest<T> {
     private T signupUserInfo;
 
     @NotNull
-    private UserMobileRequest mobile;
+    private MobileRequest mobile;
 
     @NotBlank
     private String password;

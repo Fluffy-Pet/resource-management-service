@@ -2,15 +2,15 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import manager.authentication.models.JwtPayload;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserEmailRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.EmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.MobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserEmail;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserMobile;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Transformer
@@ -27,7 +27,9 @@ public class UserTransformer {
     ) {
         return User
                 .builder()
-                .mobile(convertMobileRequestToModel(signupViaMobileRequest.getUserMobileRequest()))
+                .mobile(convertMobileRequestToModel(signupViaMobileRequest.getMobile()))
+                .mobileValid(false)
+                .emailValid(false)
                 .build();
     }
 
@@ -36,16 +38,18 @@ public class UserTransformer {
     ) {
         return User
                 .builder()
-                .email(convertEmailRequestToModel(signupViaEmailRequest.getUserEmailRequest()))
+                .email(convertEmailRequestToModel(signupViaEmailRequest.getEmail()))
+                .mobileValid(false)
+                .emailValid(false)
                 .build();
     }
 
-    public UserEmail convertEmailRequestToModel(UserEmailRequest userEmailRequest) {
-        return commonTransformer.convertEmailRequestToModel(userEmailRequest);
+    public Email convertEmailRequestToModel(EmailRequest emailRequest) {
+        return commonTransformer.convertEmailRequestToModel(emailRequest);
     }
 
-    public UserMobile convertMobileRequestToModel(UserMobileRequest userMobileRequest) {
-        return commonTransformer.convertMobileRequestToModel(userMobileRequest);
+    public Mobile convertMobileRequestToModel(MobileRequest mobileRequest) {
+        return commonTransformer.convertMobileRequestToModel(mobileRequest);
     }
 
     public JwtPayload convertUserToJwtPayload(User user, UserType userType) {

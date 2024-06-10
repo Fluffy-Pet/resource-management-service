@@ -121,11 +121,11 @@ public class CommonTransformer {
                 .build();
     }
 
-    public UserEmail convertEmailRequestToModel(UserEmailRequest userEmailRequest) {
-        return UserEmail.builder().emailId(userEmailRequest.getEmailId()).build();
+    public Email convertEmailRequestToModel(EmailRequest emailRequest) {
+        return Email.builder().emailId(emailRequest.getEmailId()).build();
     }
 
-    public UserMobile convertMobileRequestToModel(UserMobileRequest userMobileRequest) {
-        return UserMobile.builder().mobileNumber(userMobileRequest.getMobileNumber()).countryCode(userMobileRequest.getCountryCode()).build();
+    public Mobile convertMobileRequestToModel(MobileRequest mobileRequest) {
+        return Mobile.builder().mobileNumber(mobileRequest.getMobileNumber()).countryCode(mobileRequest.getCountryCode()).build();
     }
 }

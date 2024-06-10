@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.UserMobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.MobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 
 @Getter
@@ -15,7 +15,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 public class SignInViaMobileRequest {
     @NotNull
     @Valid
-    private UserMobileRequest userMobileRequest;
+    private MobileRequest mobile;
 
     @NotBlank
     private String password;

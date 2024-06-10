@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class UserMobileResponse {
+public class MobileResponse {
     private String countryCode;
 
     private String mobileNumber;

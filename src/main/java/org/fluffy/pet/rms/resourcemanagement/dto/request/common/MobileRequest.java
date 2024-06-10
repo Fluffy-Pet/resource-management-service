@@ -1,5 +1,6 @@
-package org.fluffy.pet.rms.resourcemanagement.model.common;
+package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -7,9 +8,10 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class UserMobile {
+public class MobileRequest {
+    @NotBlank
     private String countryCode;
 
+    @NotBlank
     private String mobileNumber;
-
 }

@@ -3,8 +3,8 @@ package org.fluffy.pet.rms.resourcemanagement.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserEmail;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserMobile;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -15,11 +15,17 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document(MongoConstants.USER_TABLE)
 public class User extends BaseEntity {
     @Field(MongoConstants.MOBILE)
-    private UserMobile mobile;
+    private Mobile mobile;
 
     @Field(MongoConstants.EMAIL)
-    private UserEmail email;
+    private Email email;
 
     @Field(MongoConstants.PASSWORD)
     private String password;
+
+    @Field(MongoConstants.EMAIL_VALID)
+    private Boolean emailValid;
+
+    @Field(MongoConstants.MOBILE_VALID)
+    private Boolean mobileValid;
 }

@@ -52,11 +52,27 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(signInResponse));
     }
 
-    @PutMapping("/update-credentials")
-    public ResponseEntity<ResponseWrapper<Void>> updateCredentials(
+    @PutMapping("/update-password")
+    public ResponseEntity<ResponseWrapper<Void>> updatePassword(
             @RequestBody @Valid UpdatePasswordRequest updatePasswordRequest
     ) {
-        userService.updatePassword(updatePasswordRequest);
+        userService.updateCredentials(updatePasswordRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
+
+    @PutMapping("/update-email")
+    public ResponseEntity<ResponseWrapper<Void>> updateEmail(
+            @RequestBody @Valid UpdateEmailRequest updateEmailRequest
+    ) {
+        userService.updateCredentials(updateEmailRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
+
+    @PutMapping("/update-mobile")
+    public ResponseEntity<ResponseWrapper<Void>> updateMobile(
+            @RequestBody @Valid UpdateMobileRequest updateMobileRequest
+    ) {
+        userService.updateCredentials(updateMobileRequest);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
     }
 }

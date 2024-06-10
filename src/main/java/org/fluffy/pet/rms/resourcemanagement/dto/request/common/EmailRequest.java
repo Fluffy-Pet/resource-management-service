@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
-public class UserEmailRequest {
+public class EmailRequest {
     @NotNull
     @Email
     private String emailId;
