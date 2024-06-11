@@ -12,6 +12,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.AdminHelper;
+import org.fluffy.pet.rms.resourcemanagement.helper.ClientHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.VolunteerHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
@@ -44,10 +45,12 @@ public class UserServiceImpl implements UserService {
 
     private final AdminHelper adminHelper;
 
+    private final ClientHelper clientHelper;
+
     private final UserContext userContext;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper, AdminHelper adminHelper, UserContext userContext) {
+    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper, AdminHelper adminHelper, ClientHelper clientHelper, UserContext userContext) {
         this.userRepository = userRepository;
         this.userTransformer = userTransformer;
         this.passwordEncoder = passwordEncoder;
@@ -55,6 +58,7 @@ public class UserServiceImpl implements UserService {
         this.doctorHelper = doctorHelper;
         this.volunteerHelper = volunteerHelper;
         this.adminHelper = adminHelper;
+        this.clientHelper = clientHelper;
         this.userContext = userContext;
     }
 
@@ -205,7 +209,7 @@ public class UserServiceImpl implements UserService {
             case DOCTOR -> volunteerHelper.createUserEntityForIdOnly(userId);
             case VOLUNTEER -> doctorHelper.createUserEntityForIdOnly(userId);
             case ADMIN -> adminHelper.createUserEntityForIdOnly(userId);
-            case CLIENT -> Result.success(null);
+            case CLIENT -> clientHelper.createUserEntityForIdOnly(userId);
         };
     }
 
@@ -214,7 +218,7 @@ public class UserServiceImpl implements UserService {
             case VOLUNTEER -> volunteerHelper.checkUserEntityExists(userId);
             case DOCTOR -> doctorHelper.checkUserEntityExists(userId);
             case ADMIN -> adminHelper.checkUserEntityExists(userId);
-            case CLIENT -> false;
+            case CLIENT -> clientHelper.checkUserEntityExists(userId);
         };
     }
 
@@ -227,7 +231,7 @@ public class UserServiceImpl implements UserService {
             case DOCTOR -> (Result<T, ErrorCode>) doctorHelper.getUserEntityById(userId);
             case VOLUNTEER -> (Result<T, ErrorCode>) volunteerHelper.getUserEntityById(userId);
             case ADMIN -> (Result<T, ErrorCode>) adminHelper.getUserEntityById(userId);
-            case CLIENT -> Result.success(null);
+            case CLIENT -> (Result<T, ErrorCode>) clientHelper.getUserEntityById(userId);
         };
     }
 }

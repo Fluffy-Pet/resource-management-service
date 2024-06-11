@@ -137,4 +137,6 @@ public final class MongoConstants {
     public static final String USER_ID = "userId";
 
     public static final String ADMIN_TABLE = "admin_table";
+
+    public static final String CLIENT_TABLE = "client_table";
 }

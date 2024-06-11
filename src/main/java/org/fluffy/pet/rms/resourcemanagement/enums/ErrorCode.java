@@ -29,7 +29,8 @@ public enum ErrorCode {
     SHELTER_ALREADY_EXISTS("019","Shelter already exist" ),
     PET_NOT_FOUND("020", "Pet not found"),
     PET_ALREADY_EXISTS("021", "Pet already exists"),
-    ADMIN_NOT_FOUND("022", "Admin not found");
+    ADMIN_NOT_FOUND("022", "Admin not found"),
+    CLIENT_NOT_FOUND("023", "Customer not found");
     private final String code;
 
     private final String message;
