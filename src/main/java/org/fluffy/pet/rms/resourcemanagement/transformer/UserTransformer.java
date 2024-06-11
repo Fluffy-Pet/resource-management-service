@@ -2,43 +2,73 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import manager.authentication.models.JwtPayload;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignupInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignInOutput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.output.SignupOutput;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.EmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.MobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaEmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.user.SignupViaMobileRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.user.SignInResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.user.UserResponse;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserEmail;
-import org.fluffy.pet.rms.resourcemanagement.model.common.UserMobile;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
+import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Transformer
 public class UserTransformer {
-    public User convertSignupInputToModel(SignupInput signupInput) {
+    private final CommonTransformer commonTransformer;
+
+    @Autowired
+    public UserTransformer(CommonTransformer commonTransformer) {
+        this.commonTransformer = commonTransformer;
+    }
+
+    public User convertSignupRequestViaMobileToModel(
+            SignupViaMobileRequest signupViaMobileRequest
+    ) {
         return User
                 .builder()
-                .emailId(convertEmailInputToModel(signupInput.email()))
-                .mobile(convertMobileInputToModel(signupInput.mobileInput()))
-                .password(signupInput.password())
+                .mobile(convertMobileRequestToModel(signupViaMobileRequest.getMobile()))
+                .mobileValid(false)
+                .emailValid(false)
                 .build();
     }
-    public UserEmail convertEmailInputToModel(EmailInput emailInput) {
-        return UserEmail.builder().email(emailInput.emailId()).build();
+
+    public User convertSignupRequestViaEmailToModel(
+            SignupViaEmailRequest signupViaEmailRequest
+    ) {
+        return User
+                .builder()
+                .email(convertEmailRequestToModel(signupViaEmailRequest.getEmail()))
+                .mobileValid(false)
+                .emailValid(false)
+                .build();
     }
 
-    public UserMobile convertMobileInputToModel(MobileInput mobileInput) {
-        return UserMobile.builder().mobileNumber(mobileInput.mobileNumber())
-                .countryCode(mobileInput.countryCode()).build();
+    public Email convertEmailRequestToModel(EmailRequest emailRequest) {
+        return commonTransformer.convertEmailRequestToModel(emailRequest);
     }
 
-    public JwtPayload convertUserToJwtPayload(User user) {
-        return JwtPayload.builder().sub(user.getId()).build();
+    public Mobile convertMobileRequestToModel(MobileRequest mobileRequest) {
+        return commonTransformer.convertMobileRequestToModel(mobileRequest);
     }
 
-    public SignupOutput convertUserToSignupOutput(String id,String token) {
-        return new SignupOutput(id, token);
+    public JwtPayload convertUserToJwtPayload(User user, UserType userType) {
+        return JwtPayload.builder().sub(user.getId()).userType(userType).build();
     }
 
-    public SignInOutput convertUserToSigninOutput(String id,String token) {
-        return new SignInOutput(id,token);
+    public SignInResponse convertUserToSignInResponse(String jwtToken) {
+        return SignInResponse.builder().token(jwtToken).build();
+    }
+
+    public <T> UserResponse<T> convertModelToResponse(User user, T data) {
+        UserResponse<T> userResponse = new UserResponse<>();
+        userResponse.setUserData(data);
+        userResponse.setEmail(ObjectUtils.transformIfNotNull(user.getEmail(), commonTransformer::convertModelToResponse));
+        userResponse.setMobile(ObjectUtils.transformIfNotNull(user.getMobile(), commonTransformer::convertModelToResponse));
+        userResponse.setEmailValid(user.getEmailValid());
+        userResponse.setMobileValid(user.getMobileValid());
+        return userResponse;
     }
 }

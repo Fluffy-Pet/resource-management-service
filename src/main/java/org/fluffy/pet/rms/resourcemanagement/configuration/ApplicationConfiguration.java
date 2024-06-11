@@ -2,17 +2,21 @@ package org.fluffy.pet.rms.resourcemanagement.configuration;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import manager.authentication.JwtAuthenticationManager;
 import manager.authentication.algorithms.AuthenticationAlgorithm;
 import manager.authentication.algorithms.impl.RsaAuthenticationAlgorithm;
 import manager.authentication.configurations.JwtAuthenticationManagerConfiguration;
-import manager.authentication.impl.JwtAuthenticationManagerImpl;
+import manager.authentication.impl.JwtAuthenticationManager;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.RequestContext;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
+import org.fluffy.pet.rms.resourcemanagement.configuration.properties.BCryptProperties;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.JwtTokenProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import java.security.SecureRandom;
 
 @Configuration
 @EnableWebMvc
@@ -30,12 +34,18 @@ public class ApplicationConfiguration {
             JwtTokenProperties jwtTokenProperties
     ) {
         AuthenticationAlgorithm authenticationAlgorithm = new RsaAuthenticationAlgorithm(
-                jwtTokenProperties.getRsaPublicKey()
+                jwtTokenProperties.getRsaPublicKey(),
+                jwtTokenProperties.getRsaPrivateKey()
         );
         JwtAuthenticationManagerConfiguration jwtAuthenticationManagerConfiguration = new JwtAuthenticationManagerConfiguration(
                 authenticationAlgorithm, jwtTokenProperties.getTokenIssuer(), jwtTokenProperties.getTokenValidityDurationMillis()
         );
-        return new JwtAuthenticationManagerImpl(jwtAuthenticationManagerConfiguration);
+        return new JwtAuthenticationManager(jwtAuthenticationManagerConfiguration);
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(BCryptProperties bCryptProperties) {
+        return new BCryptPasswordEncoder(bCryptProperties.getStrength(), new SecureRandom());
     }
 
     @Bean

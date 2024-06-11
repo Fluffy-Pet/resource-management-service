@@ -2,6 +2,8 @@ package org.fluffy.pet.rms.resourcemanagement.repository.impl;
 
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
 import org.fluffy.pet.rms.resourcemanagement.repository.UserRepository;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.CommonRepository;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.impl.CommonRepositoryImpl;
@@ -30,13 +32,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
+    public Optional<User> findUserByEmail(Email email) {
         Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.EMAIL).is(email));
         return Optional.ofNullable(mongoTemplate.findOne(query, User.class));
     }
 
     @Override
-    public Optional<User> findUserByMobile(String mobile) {
+    public Optional<User> findUserByMobile(Mobile mobile) {
         Query query = new Query(Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE).and(MongoConstants.MOBILE).is(mobile));
         return Optional.ofNullable(mongoTemplate.findOne(query, User.class));
     }

@@ -4,11 +4,9 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequ
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 
 public interface VolunteerService {
-    <Q> VolunteerResponse createVolunteer(VolunteerRequest<Q> volunteerRequest);
-
     VolunteerResponse getVolunteer(String id);
 
-    <T>VolunteerResponse updateVolunteer(VolunteerRequest<T> updatevolunteerRequest, String id);
+    VolunteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id);
 
     void deleteVolunteer(String id);
 }

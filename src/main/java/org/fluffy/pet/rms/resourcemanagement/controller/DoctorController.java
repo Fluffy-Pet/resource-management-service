@@ -1,9 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,24 +30,18 @@ public class DoctorController{
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(doctorResponse));
     }
 
-    @PostMapping
-    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> createDoctor(
-            @RequestBody @Valid DoctorRequest<T> createDoctorRequest
-    ) {
-        DoctorResponse doctorResponse = doctorService.createDoctor(createDoctorRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(doctorResponse));
-    }
-
     @PutMapping("/{doctorId}")
-    public <T> ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
+    @CheckAccess(values = {UserType.DOCTOR})
+    public ResponseEntity<ResponseWrapper<DoctorResponse>> updateDoctor(
             @PathVariable("doctorId") String doctorId,
-            @RequestBody @Valid DoctorRequest<T> updateDoctorRequest
+            @RequestBody @Valid DoctorRequest updateDoctorRequest
     ) {
         DoctorResponse doctorResponse = doctorService.updateDoctor(updateDoctorRequest, doctorId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(doctorResponse));
     }
 
     @DeleteMapping("/{doctorId}")
+    @CheckAccess(values = {UserType.DOCTOR})
     public ResponseEntity<ResponseWrapper<Void>> deleteDoctor(
             @PathVariable("doctorId") String doctorId
     ) {

@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class UserEmail {
-    private String email;
+public class Email {
+    private String emailId;
 }

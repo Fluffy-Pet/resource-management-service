@@ -1,9 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.VolunteerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,24 +30,18 @@ public class VolunteerController{
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
-    @PostMapping
-    public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> createVolunteer(
-            @RequestBody @Valid VolunteerRequest<T> createVolunteerRequest
-    ) {
-        VolunteerResponse volunteerResponse = volunteerService.createVolunteer(createVolunteerRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ResponseWrapper.success(volunteerResponse));
-    }
-
     @PutMapping("/{volunteerId}")
-    public <T> ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
+    @CheckAccess(values = {UserType.VOLUNTEER})
+    public ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
             @PathVariable("volunteerId") String volunteerId,
-            @RequestBody @Valid VolunteerRequest<T> updateVolunteerRequest
+            @RequestBody @Valid VolunteerRequest updateVolunteerRequest
     ) {
         VolunteerResponse volunteerResponse = volunteerService.updateVolunteer(updateVolunteerRequest, volunteerId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
     @DeleteMapping("/{volunteerId}")
+    @CheckAccess(values = {UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<Void>> deleteVolunteer(
             @PathVariable("volunteerId") String volunteerId
     ) {

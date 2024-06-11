@@ -1,10 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.EmailInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.MobileInput;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInEmailPassword;
-import org.fluffy.pet.rms.resourcemanagement.dto.internal.input.SignInMobilePassword;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
@@ -140,6 +136,20 @@ public class CommonTransformer {
                 new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
                 password
         );
+    public Email convertEmailRequestToModel(EmailRequest emailRequest) {
+        return Email.builder().emailId(emailRequest.getEmailId()).build();
+    }
+
+    public Mobile convertMobileRequestToModel(MobileRequest mobileRequest) {
+        return Mobile.builder().mobileNumber(mobileRequest.getMobileNumber()).countryCode(mobileRequest.getCountryCode()).build();
+    }
+
+    public EmailResponse convertModelToResponse(Email email) {
+        return EmailResponse.builder().emailId(email.getEmailId()).build();
+    }
+
+    public MobileResponse convertModelToResponse(Mobile mobile) {
+        return MobileResponse.builder().countryCode(mobile.getCountryCode()).mobileNumber(mobile.getMobileNumber()).build();
     }
 
     public ContactInformation convertRequestToModel(ContactInformationRequest contactInformationRequest) {

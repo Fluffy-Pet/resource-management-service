@@ -15,12 +15,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class DoctorRequest<T> {
-    @NotNull
-    private T signupUserInfo;
+public class DoctorRequest {
 
     @NotNull
-    private UserMobileRequest mobile;
+    private MobileRequest mobile;
 
     @NotBlank
     private String password;

@@ -11,4 +11,6 @@ public interface CommonRepository<T, ID> {
     void deleteById(ID id);
 
     List<T> findAllByIds(Iterable<ID> ids);
+
+    boolean exists(String id);
 }
