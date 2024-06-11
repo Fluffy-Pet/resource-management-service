@@ -14,7 +14,7 @@ import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 
 @Transformer
 public class CommonTransformer {
-    public Address convertRequestToModel(AddressRequest addressRequest){
+    public Address convertRequestToModel(AddressRequest addressRequest) {
         return Address
                 .builder()
                 .street(addressRequest.getStreet())
@@ -24,6 +24,7 @@ public class CommonTransformer {
                 .zipCode(addressRequest.getZipCode())
                 .build();
     }
+
     public Service convertRequestToModel(ServiceRequest serviceRequest) {
         return Service
                 .builder()
@@ -33,7 +34,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
+    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours) {
         return OperatingHours
                 .builder()
                 .workingDays(operatingHours.getWorkingDays())
@@ -41,7 +42,8 @@ public class CommonTransformer {
                 .endTime(operatingHours.getEndTime())
                 .build();
     }
-    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest){
+
+    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest) {
         return IdentityDocument
                 .builder()
                 .type(documentRequest.getDocumentType())
@@ -49,7 +51,8 @@ public class CommonTransformer {
                 .url(documentRequest.getDocumentUrl())
                 .build();
     }
-    public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest){
+
+    public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest) {
         return ServedOrganization
                 .builder()
                 .organizationName(servedOrganizationRequest.getOrganizationName())
@@ -59,14 +62,14 @@ public class CommonTransformer {
                 .build();
     }
 
-    public AssociatedClinic convertRequestToModel(AssociatedClinicRequest associatedClinicRequest){
+    public AssociatedClinic convertRequestToModel(AssociatedClinicRequest associatedClinicRequest) {
         return AssociatedClinic
                 .builder()
                 .clinicIds(associatedClinicRequest.getClinicIds())
                 .build();
     }
 
-    public AddressResponse convertModelToResponse(Address address){
+    public AddressResponse convertModelToResponse(Address address) {
         return AddressResponse
                 .builder()
                 .street(address.getStreet())
@@ -77,7 +80,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public OperatingHoursResponse convertModelToResponse(OperatingHours operatingHours){
+    public OperatingHoursResponse convertModelToResponse(OperatingHours operatingHours) {
         return OperatingHoursResponse
                 .builder()
                 .workingDays(operatingHours.getWorkingDays())
@@ -86,7 +89,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public ServiceResponse convertModelToResponse(Service service){
+    public ServiceResponse convertModelToResponse(Service service) {
         return ServiceResponse
                 .builder()
                 .serviceGroup(service.getServiceGroup())
@@ -95,7 +98,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public DocumentResponse convertModelToResponse(IdentityDocument document){
+    public DocumentResponse convertModelToResponse(IdentityDocument document) {
         return DocumentResponse
                 .builder()
                 .documentType(document.getType())
@@ -104,7 +107,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public ClinicResponse convertModelToResponse(Clinic clinic){
+    public ClinicResponse convertModelToResponse(Clinic clinic) {
         return ClinicResponse
                 .builder()
                 .name(clinic.getClinicName())
@@ -115,7 +118,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public ServedOrganizationResponse convertModelToResponse(ServedOrganization servedOrganization){
+    public ServedOrganizationResponse convertModelToResponse(ServedOrganization servedOrganization) {
         return ServedOrganizationResponse
                 .builder()
                 .organizationName(servedOrganization.getOrganizationName())
@@ -125,17 +128,34 @@ public class CommonTransformer {
                 .build();
     }
 
-    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password){
+    public SignInEmailPassword convertRequestToSignInEmailPassword(UserEmailRequest userEmailRequest, String password) {
         return new SignInEmailPassword(
                 new EmailInput(userEmailRequest.getEmail()),
                 password
         );
     }
 
-    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password){
+    public SignInMobilePassword convertRequestToSignInMobilePassword(UserMobileRequest userMobileRequest, String password) {
         return new SignInMobilePassword(
                 new MobileInput(userMobileRequest.getCountryCode(), userMobileRequest.getMobile()),
                 password
         );
     }
+
+    public ContactInformation convertRequestToModel(ContactInformationRequest contactInformationRequest) {
+        return ContactInformation
+                .builder()
+                .emailAddress(contactInformationRequest.getEmailAddress())
+                .phoneNumber(contactInformationRequest.getPhoneNumber())
+                .build();
+    }
+
+    public ContactInformationResponse convertModelToResponse(ContactInformation contactInformation) {
+        return ContactInformationResponse
+                .builder()
+                .emailAddress(contactInformation.getEmailAddress())
+                .phoneNumber(contactInformation.getPhoneNumber())
+                .build();
+    }
+
 }

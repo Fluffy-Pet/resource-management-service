@@ -22,7 +22,8 @@ public enum ErrorCode {
     VOLUNTEER_NOT_FOUND("012","Volunteer not found" ),
     CLINIC_ALREADY_EXISTS("013","Clinic already exist" ),
     CLINIC_NOT_FOUND("014","Clinic not found" ),
-    VOLUNTEER_ALREADY_EXISTS("015","Volunteer already exist" );
+    VOLUNTEER_ALREADY_EXISTS("015","Volunteer already exist" ),
+    SHELTER_HOME_NOT_FOUND("016","Shelter Home not found" );
 
     private final String code;
 
