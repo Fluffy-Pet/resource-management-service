@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.ContactInformationRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.EmailRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.MobileRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 import java.util.List;
@@ -26,7 +27,10 @@ public class ShelterHomeRequest {
     private int capacity;
 
     @NotNull
-    private ContactInformationRequest contactInformation;
+    private MobileRequest mobile;
+
+    @NotNull
+    private EmailRequest email;
 
     @NotNull
     private AddressRequest address;
@@ -37,5 +41,4 @@ public class ShelterHomeRequest {
     @NotNull
     private List<@NotNull PetType> acceptedPetTypes;
 
-    private String adoptionInformation;
 }

@@ -37,7 +37,7 @@ public class ShelterHomeServiceImpl implements ShelterHomeService {
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", shelterHomeRequest.getName()), e
             );
-            throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.CLINIC_ALREADY_EXISTS));
+            throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.SHELTER_ALREADY_EXISTS));
         }
     }
 

@@ -23,8 +23,8 @@ public class ShelterHomeTransformer {
                 .address(ObjectUtils.transformIfNotNull(shelterHome.getAddress(), commonTransformer::convertModelToResponse))
                 .acceptedPetTypes(shelterHome.getAcceptedPetTypes())
                 .capacity(shelterHome.getCapacity())
-                .contactInformation(ObjectUtils.transformIfNotNull(shelterHome.getContactInformation(), commonTransformer::convertModelToResponse))
-                .adoptionInformation(shelterHome.getAdoptionInformation())
+                .email(ObjectUtils.transformIfNotNull(shelterHome.getEmail(), commonTransformer::convertModelToResponse))
+                .mobile(ObjectUtils.transformIfNotNull(shelterHome.getMobile(), commonTransformer::convertModelToResponse))
                 .build();
     }
 
@@ -34,8 +34,8 @@ public class ShelterHomeTransformer {
                 .address(ObjectUtils.transformIfNotNull(shelterHomeRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .acceptedPetTypes(shelterHomeRequest.getAcceptedPetTypes())
                 .capacity(shelterHomeRequest.getCapacity())
-                .contactInformation(ObjectUtils.transformIfNotNull(shelterHomeRequest.getContactInformation(), commonTransformer::convertRequestToModel))
-                .adoptionInformation(shelterHomeRequest.getAdoptionInformation())
+                .email(ObjectUtils.transformIfNotNull(shelterHomeRequest.getEmail(), commonTransformer::convertEmailRequestToModel))
+                .mobile(ObjectUtils.transformIfNotNull(shelterHomeRequest.getMobile(), commonTransformer::convertMobileRequestToModel))
                 .website(shelterHomeRequest.getWebsite())
                 .build();
     }
@@ -45,8 +45,8 @@ public class ShelterHomeTransformer {
         shelterHome.setAddress(ObjectUtils.transformIfNotNull(shelterHomeRequest.getAddress(), commonTransformer::convertRequestToModel));
         shelterHome.setAcceptedPetTypes(shelterHomeRequest.getAcceptedPetTypes());
         shelterHome.setCapacity(shelterHomeRequest.getCapacity());
-        shelterHome.setContactInformation(ObjectUtils.transformIfNotNull(shelterHomeRequest.getContactInformation(), commonTransformer::convertRequestToModel));
-        shelterHome.setAdoptionInformation(shelterHomeRequest.getAdoptionInformation());
+        shelterHome.setEmail(ObjectUtils.transformIfNotNull(shelterHomeRequest.getEmail(), commonTransformer::convertEmailRequestToModel));
+        shelterHome.setMobile(ObjectUtils.transformIfNotNull(shelterHomeRequest.getMobile(), commonTransformer::convertMobileRequestToModel));
         shelterHome.setWebsite(shelterHomeRequest.getWebsite());
     }
 }

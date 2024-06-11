@@ -6,7 +6,8 @@ import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.ContactInformation;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -28,8 +29,11 @@ public class ShelterHome extends BaseEntity {
     @Field(MongoConstants.CAPACITY)
     private int capacity;
 
-    @Field(MongoConstants.CONTACT_INFORMATION)
-    private ContactInformation contactInformation;
+    @Field(MongoConstants.MOBILE)
+    private Mobile mobile;
+
+    @Field(MongoConstants.EMAIL_ID)
+    private Email email;
 
     @Field(MongoConstants.ADDRESS)
     private Address address;
@@ -41,6 +45,4 @@ public class ShelterHome extends BaseEntity {
     @Field(MongoConstants.PETS_ACCEPTED)
     private List<PetType> acceptedPetTypes;
 
-    @Field(MongoConstants.ADOPTION_INFORMATION)
-    private String adoptionInformation;
 }

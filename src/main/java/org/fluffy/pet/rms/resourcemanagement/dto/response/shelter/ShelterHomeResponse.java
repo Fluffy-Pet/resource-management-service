@@ -2,7 +2,8 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.shelter;
 
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ContactInformationResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.EmailResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.MobileResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public class ShelterHomeResponse {
 
     private int capacity;
 
-    private ContactInformationResponse contactInformation;
+    private MobileResponse mobile;
+
+    private EmailResponse email;
 
     private AddressResponse address;
 
@@ -27,5 +30,4 @@ public class ShelterHomeResponse {
 
     private List<PetType> acceptedPetTypes;
 
-    private String adoptionInformation;
 }
