@@ -24,8 +24,8 @@ public enum ErrorCode {
     CLINIC_NOT_FOUND("014","Clinic not found" ),
     VOLUNTEER_ALREADY_EXISTS("015","Volunteer already exist" ),
     INVALID_CREDENTIALS("016", "Invalid Credentials"),
-    INSUFFICIENT_PERMISSION("017", "Insufficient Permission for Action");
-
+    INSUFFICIENT_PERMISSION("017", "Insufficient Permission for Action"),
+    SHELTER_HOME_NOT_FOUND("016","Shelter Home not found" );
     private final String code;
 
     private final String message;

@@ -136,4 +136,20 @@ public class CommonTransformer {
     public MobileResponse convertModelToResponse(Mobile mobile) {
         return MobileResponse.builder().countryCode(mobile.getCountryCode()).mobileNumber(mobile.getMobileNumber()).build();
     }
+
+    public ContactInformation convertRequestToModel(ContactInformationRequest contactInformationRequest) {
+        return ContactInformation
+                .builder()
+                .emailAddress(contactInformationRequest.getEmailAddress())
+                .phoneNumber(contactInformationRequest.getPhoneNumber())
+                .build();
+    }
+
+    public ContactInformationResponse convertModelToResponse(ContactInformation contactInformation) {
+        return ContactInformationResponse
+                .builder()
+                .emailAddress(contactInformation.getEmailAddress())
+                .phoneNumber(contactInformation.getPhoneNumber())
+                .build();
+    }
 }

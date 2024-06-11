@@ -109,4 +109,21 @@ public final class MongoConstants {
     public static final String MOBILE_VALID = "mobileValid";
 
     public static final String EMAIL_VALID = "emailValid";
+
+    public static final String SHELTER_HOME_TABLE = "shelter_home_table";
+
+    public static final String SHELTER_HOME_NAME = "shelterHomeName";
+
+    public static final String CAPACITY = "capacity";
+
+    public static final String SHELTER_HOME_DESCRIPTION = "shelterHomeDescription";
+
+    public static final String SHELTER_HOME_WEBSITE = "shelterHomeWebsite";
+
+    public static final String PETS_ACCEPTED = "petsAccepted";
+
+    public static final String ADOPTION_INFORMATION = "adoptionInformation";
+
+    public static final String CONTACT_INFORMATION = "contactInformation";
+    public static final String EMAIL_ID = "emailId";
 }
