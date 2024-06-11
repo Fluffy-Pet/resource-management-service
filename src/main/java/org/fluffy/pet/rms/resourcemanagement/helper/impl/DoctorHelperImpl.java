@@ -13,6 +13,7 @@ import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.transformer.DoctorTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.Result;
+import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -59,7 +60,7 @@ public class DoctorHelperImpl implements DoctorHelper {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }
         Doctor doctor = optionalDoctor.get();
-        List<Clinic> clinics = clinicHelper.getClinics(doctor.getAssociatedClinics().stream().map(AssociatedClinic::getClinicIds).toList());
+        List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList());
         return Result.success(doctorTransformer.convertModelToResponse(doctor, clinics));
     }
 }

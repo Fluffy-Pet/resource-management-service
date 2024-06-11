@@ -30,13 +30,12 @@ public class VolunteerController{
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 
-    @PutMapping("/{volunteerId}")
+    @PutMapping
     @CheckAccess(values = {UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<VolunteerResponse>> updateVolunteer(
-            @PathVariable("volunteerId") String volunteerId,
             @RequestBody @Valid VolunteerRequest updateVolunteerRequest
     ) {
-        VolunteerResponse volunteerResponse = volunteerService.updateVolunteer(updateVolunteerRequest, volunteerId);
+        VolunteerResponse volunteerResponse = volunteerService.updateCurrentVolunteer(updateVolunteerRequest);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(volunteerResponse));
     }
 

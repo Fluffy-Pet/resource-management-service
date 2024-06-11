@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
@@ -31,11 +32,14 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final ClinicHelper clinicHelper;
 
+    private final UserContext userContext;
+
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper){
+    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper, UserContext userContext){
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
         this.clinicHelper=clinicHelper;
+        this.userContext = userContext;
     }
 
     @Override
@@ -47,8 +51,8 @@ public class DoctorServiceImpl implements DoctorService {
     }
 
     @Override
-    public DoctorResponse updateDoctor(DoctorRequest updateDoctorRequest, String id) {
-        Doctor doctor = doctorRepository.findById(id).orElseThrow(
+    public DoctorResponse updateCurrentDoctor(DoctorRequest updateDoctorRequest) {
+        Doctor doctor = doctorRepository.findById(userContext.getUserId()).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.DOCTOR_NOT_FOUND))
         );
         doctorTransformer.updateDoctor(doctor, updateDoctorRequest);

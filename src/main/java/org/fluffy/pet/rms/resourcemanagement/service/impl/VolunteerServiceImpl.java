@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
@@ -22,10 +23,13 @@ public class VolunteerServiceImpl implements VolunteerService {
 
     private final VolunteerTransformer volunteerTransformer;
 
+    private final UserContext userContext;
+
     @Autowired
-    public VolunteerServiceImpl(VolunteerRepository volunteerRepository, VolunteerTransformer volunteerTransformer) {
+    public VolunteerServiceImpl(VolunteerRepository volunteerRepository, VolunteerTransformer volunteerTransformer, UserContext userContext) {
         this.volunteerRepository = volunteerRepository;
         this.volunteerTransformer = volunteerTransformer;
+        this.userContext = userContext;
     }
 
     @Override
@@ -37,8 +41,8 @@ public class VolunteerServiceImpl implements VolunteerService {
     }
 
     @Override
-    public VolunteerResponse updateVolunteer(VolunteerRequest updatevolunteerRequest, String id) {
-        Volunteer volunteer = volunteerRepository.findById(id).orElseThrow(
+    public VolunteerResponse updateCurrentVolunteer(VolunteerRequest updatevolunteerRequest) {
+        Volunteer volunteer = volunteerRepository.findById(userContext.getUserId()).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.VOLUNTEER_NOT_FOUND))
         );
         volunteerTransformer.updateVolunteer(volunteer, updatevolunteerRequest);

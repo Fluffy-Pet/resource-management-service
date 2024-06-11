@@ -1,11 +1,13 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AssociatedClinicRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.DocumentRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.ServedOrganizationRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 import java.util.List;
@@ -16,13 +18,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class DoctorRequest {
-
-    @NotNull
-    private MobileRequest mobile;
-
-    @NotBlank
-    private String password;
-
     @NullOrNotBlank
     private String firstName;
 
