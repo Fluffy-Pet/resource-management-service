@@ -26,7 +26,9 @@ public enum ErrorCode {
     INVALID_CREDENTIALS("016", "Invalid Credentials"),
     INSUFFICIENT_PERMISSION("017", "Insufficient Permission for Action"),
     SHELTER_HOME_NOT_FOUND("018","Shelter Home not found" ),
-    SHELTER_ALREADY_EXISTS("019","Shelter already exist" );
+    SHELTER_ALREADY_EXISTS("019","Shelter already exist" ),
+    PET_NOT_FOUND("020", "Pet not found"),
+    PET_ALREADY_EXISTS("021", "Pet already exists");
     private final String code;
 
     private final String message;

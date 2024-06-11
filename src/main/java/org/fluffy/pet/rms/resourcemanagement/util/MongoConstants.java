@@ -92,7 +92,7 @@ public final class MongoConstants {
 
     public static final String SERVICE_SUB_GROUP = "serviceSubGroup";
 
-    public static final String PET_CATEGORY = "petCategory";
+    public static final String PET_TYPE = "petType";
 
     public static final String CLINIC_TABLE = "clinic_table";
 
@@ -122,8 +122,17 @@ public final class MongoConstants {
 
     public static final String PETS_ACCEPTED = "petsAccepted";
 
-    public static final String ADOPTION_INFORMATION = "adoptionInformation";
-
-    public static final String CONTACT_INFORMATION = "contactInformation";
     public static final String EMAIL_ID = "emailId";
+
+    public static final String PET_TABLE = "pet_table";
+
+    public static final String NAME = "name";
+
+    public static final String OWNER = "owner";
+
+    public static final String PROFILE_URL = "profileUrl";
+
+    public static final String DATE_OF_BIRTH = "dateOfBirth";
+
+    public static final String USER_ID = "userId";
 }

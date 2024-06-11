@@ -3,7 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.dto.request.common;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
+import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 @Getter
 @Setter
@@ -18,5 +18,5 @@ public class ServiceRequest {
     private String serviceSubGroup;
 
     @NotNull
-    private PetCategory petCategory;
+    private PetType petType;
 }

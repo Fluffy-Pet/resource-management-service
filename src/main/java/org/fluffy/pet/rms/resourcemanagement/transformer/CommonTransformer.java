@@ -25,7 +25,7 @@ public class CommonTransformer {
                 .builder()
                 .serviceGroup(serviceRequest.getServiceGroup())
                 .serviceSubGroup(serviceRequest.getServiceSubGroup())
-                .petCategory(serviceRequest.getPetCategory())
+                .petType(serviceRequest.getPetType())
                 .build();
     }
 
@@ -87,7 +87,7 @@ public class CommonTransformer {
                 .builder()
                 .serviceGroup(service.getServiceGroup())
                 .serviceSubGroup(service.getServiceSubGroup())
-                .petCategory(service.getPetCategory())
+                .petType(service.getPetType())
                 .build();
     }
 

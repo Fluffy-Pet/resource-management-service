@@ -1,7 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.common;
 
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.enums.PetCategory;
+import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
 @Getter
 @Setter
@@ -13,5 +13,5 @@ public class ServiceResponse {
 
     private String serviceSubGroup;
 
-    private PetCategory petCategory;
+    private PetType petType;
 }
