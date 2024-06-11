@@ -135,4 +135,6 @@ public final class MongoConstants {
     public static final String DATE_OF_BIRTH = "dateOfBirth";
 
     public static final String USER_ID = "userId";
+
+    public static final String ADMIN_TABLE = "admin_table";
 }

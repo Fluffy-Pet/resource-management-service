@@ -20,7 +20,6 @@ import java.util.List;
 @SuperBuilder
 @Document(MongoConstants.DOCTOR_TABLE)
 public class Doctor extends BaseEntity {
-
     @Field(MongoConstants.FIRST_NAME)
     private String firstName;
 

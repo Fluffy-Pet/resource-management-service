@@ -28,7 +28,8 @@ public enum ErrorCode {
     SHELTER_HOME_NOT_FOUND("018","Shelter Home not found" ),
     SHELTER_ALREADY_EXISTS("019","Shelter already exist" ),
     PET_NOT_FOUND("020", "Pet not found"),
-    PET_ALREADY_EXISTS("021", "Pet already exists");
+    PET_ALREADY_EXISTS("021", "Pet already exists"),
+    ADMIN_NOT_FOUND("022", "Admin not found");
     private final String code;
 
     private final String message;

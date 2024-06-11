@@ -11,6 +11,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
+import org.fluffy.pet.rms.resourcemanagement.helper.AdminHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.VolunteerHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
@@ -41,16 +42,19 @@ public class UserServiceImpl implements UserService {
 
     private final VolunteerHelper volunteerHelper;
 
+    private final AdminHelper adminHelper;
+
     private final UserContext userContext;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper, UserContext userContext) {
+    public UserServiceImpl(UserRepository userRepository, UserTransformer userTransformer, PasswordEncoder passwordEncoder, JwtAuthenticationManager jwtAuthenticationManager, DoctorHelper doctorHelper, VolunteerHelper volunteerHelper, AdminHelper adminHelper, UserContext userContext) {
         this.userRepository = userRepository;
         this.userTransformer = userTransformer;
         this.passwordEncoder = passwordEncoder;
         this.jwtAuthenticationManager = jwtAuthenticationManager;
         this.doctorHelper = doctorHelper;
         this.volunteerHelper = volunteerHelper;
+        this.adminHelper = adminHelper;
         this.userContext = userContext;
     }
 
@@ -200,6 +204,7 @@ public class UserServiceImpl implements UserService {
         return switch (userType) {
             case DOCTOR -> volunteerHelper.createUserEntityForIdOnly(userId);
             case VOLUNTEER -> doctorHelper.createUserEntityForIdOnly(userId);
+            case ADMIN -> adminHelper.createUserEntityForIdOnly(userId);
             case CLIENT -> Result.success(null);
         };
     }
@@ -208,6 +213,7 @@ public class UserServiceImpl implements UserService {
         return switch (userType) {
             case VOLUNTEER -> volunteerHelper.checkUserEntityExists(userId);
             case DOCTOR -> doctorHelper.checkUserEntityExists(userId);
+            case ADMIN -> adminHelper.checkUserEntityExists(userId);
             case CLIENT -> false;
         };
     }
@@ -220,6 +226,7 @@ public class UserServiceImpl implements UserService {
         return switch (userType) {
             case DOCTOR -> (Result<T, ErrorCode>) doctorHelper.getUserEntityById(userId);
             case VOLUNTEER -> (Result<T, ErrorCode>) volunteerHelper.getUserEntityById(userId);
+            case ADMIN -> (Result<T, ErrorCode>) adminHelper.getUserEntityById(userId);
             case CLIENT -> Result.success(null);
         };
     }
