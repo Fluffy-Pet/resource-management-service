@@ -30,7 +30,9 @@ public enum ErrorCode {
     PET_NOT_FOUND("020", "Pet not found"),
     PET_ALREADY_EXISTS("021", "Pet already exists"),
     ADMIN_NOT_FOUND("022", "Admin not found"),
-    CLIENT_NOT_FOUND("023", "Customer not found");
+    CLIENT_NOT_FOUND("023", "Customer not found"),
+    SERVICE_NOT_FOUND("024", "FluffyPetService not found"),
+    SERVICE_ALREADY_EXISTS("025", "FluffyPetService already exists");
     private final String code;
 
     private final String message;
