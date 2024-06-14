@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.service;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 @Document(MongoConstants.ADMIN_TABLE)
-public class Service extends BaseEntity {
+public class FluffyPetService extends BaseEntity {
     private ServiceType serviceType;
 
     private String description;

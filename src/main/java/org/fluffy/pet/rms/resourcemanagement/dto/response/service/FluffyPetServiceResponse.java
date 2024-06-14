@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.dto.request.service;
+package org.fluffy.pet.rms.resourcemanagement.dto.response.service;
 
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
@@ -10,12 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class ServiceRequest {
+public class FluffyPetServiceResponse {
     private ServiceType serviceType;
 
     private String description;
 
-    private List<ServiceImageRequest> serviceImages;
+    private List<ServiceImageResponse> serviceImages;
 
-    private ServiceProviderRequest provider;
+    private ServiceProviderResponse provider;
 }
