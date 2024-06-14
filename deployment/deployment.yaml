@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: fluffy-pet
-  namespace: default
+  namespace: fluffy-pet
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: fluffy-pet
@@ -22,12 +22,6 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: prod
-        - name: AWS_ACCESS_KEY_ID
-          value: AKIATCKAQMYEYF6OEWN2
-        - name: AWS_SECRET_ACCESS_KEY
-          value: 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
-        - name: MONGO_DB_URL
-          value: mongodb://fluffyPet:fluffyPetRoot@fluffy-pet-211125560841.us-east-1.docdb-elastic.amazonaws.com:27017/resource-management?ssl=true
   strategy:
     type: RollingUpdate
     rollingUpdate:
