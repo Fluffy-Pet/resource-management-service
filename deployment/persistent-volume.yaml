@@ -12,4 +12,3 @@ spec:
   storageClassName: mongo
   awsElasticBlockStore:
     volumeID: vol-07bd912203f5e3c22
-    fsType: ext4
