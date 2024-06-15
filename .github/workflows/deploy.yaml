@@ -44,6 +44,7 @@ jobs:
           REGION="ap-south-1"
           SECURITY_GROUP_ID="${{ secrets.SECURITY_GROUP }}"
           while read -r ip; do
+            echo "IP Address = $ip"
             aws ec2 authorize-security-group-ingress --region $REGION --group-id $SECURITY_GROUP_ID --protocol tcp --port 443 --cidr "$ip/32"
           done < github_ips.txt
 
