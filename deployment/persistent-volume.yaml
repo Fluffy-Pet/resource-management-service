@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongo-final-pv
+  name: mongo-pv
 spec:
   capacity:
     storage: 10Gi
@@ -11,5 +11,5 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: gp2
   awsElasticBlockStore:
-    volumeID: vol-0f250739259379ef5
+    volumeID: vol-07bd912203f5e3c22
     fsType: ext4
