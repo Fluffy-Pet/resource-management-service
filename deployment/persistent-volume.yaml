@@ -9,7 +9,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: gp2
+  storageClassName: mongo
   awsElasticBlockStore:
     volumeID: vol-07bd912203f5e3c22
     fsType: ext4
