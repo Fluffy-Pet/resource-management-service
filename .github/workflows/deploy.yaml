@@ -63,7 +63,7 @@ jobs:
         run: |
           kubectl config view
           kubectl config current-context
-          kubectl cluster-info
+          kubectl cluster-info dump
 
 #      - name: Refresh MongoDB Volume
 #        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
