@@ -34,31 +34,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Get current IP address
-        id: get_ip
-        run: |
-          IP=$(curl -s https://checkip.amazonaws.com)
-          echo "IP_ADDRESS=${IP}" >> $GITHUB_ENV
-
-      - name: Allow Inbound Traffic from GitHub Actions IPs
-        run: |
-          REGION="ap-south-1"
-          SECURITY_GROUP_ID="${{ secrets.SECURITY_GROUP }}"
-          echo "IP Address = ${{ env.IP_ADDRESS }}"
-          aws ec2 authorize-security-group-ingress --region $REGION --group-id $SECURITY_GROUP_ID --protocol tcp --port 443 --cidr "${{ env.IP_ADDRESS }}/32"
-          aws ec2 describe-security-groups --region $REGION --group-id $SECURITY_GROUP_ID
-
-#      - name: Build, tag, and push image to Amazon ECR
-#        env:
-#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REPOSITORY: fluffy_pet_resource_management_system
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-#          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
       - name: Update kube config
-        run: aws eks update-kubeconfig --name fluffy-pet --region ap-south-1
+        run: aws eks update-kubeconfig --name fluffy-pet-cluster --region ap-south-1
 
       - name: Verify kubeconfig
         run: |
@@ -66,33 +43,35 @@ jobs:
           kubectl config current-context
           kubectl cluster-info
 
-#      - name: Refresh MongoDB Volume
-#        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
-#        run: |
-#          kubectl delete pvc mongo-pvc --ignore-not-found
-#          kubectl delete pv mongo-pv --ignore-not-found
-#          kubectl apply -f deployment/persistent-volume.yaml
-#          kubectl apply -f deployment/persistent-volume-claim.yaml
-
-#      - name: Deploy MongoDB
-#        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
-#        run: |
-#          kubectl apply --validate=false -f deployment/mongodb-deployment.yaml
-#          kubectl apply --validate=false -f deployment/mongodb-service.yaml
-
-#      - name: Deploy Application
-#        env:
-#          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#          ECR_REPOSITORY: fluffy_pet_resource_management_system
-#          IMAGE_TAG: ${{ github.sha }}
-#        run: |
-#          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment/deployment.yaml && \
-#          kubectl apply --validate=false -f deployment/deployment.yaml --v=8
-#          kubectl apply --validate=false -f deployment/service.yaml --v=8
-
-      - name: Remove Inbound Traffic from GitHub Actions IP
-        if: always()
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: fluffy_pet_resource_management_system
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          REGION="ap-south-1"
-          SECURITY_GROUP_ID="${{ secrets.SECURITY_GROUP }}"
-          aws ec2 revoke-security-group-ingress --region $REGION --group-id $SECURITY_GROUP_ID --protocol tcp --port 443 --cidr "${{ env.IP_ADDRESS }}/32"
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Refresh MongoDB Volume
+        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
+        run: |
+          kubectl delete pvc mongo-pvc --ignore-not-found
+          kubectl delete pv mongo-pv --ignore-not-found
+          kubectl apply -f deployment/persistent-volume.yaml
+          kubectl apply -f deployment/persistent-volume-claim.yaml
+
+      - name: Deploy MongoDB
+        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
+        run: |
+          kubectl apply --validate=false -f deployment/mongodb-deployment.yaml
+          kubectl apply --validate=false -f deployment/mongodb-service.yaml
+
+      - name: Deploy Application
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: fluffy_pet_resource_management_system
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deployment/deployment.yaml && \
+          kubectl apply --validate=false -f deployment/deployment.yaml --v=8
+          kubectl apply --validate=false -f deployment/service.yaml --v=8
