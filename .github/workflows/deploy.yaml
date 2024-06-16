@@ -63,9 +63,7 @@ jobs:
       - name: Create MongoDB Secret
         run: |
           kubectl delete secret mongo-secret --ignore-not-found
-          kubectl create secret generic mongo-secret \
-            --from-literal=mongo-root-username=${{ secrets.MONGO_ROOT_USERNAME }} \
-            --from-literal=mongo-root-password=${{ secrets.MONGO_ROOT_PASSWORD }}
+          kubectl apply -f deployment/mongo-secrets.yaml
 
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
