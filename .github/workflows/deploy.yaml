@@ -57,7 +57,7 @@ jobs:
         run: |
           kubectl delete pvc mongo-pvc --ignore-not-found
           kubectl apply -f deployment/storage-class.yaml
-          kubectl apply -f deployment/mongo-pvc.yaml
+          kubectl apply -f deployment/mongodb-pvc.yaml
 
       - name: Create MongoDB Secret
         run: |
@@ -69,8 +69,8 @@ jobs:
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
-          kubectl apply --validate=false -f deployment/mongo-deployment.yaml
-          kubectl apply --validate=false -f deployment/mongo-service.yaml
+          kubectl apply --validate=false -f deployment/mongodb-deployment.yaml
+          kubectl apply --validate=false -f deployment/mongodb-service.yaml
 
       - name: Deploy Mongo Express
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
