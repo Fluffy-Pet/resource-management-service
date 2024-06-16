@@ -55,16 +55,28 @@ jobs:
       - name: Refresh MongoDB Volume
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
-          kubectl delete pvc mongo-pvc -n mongo --ignore-not-found
-          kubectl delete pv mongo-pv --ignore-not-found
-          kubectl apply -f deployment/persistent-volume.yaml
-          kubectl apply -f deployment/persistent-volume-claim.yaml
+          kubectl delete pvc mongo-pvc --ignore-not-found
+          kubectl apply -f deployment/storage-class.yaml
+          kubectl apply -f deployment/mongo-pvc.yaml
+
+      - name: Create MongoDB Secret
+        run: |
+          kubectl delete secret mongo-secret --ignore-not-found
+          kubectl create secret generic mongo-secret \
+            --from-literal=mongo-root-username=${{ secrets.MONGO_ROOT_USERNAME }} \
+            --from-literal=mongo-root-password=${{ secrets.MONGO_ROOT_PASSWORD }}
 
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
-          kubectl apply --validate=false -f deployment/mongodb-deployment.yaml
-          kubectl apply --validate=false -f deployment/mongodb-service.yaml
+          kubectl apply --validate=false -f deployment/mongo-deployment.yaml
+          kubectl apply --validate=false -f deployment/mongo-service.yaml
+
+      - name: Deploy Mongo Express
+        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
+        run: |
+          kubectl apply --validate=false -f deployment/mongo-express-deployment.yaml
+          kubectl apply --validate=false -f deployment/mongo-express-service.yaml
 
       - name: Deploy Application
         env:
