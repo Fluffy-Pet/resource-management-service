@@ -55,7 +55,8 @@ jobs:
       - name: Refresh MongoDB Volume
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
-          kubectl delete pvc mongo-pvc --ignore-not-found
+          kubectl delete pvc mongo-pvc -n mongo --ignore-not-found
+          kubectl delete pv $(kubectl get pv -o jsonpath="{.items[?(@.spec.claimRef.name=='mongo-pvc')].metadata.name}") --ignore-not-found
           kubectl delete storageclass ebs-sc --ignore-not-found
           kubectl apply -f deployment/storage-class.yaml
           kubectl apply -f deployment/persistent-volume-claim.yaml
