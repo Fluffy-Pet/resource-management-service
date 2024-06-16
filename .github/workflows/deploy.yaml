@@ -56,7 +56,6 @@ jobs:
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
           kubectl delete pvc mongo-pvc --ignore-not-found
-#          kubectl delete pv $(kubectl get pv -o jsonpath="{.items[?(@.spec.claimRef.name=='mongo-pvc')].metadata.name}") --ignore-not-found
           kubectl delete storageclass ebs-sc --ignore-not-found
           kubectl apply -f deployment/storage-class.yaml
           kubectl apply -f deployment/persistent-volume-claim.yaml
@@ -65,8 +64,6 @@ jobs:
         run: |
           kubectl delete secret mongo-secret --ignore-not-found
           kubectl apply -f deployment/mongo-secrets.yaml
-          kubectl delete secret mongo-app-secret --ignore-not-found
-          kubectl apply -f deployment/mongo-app-secrets.yaml
 
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
