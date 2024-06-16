@@ -65,8 +65,8 @@ jobs:
         run: |
           kubectl delete secret mongo-secret --ignore-not-found
           kubectl delete secret mongo-app-secret --ignore-not-found
-          kubectl apply -f deployment/mongo-secrets.yaml
           kubectl apply -f deployment/mongo-app-secrets.yaml
+          kubectl apply -f deployment/mongo-secrets.yaml
 
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
