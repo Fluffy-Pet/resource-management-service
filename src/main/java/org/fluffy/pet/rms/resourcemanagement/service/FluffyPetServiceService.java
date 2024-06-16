@@ -3,6 +3,8 @@ package org.fluffy.pet.rms.resourcemanagement.service;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.FluffyPetServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.FluffyPetServiceResponse;
 
+import java.util.List;
+
 public interface FluffyPetServiceService {
     FluffyPetServiceResponse getService(String serviceId);
 
@@ -11,4 +13,6 @@ public interface FluffyPetServiceService {
     FluffyPetServiceResponse updateService(FluffyPetServiceRequest fluffyPetServiceRequest, String serviceId);
 
     void deleteService(String serviceId);
+
+    List<FluffyPetServiceResponse> getServiceForProvider(String providerId);
 }
