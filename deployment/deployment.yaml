@@ -25,12 +25,12 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mongo-secret
+              name: mongo-app-secret
               key: mongo-root-username
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mongo-secret
+              name: mongo-app-secret
               key: mongo-root-password
   strategy:
     type: RollingUpdate
