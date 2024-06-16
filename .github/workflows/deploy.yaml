@@ -57,7 +57,7 @@ jobs:
         run: |
           kubectl delete pvc mongo-pvc --ignore-not-found
           kubectl apply -f deployment/storage-class.yaml
-          kubectl apply -f deployment/mongodb-pvc.yaml
+          kubectl apply -f deployment/persistent-volume-claim.yaml
 
       - name: Create MongoDB Secret
         run: |
