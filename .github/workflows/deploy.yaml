@@ -62,11 +62,10 @@ jobs:
           kubectl apply -f deployment/persistent-volume-claim.yaml
 
       - name: Create MongoDB Secret
+        if: ${{ github.event.inputs.refresh_mongo == 'true' }}
         run: |
           kubectl delete secret mongo-secret --ignore-not-found
-          kubectl delete secret mongo-app-secret --ignore-not-found
           kubectl apply -f deployment/mongo-secrets.yaml
-          kubectl apply -f deployment/mongo-app-secrets.yaml
 
       - name: Deploy MongoDB
         if: ${{ github.event.inputs.refresh_mongo == 'true' }}
@@ -79,6 +78,11 @@ jobs:
         run: |
           kubectl apply --validate=false -f deployment/mongo-express-deployment.yaml
           kubectl apply --validate=false -f deployment/mongo-express-service.yaml
+
+      - name: Create Mongo Secret For Application
+        run: |
+          kubectl delete secret mongo-app-secret --ignore-not-found
+          kubectl apply -f deployment/mongo-app-secrets.yaml
 
       - name: Deploy Application
         env:
