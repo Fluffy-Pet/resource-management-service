@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/services")
 @RestController
 public class FluffyPetServiceController {
@@ -24,6 +26,12 @@ public class FluffyPetServiceController {
     public ResponseEntity<ResponseWrapper<FluffyPetServiceResponse>> getService(@PathVariable("serviceId") String serviceId) {
         FluffyPetServiceResponse fluffyPetServiceResponse = fluffyPetServiceService.getService(serviceId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(fluffyPetServiceResponse));
+    }
+
+    @GetMapping("/{providerId}")
+    public ResponseEntity<ResponseWrapper<List<FluffyPetServiceResponse>>> getServiceForProvider(@PathVariable("providerId") String providerId) {
+        List<FluffyPetServiceResponse> fluffyPetServiceResponseList = fluffyPetServiceService.getServiceForProvider(providerId);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(fluffyPetServiceResponseList));
     }
 
     @PostMapping

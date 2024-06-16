@@ -8,6 +8,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -23,5 +24,8 @@ public class FluffyPetService extends BaseEntity {
 
     private List<ServiceImage> serviceImages;
 
+    @Field(MongoConstants.PROVIDER)
     private ServiceProvider provider;
+
+    private List<ServiceCharge> charges;
 }

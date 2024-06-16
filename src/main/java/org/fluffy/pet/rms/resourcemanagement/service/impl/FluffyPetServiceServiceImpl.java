@@ -15,6 +15,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -63,5 +64,11 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
     @Override
     public void deleteService(String serviceId) {
         fluffyPetServiceRepository.deleteById(serviceId);
+    }
+
+    @Override
+    public List<FluffyPetServiceResponse> getServiceForProvider(String providerId) {
+        List<FluffyPetService> fluffyPetServices = fluffyPetServiceRepository.findByProviderId(providerId);
+        return fluffyPetServices.stream().map(fluffyPetServiceTransformer::convertModelToResponse).toList();
     }
 }

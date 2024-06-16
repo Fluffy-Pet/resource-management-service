@@ -2,12 +2,15 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.FluffyPetServiceRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.service.ServiceChargeRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.ServiceImageRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.ServiceProviderRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.FluffyPetServiceResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.service.ServiceChargeResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.ServiceImageResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.ServiceProviderResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.service.FluffyPetService;
+import org.fluffy.pet.rms.resourcemanagement.model.service.ServiceCharge;
 import org.fluffy.pet.rms.resourcemanagement.model.service.ServiceImage;
 import org.fluffy.pet.rms.resourcemanagement.model.service.ServiceProvider;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -21,6 +24,7 @@ public class FluffyPetServiceTransformer {
                 .description(fluffyPetService.getDescription())
                 .serviceImages(StreamUtils.emptyIfNull(fluffyPetService.getServiceImages()).map(this::convertModelToResponse).toList())
                 .provider(convertModelToResponse(fluffyPetService.getProvider()))
+                .charges(StreamUtils.emptyIfNull(fluffyPetService.getCharges()).map(this::convertModelToResponse).toList())
                 .build();
     }
 
@@ -40,6 +44,10 @@ public class FluffyPetServiceTransformer {
                 .build();
     }
 
+    public ServiceChargeResponse convertModelToResponse(ServiceCharge serviceCharge) {
+        return ServiceChargeResponse.builder().chargeType(serviceCharge.getChargeType()).amountInPaise(serviceCharge.getAmountInPaise()).build();
+    }
+
     public FluffyPetService convertRequestToModel(FluffyPetServiceRequest fluffyPetServiceRequest) {
         return FluffyPetService
                 .builder()
@@ -47,6 +55,7 @@ public class FluffyPetServiceTransformer {
                 .description(fluffyPetServiceRequest.getDescription())
                 .serviceImages(StreamUtils.emptyIfNull(fluffyPetServiceRequest.getServiceImages()).map(this::convertRequestToModel).toList())
                 .provider(convertRequestToModel(fluffyPetServiceRequest.getProvider()))
+                .charges(StreamUtils.emptyIfNull(fluffyPetServiceRequest.getCharges()).map(this::convertRequestToModel).toList())
                 .build();
     }
 
@@ -64,6 +73,10 @@ public class FluffyPetServiceTransformer {
                 .providerId(serviceProviderRequest.getProviderId())
                 .providerType(serviceProviderRequest.getProviderType())
                 .build();
+    }
+
+    public ServiceCharge convertRequestToModel(ServiceChargeRequest serviceChargeRequest) {
+        return ServiceCharge.builder().chargeType(serviceChargeRequest.getChargeType()).amountInPaise(serviceChargeRequest.getAmountInPaise()).build();
     }
 
     public void updateFluffyPetService(FluffyPetService fluffyPetService, FluffyPetServiceRequest fluffyPetServiceRequest) {

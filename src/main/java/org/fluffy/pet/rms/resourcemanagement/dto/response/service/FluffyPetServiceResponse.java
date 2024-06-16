@@ -18,4 +18,6 @@ public class FluffyPetServiceResponse {
     private List<ServiceImageResponse> serviceImages;
 
     private ServiceProviderResponse provider;
+
+    private List<ServiceChargeResponse> charges;
 }
