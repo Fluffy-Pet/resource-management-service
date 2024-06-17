@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.staff;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.AvailabilityType;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 @Document(MongoConstants.VOLUNTEER_TABLE)
 public class Volunteer extends BaseEntity {

@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.staff;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @SuperBuilder
 @Document(MongoConstants.ADMIN_TABLE)
 public class Admin extends BaseEntity {

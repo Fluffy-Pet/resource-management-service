@@ -32,7 +32,9 @@ public enum ErrorCode {
     ADMIN_NOT_FOUND("022", "Admin not found"),
     CLIENT_NOT_FOUND("023", "Customer not found"),
     SERVICE_NOT_FOUND("024", "FluffyPetService not found"),
-    SERVICE_ALREADY_EXISTS("025", "FluffyPetService already exists");
+    SERVICE_ALREADY_EXISTS("025", "FluffyPetService already exists"),
+    BOOKING_NOT_FOUND("026", "Booking not found"),
+    BOOKING_ALREADY_EXISTS("027", "Booking already exists");
     private final String code;
 
     private final String message;

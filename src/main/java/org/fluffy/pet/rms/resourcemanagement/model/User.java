@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
@@ -12,6 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 @Document(MongoConstants.USER_TABLE)
 public class User extends BaseEntity {
     @Field(MongoConstants.MOBILE)

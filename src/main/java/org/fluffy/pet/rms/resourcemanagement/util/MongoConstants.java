@@ -143,4 +143,6 @@ public final class MongoConstants {
     public static final String PROVIDER = "provider";
 
     public static final String PROVIDER_ID = "providerId";
+
+    public static final String BOOKING_TABLE = "bookings_table";
 }

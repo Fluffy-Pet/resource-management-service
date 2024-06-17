@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.clinic;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 @Document(MongoConstants.CLINIC_TABLE)
 public class Clinic extends BaseEntity {
     @Field(MongoConstants.CLINIC_NAME)

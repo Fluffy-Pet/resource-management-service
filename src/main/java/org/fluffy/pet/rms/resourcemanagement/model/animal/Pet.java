@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.model.animal;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @SuperBuilder
+@NoArgsConstructor
 @Document(MongoConstants.PET_TABLE)
 public class Pet extends BaseEntity {
     @Field(MongoConstants.NAME)
