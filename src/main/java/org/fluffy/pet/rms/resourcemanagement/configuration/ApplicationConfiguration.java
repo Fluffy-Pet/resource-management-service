@@ -2,6 +2,13 @@ package org.fluffy.pet.rms.resourcemanagement.configuration;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import jakarta.servlet.ServletContext;
 import manager.authentication.algorithms.AuthenticationAlgorithm;
 import manager.authentication.algorithms.impl.RsaAuthenticationAlgorithm;
 import manager.authentication.configurations.JwtAuthenticationManagerConfiguration;
@@ -10,6 +17,7 @@ import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.RequestConte
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.BCryptProperties;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.JwtTokenProperties;
+import org.fluffy.pet.rms.resourcemanagement.util.Constants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.security.SecureRandom;
+import java.util.List;
 
 @Configuration
 @EnableWebMvc
@@ -56,5 +65,25 @@ public class ApplicationConfiguration {
     @Bean
     public UserContext getUserContext() {
         return new UserContext();
+    }
+
+    @Bean
+    public OpenAPI openAPI(ServletContext servletContext) {
+        Server server = new Server().url(servletContext.getContextPath());
+        return new OpenAPI()
+                .servers(List.of(server))
+                .addSecurityItem(new SecurityRequirement().addList(Constants.BEARER_AUTH))
+                .components(
+                        new Components()
+                                .addSecuritySchemes(
+                                        Constants.BEARER_AUTH,
+                                        new SecurityScheme()
+                                                .name(Constants.BEARER_AUTH)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+                )
+                .info(new Info().title("Fluffy Pet").version("1.0").description("API Documentation"));
     }
 }
