@@ -206,8 +206,8 @@ public class UserServiceImpl implements UserService {
 
     private Result<Void, ErrorCode> createEntity(String userId, UserType userType) {
         return switch (userType) {
-            case DOCTOR -> volunteerHelper.createUserEntityForIdOnly(userId);
-            case VOLUNTEER -> doctorHelper.createUserEntityForIdOnly(userId);
+            case DOCTOR -> doctorHelper.createUserEntityForIdOnly(userId);
+            case VOLUNTEER -> volunteerHelper.createUserEntityForIdOnly(userId);
             case ADMIN -> adminHelper.createUserEntityForIdOnly(userId);
             case CLIENT -> clientHelper.createUserEntityForIdOnly(userId);
         };
