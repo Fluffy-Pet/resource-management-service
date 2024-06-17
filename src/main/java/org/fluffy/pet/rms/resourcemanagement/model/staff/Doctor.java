@@ -35,7 +35,7 @@ public class Doctor extends BaseEntity {
     private Double experience;
 
     @Field(MongoConstants.DOCUMENT)
-    private List<IdentityDocument> identityDocuments;
+    private List<IdentityDocument> documents;
 
     @Field(MongoConstants.ASSOCIATED_CLINICS)
     private List<AssociatedClinic> associatedClinics;

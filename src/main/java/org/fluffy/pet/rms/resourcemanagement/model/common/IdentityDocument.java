@@ -17,6 +17,6 @@ public class IdentityDocument {
     @Field(MongoConstants.ID_NUMBER)
     private String idNumber;
 
-    @Field(MongoConstants.URL)
-    private String url;
+    @Field(MongoConstants.DOCUMENT_FILE_NAME)
+    private String documentFileName;
 }

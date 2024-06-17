@@ -2,11 +2,13 @@ package org.fluffy.pet.rms.resourcemanagement.helper.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Helper;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
+import org.fluffy.pet.rms.resourcemanagement.helper.StorageHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
@@ -17,6 +19,7 @@ import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 
+import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +32,14 @@ public class DoctorHelperImpl implements DoctorHelper {
 
     private final ClinicHelper clinicHelper;
 
+    private final StorageHelper storageHelper;
+
     @Autowired
-    public DoctorHelperImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper) {
+    public DoctorHelperImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper, StorageHelper storageHelper) {
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
         this.clinicHelper = clinicHelper;
+        this.storageHelper = storageHelper;
     }
 
     @Override
@@ -61,6 +67,15 @@ public class DoctorHelperImpl implements DoctorHelper {
         }
         Doctor doctor = optionalDoctor.get();
         List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList());
-        return Result.success(doctorTransformer.convertModelToResponse(doctor, clinics));
+        return Result.success(doctorTransformer.convertModelToResponse(doctor, clinics, getDocumentResponses(doctor)));
+    }
+
+    private List<DocumentResponse> getDocumentResponses(Doctor doctor) {
+        return StreamUtils.emptyIfNull(doctor.getDocuments()).map(document -> {
+            URL url = storageHelper.generateSignedUrlForDownload(
+                    doctorTransformer.convertIdentityDocumentToFileUrlInput(document)
+            );
+            return doctorTransformer.convertDocumentToResponse(document, url.toString());
+        }).toList();
     }
 }

@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
-import org.hibernate.validator.constraints.URL;
 
 @Getter
 @Setter
@@ -19,6 +18,5 @@ public class DocumentRequest {
     private DocumentType documentType;
 
     @NotBlank
-    @URL
-    private String documentUrl;
+    private String documentFileName;
 }

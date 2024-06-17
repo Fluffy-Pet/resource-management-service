@@ -6,10 +6,22 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
+import org.fluffy.pet.rms.resourcemanagement.model.s3.GetFileUrlInput;
+import org.fluffy.pet.rms.resourcemanagement.util.CommonUtils;
+import org.fluffy.pet.rms.resourcemanagement.util.Constants;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 
 @Transformer
 public class CommonTransformer {
+    public GetFileUrlInput convertModelToFileUrlInput(String fileName) {
+        return GetFileUrlInput
+                .builder()
+                .duration(CommonUtils.getFileAccessDuration())
+                .bucketName(Constants.BUCKET_NAME)
+                .fileName(fileName)
+                .build();
+    }
+
     public Address convertRequestToModel(AddressRequest addressRequest){
         return Address
                 .builder()
@@ -42,7 +54,7 @@ public class CommonTransformer {
                 .builder()
                 .type(documentRequest.getDocumentType())
                 .idNumber(documentRequest.getIdNumber())
-                .url(documentRequest.getDocumentUrl())
+                .documentFileName(documentRequest.getDocumentFileName())
                 .build();
     }
     public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest){
@@ -96,7 +108,16 @@ public class CommonTransformer {
                 .builder()
                 .documentType(document.getType())
                 .idNumber(document.getIdNumber())
-                .documentUrl(document.getUrl())
+                .documentUrl(document.getDocumentFileName())
+                .build();
+    }
+
+    public DocumentResponse convertModelToResponse(IdentityDocument document, String documentUrl){
+        return DocumentResponse
+                .builder()
+                .documentType(document.getType())
+                .idNumber(document.getIdNumber())
+                .documentUrl(documentUrl)
                 .build();
     }
 

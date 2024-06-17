@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 @Setter
 @NoArgsConstructor
 @Validated
-public class AwsCredentials {
+public class AwsProperties {
     @NotBlank
     private String accessKeyId;
 
@@ -23,4 +23,7 @@ public class AwsCredentials {
 
     @NotBlank
     private String region;
+
+    @NotBlank
+    private String bucketName;
 }

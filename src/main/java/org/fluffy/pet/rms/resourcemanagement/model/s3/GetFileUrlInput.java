@@ -2,10 +2,17 @@ package org.fluffy.pet.rms.resourcemanagement.model.s3;
 
 import lombok.*;
 
+import java.time.Duration;
+
 @Getter
 @Setter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public final class GetFileUrlRequest extends BaseS3Request {
+public final class GetFileUrlInput {
+    private Duration duration;
+
+    private String bucketName;
+
+    private String fileName;
 }
