@@ -13,18 +13,29 @@ import manager.authentication.algorithms.AuthenticationAlgorithm;
 import manager.authentication.algorithms.impl.RsaAuthenticationAlgorithm;
 import manager.authentication.configurations.JwtAuthenticationManagerConfiguration;
 import manager.authentication.impl.JwtAuthenticationManager;
+import manager.file.FileManager;
+import manager.file.configurations.S3Configuration;
+import manager.file.impl.S3FileManager;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.RequestContext;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
+import org.fluffy.pet.rms.resourcemanagement.configuration.properties.AwsProperties;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.BCryptProperties;
 import org.fluffy.pet.rms.resourcemanagement.configuration.properties.JwtTokenProperties;
+import org.fluffy.pet.rms.resourcemanagement.configuration.properties.S3Properties;
 import org.fluffy.pet.rms.resourcemanagement.util.Constants;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
 
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.List;
 
 @Configuration
@@ -85,5 +96,35 @@ public class ApplicationConfiguration {
                                 )
                 )
                 .info(new Info().title("Fluffy Pet").version("1.0").description("API Documentation"));
+    }
+
+    @Bean
+    public S3Presigner getS3Presigner(@Autowired AwsProperties awsProperties) {
+        return S3Presigner.builder()
+                .region(Region.of(awsProperties.getRegion()))
+                .credentialsProvider(
+                        StaticCredentialsProvider.create(
+                                AwsBasicCredentials.create(
+                                        awsProperties.getAccessKeyId(),
+                                        awsProperties.getSecretAccessKey()
+                                )
+                        )
+                )
+                .build();
+    }
+
+    @Bean
+    public FileManager getFileManager(
+            @Autowired S3Presigner s3Presigner,
+            @Autowired S3Properties s3Properties
+    ) {
+        return new S3FileManager(
+                s3Presigner,
+                S3Configuration
+                        .builder()
+                        .bucketName(s3Properties.getBucketName())
+                        .accessDuration(Duration.ofMinutes(s3Properties.getAccessDurationInMinutes()))
+                        .build()
+        );
     }
 }

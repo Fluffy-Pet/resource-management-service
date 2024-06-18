@@ -30,10 +30,9 @@ public class DoctorRequest {
 
     private List<@NotNull @Valid DocumentRequest> documents;
 
-    private List<AssociatedClinicRequest> associatedClinics;
+    private List<@NotNull @Valid AssociatedClinicRequest> associatedClinics;
 
     @Valid
-    @NotNull
     private AddressRequest address;
 
     private List<@NotNull @Valid ServedOrganizationRequest> servedOrganizations;

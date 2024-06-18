@@ -42,7 +42,7 @@ public class CommonTransformer {
                 .builder()
                 .type(documentRequest.getDocumentType())
                 .idNumber(documentRequest.getIdNumber())
-                .url(documentRequest.getDocumentUrl())
+                .documentFileName(documentRequest.getDocumentFileName())
                 .build();
     }
     public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest){
@@ -96,7 +96,16 @@ public class CommonTransformer {
                 .builder()
                 .documentType(document.getType())
                 .idNumber(document.getIdNumber())
-                .documentUrl(document.getUrl())
+                .documentUrl(document.getDocumentFileName())
+                .build();
+    }
+
+    public DocumentResponse convertModelToResponse(IdentityDocument document, String documentUrl){
+        return DocumentResponse
+                .builder()
+                .documentType(document.getType())
+                .idNumber(document.getIdNumber())
+                .documentUrl(documentUrl)
                 .build();
     }
 

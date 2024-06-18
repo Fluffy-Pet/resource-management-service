@@ -76,7 +76,7 @@ public final class MongoConstants {
 
     public static final String ID_NUMBER = "idNumber";
 
-    public static final String URL = "url";
+    public static final String DOCUMENT_FILE_NAME = "documentFileName";
 
     public static final String EMAIL = "email";
 
