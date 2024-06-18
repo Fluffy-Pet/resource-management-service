@@ -23,7 +23,4 @@ public class AwsProperties {
 
     @NotBlank
     private String region;
-
-    @NotBlank
-    private String bucketName;
 }
