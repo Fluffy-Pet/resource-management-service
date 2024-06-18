@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
+import java.util.UUID;
 
 @Service
 public class StorageServiceImpl implements StorageService {
@@ -20,7 +21,8 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public StorageResponse getUploadStorage(ContentType contentType) {
-        URL url = fileManager.uploadFile(contentType);
-        return StorageResponse.builder().storageUrl(url).build();
+        String fileName = UUID.randomUUID().toString();
+        URL url = fileManager.uploadFile(contentType, fileName);
+        return StorageResponse.builder().storageUrl(url).fileName(fileName).build();
     }
 }

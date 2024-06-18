@@ -10,5 +10,7 @@ import java.net.URL;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class StorageResponse {
+    private String fileName;
+
     private URL storageUrl;
 }

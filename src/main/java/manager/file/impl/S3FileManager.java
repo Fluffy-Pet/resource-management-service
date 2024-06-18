@@ -25,10 +25,11 @@ public class S3FileManager implements FileManager {
     }
 
     @Override
-    public URL uploadFile(ContentType contentTpe) {
+    public URL uploadFile(ContentType contentTpe, String filename) {
         PutObjectRequest putObjectRequest = PutObjectRequest.builder()
                 .bucket(s3Configuration.getBucketName())
                 .contentType(S3Utils.getContentType(contentTpe))
+                .key(filename)
                 .build();
 
         PutObjectPresignRequest putObjectPresignRequest = PutObjectPresignRequest.builder()
