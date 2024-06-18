@@ -13,5 +13,4 @@ public final class Constants {
 
     public static final String BEARER_AUTH = "bearerAuth";
 
-    public static final String BUCKET_NAME = "fluffy-pet";
 }
