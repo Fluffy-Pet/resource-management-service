@@ -6,7 +6,6 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentRespons
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.IdentityDocument;
-import org.fluffy.pet.rms.resourcemanagement.model.s3.GetFileUrlInput;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -52,9 +51,5 @@ public class DoctorTransformer {
         doctor.setAssociatedClinics(StreamUtils.emptyIfNull(doctorRequest.getAssociatedClinics()).map(commonTransformer::convertRequestToModel).toList());
         doctor.setAddress(ObjectUtils.transformIfNotNull(doctorRequest.getAddress(), commonTransformer::convertRequestToModel));
         doctor.setServedOrganizations(StreamUtils.emptyIfNull(doctorRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
-    }
-
-    public GetFileUrlInput convertIdentityDocumentToFileUrlInput(IdentityDocument identityDocument) {
-        return commonTransformer.convertModelToFileUrlInput(identityDocument.getDocumentFileName());
     }
 }

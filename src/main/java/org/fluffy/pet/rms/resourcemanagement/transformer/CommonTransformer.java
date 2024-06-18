@@ -6,22 +6,10 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
-import org.fluffy.pet.rms.resourcemanagement.model.s3.GetFileUrlInput;
-import org.fluffy.pet.rms.resourcemanagement.util.CommonUtils;
-import org.fluffy.pet.rms.resourcemanagement.util.Constants;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 
 @Transformer
 public class CommonTransformer {
-    public GetFileUrlInput convertModelToFileUrlInput(String fileName) {
-        return GetFileUrlInput
-                .builder()
-                .duration(CommonUtils.getFileAccessDuration())
-                .bucketName(Constants.BUCKET_NAME)
-                .fileName(fileName)
-                .build();
-    }
-
     public Address convertRequestToModel(AddressRequest addressRequest){
         return Address
                 .builder()

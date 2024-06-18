@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.helper.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import manager.file.FileManager;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Helper;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
@@ -8,7 +9,6 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
-import org.fluffy.pet.rms.resourcemanagement.helper.StorageHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
@@ -32,14 +32,14 @@ public class DoctorHelperImpl implements DoctorHelper {
 
     private final ClinicHelper clinicHelper;
 
-    private final StorageHelper storageHelper;
+    private final FileManager fileManager;
 
     @Autowired
-    public DoctorHelperImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper, StorageHelper storageHelper) {
+    public DoctorHelperImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper, FileManager fileManager) {
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
         this.clinicHelper = clinicHelper;
-        this.storageHelper = storageHelper;
+        this.fileManager = fileManager;
     }
 
     @Override
@@ -72,9 +72,7 @@ public class DoctorHelperImpl implements DoctorHelper {
 
     private List<DocumentResponse> getDocumentResponses(Doctor doctor) {
         return StreamUtils.emptyIfNull(doctor.getDocuments()).map(document -> {
-            URL url = storageHelper.generateSignedUrlForDownload(
-                    doctorTransformer.convertIdentityDocumentToFileUrlInput(document)
-            );
+            URL url = fileManager.getFile(document.getDocumentFileName());
             return doctorTransformer.convertDocumentToResponse(document, url.toString());
         }).toList();
     }

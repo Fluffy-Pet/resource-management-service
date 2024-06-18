@@ -1,4 +1,4 @@
-package org.fluffy.pet.rms.resourcemanagement.model.s3;
+package manager.file.configurations;
 
 import lombok.*;
 
@@ -9,10 +9,8 @@ import java.time.Duration;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public final class GetFileUrlInput {
-    private Duration duration;
-
+public class S3Configuration {
     private String bucketName;
 
-    private String fileName;
+    private Duration accessDuration;
 }

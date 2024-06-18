@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import manager.file.FileManager;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
@@ -9,7 +10,6 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
-import org.fluffy.pet.rms.resourcemanagement.helper.StorageHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
@@ -37,15 +37,21 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final UserContext userContext;
 
-    private final StorageHelper storageHelper;
+    private final FileManager fileManager;
 
     @Autowired
-    public DoctorServiceImpl(DoctorRepository doctorRepository, DoctorTransformer doctorTransformer, ClinicHelper clinicHelper, UserContext userContext, StorageHelper storageHelper){
+    public DoctorServiceImpl(
+            DoctorRepository doctorRepository,
+            DoctorTransformer doctorTransformer,
+            ClinicHelper clinicHelper,
+            FileManager fileManager,
+            UserContext userContext
+    ){
         this.doctorRepository = doctorRepository;
         this.doctorTransformer = doctorTransformer;
         this.clinicHelper=clinicHelper;
         this.userContext = userContext;
-        this.storageHelper = storageHelper;
+        this.fileManager = fileManager;
     }
 
     @Override
@@ -79,9 +85,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private List<DocumentResponse> getDocumentResponses(Doctor doctor) {
         return StreamUtils.emptyIfNull(doctor.getDocuments()).map(document -> {
-            URL url = storageHelper.generateSignedUrlForDownload(
-                    doctorTransformer.convertIdentityDocumentToFileUrlInput(document)
-            );
+            URL url = fileManager.getFile(document.getDocumentFileName());
             return doctorTransformer.convertDocumentToResponse(document, url.toString());
         }).toList();
     }
