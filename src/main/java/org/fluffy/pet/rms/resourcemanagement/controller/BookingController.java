@@ -1,14 +1,19 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
 import org.fluffy.pet.rms.resourcemanagement.service.BookingService;
+import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/bookings")
 @RestController
@@ -49,5 +54,19 @@ public class BookingController {
     ) {
         bookingService.deleteBooking(bookingId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<ResponseWrapper<List<JsonNode>>> filterBookings(
+            @RequestBody @Valid FilterRequest filterRequest
+    ) {
+        PaginationWrapper<List<JsonNode>> filterParentPaginationWrapper = bookingService.filterBookings(filterRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        ResponseWrapper.success(
+                                filterParentPaginationWrapper.data(),
+                                filterParentPaginationWrapper.paginationResponse()
+                        )
+                );
     }
 }

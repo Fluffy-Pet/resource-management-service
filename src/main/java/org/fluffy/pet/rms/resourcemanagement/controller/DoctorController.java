@@ -54,7 +54,7 @@ public class DoctorController{
     }
 
     @PostMapping("/filter")
-    public ResponseEntity<ResponseWrapper<List<JsonNode>>> filterParents(
+    public ResponseEntity<ResponseWrapper<List<JsonNode>>> filterDoctors(
             @RequestBody @Valid FilterRequest filterRequest
     ) {
         PaginationWrapper<List<JsonNode>> filterParentPaginationWrapper = doctorService.filterDoctors(filterRequest);
