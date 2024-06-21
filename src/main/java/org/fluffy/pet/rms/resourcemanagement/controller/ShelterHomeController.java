@@ -1,17 +1,22 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.shelter.ShelterHomeRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.shelter.ShelterHomeResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
 import org.fluffy.pet.rms.resourcemanagement.service.ShelterHomeService;
+import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/shelterhomes")
+@RequestMapping("/shelter-homes")
 public class ShelterHomeController {
     private final ShelterHomeService shelterHomeService;
 
@@ -51,5 +56,19 @@ public class ShelterHomeController {
     ) {
         shelterHomeService.deleteShelterHome(shelterHomeId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<ResponseWrapper<List<JsonNode>>> filterShelterHomes(
+            @RequestBody @Valid FilterRequest filterRequest
+    ) {
+        PaginationWrapper<List<JsonNode>> filterParentPaginationWrapper = shelterHomeService.filterShelterHomes(filterRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        ResponseWrapper.success(
+                                filterParentPaginationWrapper.data(),
+                                filterParentPaginationWrapper.paginationResponse()
+                        )
+                );
     }
 }

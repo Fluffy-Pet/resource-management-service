@@ -1,14 +1,19 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
 import org.fluffy.pet.rms.resourcemanagement.service.ClinicService;
+import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/clinics")
@@ -51,5 +56,19 @@ public class ClinicController {
     ) {
         clinicService.deleteClinic(clinicId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<ResponseWrapper<List<JsonNode>>> filterClinics(
+            @RequestBody @Valid FilterRequest filterRequest
+    ) {
+        PaginationWrapper<List<JsonNode>> filterParentPaginationWrapper = clinicService.filterClinics(filterRequest);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(
+                        ResponseWrapper.success(
+                                filterParentPaginationWrapper.data(),
+                                filterParentPaginationWrapper.paginationResponse()
+                        )
+                );
     }
 }
