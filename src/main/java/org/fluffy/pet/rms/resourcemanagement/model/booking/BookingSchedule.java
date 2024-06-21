@@ -11,7 +11,11 @@ import java.time.LocalTime;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class BookingSchedule {
-    private LocalDate bookingDate;
+    private LocalDate bookingStartDate;
 
-    private LocalTime bookingTime;
+    private LocalTime bookingStartTime;
+
+    private LocalDate bookingEndDate;
+
+    private LocalTime bookingEndTime;
 }

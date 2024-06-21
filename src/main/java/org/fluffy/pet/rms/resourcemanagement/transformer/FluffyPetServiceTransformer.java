@@ -34,7 +34,12 @@ public class FluffyPetServiceTransformer {
     }
 
     public ServiceChargeResponse convertModelToResponse(ServiceCharge serviceCharge) {
-        return ServiceChargeResponse.builder().chargeType(serviceCharge.getChargeType()).amountInPaise(serviceCharge.getAmountInPaise()).build();
+        return ServiceChargeResponse
+                .builder()
+                .chargeType(serviceCharge.getChargeType())
+                .amountInPaise(serviceCharge.getAmountInPaise())
+                .durationType(serviceCharge.getDurationType())
+                .build();
     }
 
     public FluffyPetService convertRequestToModel(FluffyPetServiceRequest fluffyPetServiceRequest) {
@@ -56,7 +61,12 @@ public class FluffyPetServiceTransformer {
     }
 
     public ServiceCharge convertRequestToModel(ServiceChargeRequest serviceChargeRequest) {
-        return ServiceCharge.builder().chargeType(serviceChargeRequest.getChargeType()).amountInPaise(serviceChargeRequest.getAmountInPaise()).build();
+        return ServiceCharge
+                .builder()
+                .chargeType(serviceChargeRequest.getChargeType())
+                .amountInPaise(serviceChargeRequest.getAmountInPaise())
+                .durationType(serviceChargeRequest.getDurationType())
+                .build();
     }
 
     public void updateFluffyPetService(FluffyPetService fluffyPetService, FluffyPetServiceRequest fluffyPetServiceRequest) {

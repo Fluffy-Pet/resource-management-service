@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.response.service;
 
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.enums.DurationType;
 
 @Getter
 @Setter
@@ -11,4 +12,6 @@ public class ServiceChargeResponse {
     private String chargeType;
 
     private Long amountInPaise;
+
+    private DurationType durationType;
 }

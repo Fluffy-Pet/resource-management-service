@@ -10,7 +10,8 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingService
 import org.fluffy.pet.rms.resourcemanagement.model.booking.Booking;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.BookingSchedule;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.BookingService;
-import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
+import org.fluffy.pet.rms.resourcemanagement.model.booking.UserInfo;
+import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 
 @Transformer
 public class BookingTransformer {
@@ -18,7 +19,7 @@ public class BookingTransformer {
         return BookingResponse
                 .builder()
                 .bookingStatus(booking.getBookingStatus())
-                .services(StreamUtils.emptyIfNull(booking.getServices()).map(this::convertModelToResponse).toList())
+                .service(ObjectUtils.transformIfNotNull(booking.getService(), this::convertModelToResponse))
                 .build();
     }
 
@@ -26,6 +27,7 @@ public class BookingTransformer {
         return BookingServiceResponse
                 .builder()
                 .serviceId(bookingService.getServiceId())
+                .quantity(bookingService.getQuantity())
                 .bookingSchedule(convertModelToResponse(bookingService.getBookingSchedule()))
                 .amountInPaise(bookingService.getAmountInPaise())
                 .discountBps(bookingService.getDiscountBps())
@@ -35,8 +37,10 @@ public class BookingTransformer {
     public BookingScheduleResponse convertModelToResponse(BookingSchedule bookingSchedule) {
         return BookingScheduleResponse
                 .builder()
-                .bookingDate(bookingSchedule.getBookingDate())
-                .bookingTime(bookingSchedule.getBookingTime())
+                .bookingStartDate(bookingSchedule.getBookingStartDate())
+                .bookingStartTime(bookingSchedule.getBookingStartTime())
+                .bookingEndDate(bookingSchedule.getBookingEndDate())
+                .bookingEndTime(bookingSchedule.getBookingEndTime())
                 .build();
     }
 
@@ -44,14 +48,19 @@ public class BookingTransformer {
         return Booking
                 .builder()
                 .bookingStatus(bookingRequest.getBookingStatus())
-                .services(StreamUtils.emptyIfNull(bookingRequest.getServices()).map(this::convertRequestToModel).toList())
+                .service(ObjectUtils.transformIfNotNull(bookingRequest.getService(), this::convertRequestToModel))
                 .build();
+    }
+
+    public UserInfo convertRequestToModel(String userId) {
+        return UserInfo.builder().userId(userId).build();
     }
 
     public BookingService convertRequestToModel(BookingServiceRequest bookingServiceRequest) {
         return BookingService
                 .builder()
                 .serviceId(bookingServiceRequest.getServiceId())
+                .quantity(bookingServiceRequest.getQuantity())
                 .bookingSchedule(convertRequestToModel(bookingServiceRequest.getBookingSchedule()))
                 .amountInPaise(bookingServiceRequest.getAmountInPaise())
                 .discountBps(bookingServiceRequest.getDiscountBps())
@@ -61,8 +70,10 @@ public class BookingTransformer {
     public BookingSchedule convertRequestToModel(BookingScheduleRequest bookingScheduleRequest) {
         return BookingSchedule
                 .builder()
-                .bookingDate(bookingScheduleRequest.getBookingDate())
-                .bookingTime(bookingScheduleRequest.getBookingTime())
+                .bookingStartDate(bookingScheduleRequest.getBookingStartDate())
+                .bookingEndDate(bookingScheduleRequest.getBookingEndDate())
+                .bookingStartTime(bookingScheduleRequest.getBookingTime())
+                .bookingEndTime(bookingScheduleRequest.getBookingEndTime())
                 .build();
     }
 

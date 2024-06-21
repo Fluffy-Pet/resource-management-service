@@ -1,9 +1,9 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.booking;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.BookingStatus;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -11,7 +11,10 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class BookingRequest {
+    @NotNull
     private BookingStatus bookingStatus;
 
-    private List<BookingServiceRequest> services;
+    @NotNull
+    @Valid
+    private BookingServiceRequest service;
 }

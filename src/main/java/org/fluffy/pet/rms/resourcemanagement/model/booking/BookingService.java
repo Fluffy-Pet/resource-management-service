@@ -10,6 +10,8 @@ import lombok.*;
 public class BookingService {
     private String serviceId;
 
+    private Integer quantity;
+
     private BookingSchedule bookingSchedule;
 
     private Long amountInPaise;

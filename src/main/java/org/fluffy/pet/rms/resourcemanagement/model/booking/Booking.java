@@ -9,8 +9,6 @@ import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Getter
 @Setter
 @SuperBuilder
@@ -19,5 +17,7 @@ import java.util.List;
 public class Booking extends BaseEntity {
     private BookingStatus bookingStatus;
 
-    private List<BookingService> services;
+    private BookingService service;
+
+    private UserInfo userInfo;
 }

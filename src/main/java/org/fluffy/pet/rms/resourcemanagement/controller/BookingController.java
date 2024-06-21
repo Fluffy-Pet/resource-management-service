@@ -2,10 +2,12 @@ package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.BookingService;
 import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class BookingController {
     }
 
     @PostMapping
+    @CheckAccess(values = {UserType.CLIENT})
     public ResponseEntity<ResponseWrapper<BookingResponse>> createBooking(
             @RequestBody @Valid BookingRequest bookingRequest
     ) {

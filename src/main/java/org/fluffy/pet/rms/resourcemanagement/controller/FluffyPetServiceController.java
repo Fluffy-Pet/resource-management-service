@@ -1,9 +1,11 @@
 package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.FluffyPetServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.FluffyPetServiceResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.FluffyPetServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,7 @@ public class FluffyPetServiceController {
     }
 
     @PostMapping
+    @CheckAccess(values = {UserType.ADMIN, UserType.DOCTOR, UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<FluffyPetServiceResponse>> createService(
             @RequestBody @Valid FluffyPetServiceRequest fluffyPetServiceRequest
     ) {
@@ -43,6 +46,7 @@ public class FluffyPetServiceController {
     }
 
     @PutMapping("/{serviceId}")
+    @CheckAccess(values = {UserType.ADMIN, UserType.DOCTOR, UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<FluffyPetServiceResponse>> updateServices(
             @PathVariable("serviceId") String serviceId,
             @RequestBody @Valid FluffyPetServiceRequest fluffyPetServiceRequest
@@ -52,6 +56,7 @@ public class FluffyPetServiceController {
     }
 
     @DeleteMapping("/{serviceId}")
+    @CheckAccess(values = {UserType.ADMIN, UserType.DOCTOR, UserType.VOLUNTEER})
     public ResponseEntity<ResponseWrapper<Void>> deleteService(@PathVariable("serviceId") String serviceId) {
         fluffyPetServiceService.deleteService(serviceId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));

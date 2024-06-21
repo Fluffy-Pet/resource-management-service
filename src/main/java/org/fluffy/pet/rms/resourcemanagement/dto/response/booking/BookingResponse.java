@@ -3,8 +3,6 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.booking;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.BookingStatus;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,5 +11,5 @@ import java.util.List;
 public class BookingResponse {
     private BookingStatus bookingStatus;
 
-    private List<BookingServiceResponse> services;
+    private BookingServiceResponse service;
 }

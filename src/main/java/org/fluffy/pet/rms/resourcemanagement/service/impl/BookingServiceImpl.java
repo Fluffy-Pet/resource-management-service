@@ -1,6 +1,7 @@
 package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingResponse;
@@ -31,11 +32,14 @@ public class BookingServiceImpl implements BookingService {
 
     private final FilterHelper<BookingResponse> filterHelper;
 
+    private final UserContext userContext;
+
     @Autowired
-    public BookingServiceImpl(BookingRepository bookingRepository, BookingTransformer bookingTransformer, FilterHelper<BookingResponse> filterHelper) {
+    public BookingServiceImpl(BookingRepository bookingRepository, BookingTransformer bookingTransformer, FilterHelper<BookingResponse> filterHelper, UserContext userContext) {
         this.bookingRepository = bookingRepository;
         this.bookingTransformer = bookingTransformer;
         this.filterHelper = filterHelper;
+        this.userContext = userContext;
     }
 
     @Override
@@ -49,6 +53,7 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public BookingResponse createBooking(BookingRequest bookingRequest) {
         Booking booking = bookingTransformer.convertRequestToModel(bookingRequest);
+        booking.setUserInfo(bookingTransformer.convertRequestToModel(userContext.getUserId()));
         booking.setStatus(Status.ACTIVE);
         try {
             Booking createdBooking = bookingRepository.save(booking);
