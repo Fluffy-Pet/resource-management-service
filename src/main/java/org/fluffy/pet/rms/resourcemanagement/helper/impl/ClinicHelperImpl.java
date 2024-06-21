@@ -7,6 +7,7 @@ import org.fluffy.pet.rms.resourcemanagement.repository.ClinicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 
 @Helper
 public class ClinicHelperImpl implements ClinicHelper {
@@ -19,7 +20,7 @@ public class ClinicHelperImpl implements ClinicHelper {
     }
 
     @Override
-    public List<Clinic> getClinics(List<String> clinicIds) {
+    public List<Clinic> getClinics(Set<String> clinicIds) {
         return clinicRepository.findAllByIds(clinicIds);
     }
 }

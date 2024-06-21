@@ -1,6 +1,9 @@
 package org.fluffy.pet.rms.resourcemanagement.repository;
 
+import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterNode;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.SortCriteria;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.CommonRepository;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,5 +29,14 @@ public interface BaseRepository<T, ID> {
 
     default boolean exists(String id) {
         return getCommonRepository().exists(id);
+    }
+
+    default Page<T> filterDocuments(
+            FilterNode filterNode,
+            List<SortCriteria> sortCriteriaList,
+            Integer page,
+            Integer pageSize
+    ) {
+        return getCommonRepository().filterDocuments(filterNode, sortCriteriaList, page, pageSize);
     }
 }

@@ -22,6 +22,7 @@ import org.springframework.dao.DuplicateKeyException;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Helper
 @Slf4j
@@ -66,7 +67,7 @@ public class DoctorHelperImpl implements DoctorHelper {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }
         Doctor doctor = optionalDoctor.get();
-        List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList());
+        List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).collect(Collectors.toSet()));
         return Result.success(doctorTransformer.convertModelToResponse(doctor, clinics, getDocumentResponses(doctor)));
     }
 

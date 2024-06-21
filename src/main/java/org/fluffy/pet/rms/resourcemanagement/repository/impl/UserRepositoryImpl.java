@@ -1,5 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.repository.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.model.User;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
@@ -19,14 +20,18 @@ import java.util.Optional;
 public class UserRepositoryImpl implements UserRepository {
     private final MongoTemplate mongoTemplate;
 
-    public UserRepositoryImpl(MongoTemplate mongoTemplate) {
+    private final ObjectMapper objectMapper;
+
+    public UserRepositoryImpl(MongoTemplate mongoTemplate, ObjectMapper objectMapper) {
         this.mongoTemplate = mongoTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public CommonRepository<User, String> getCommonRepository() {
         return new CommonRepositoryImpl<>(
                 mongoTemplate,
+                objectMapper,
                 User.class
         );
     }

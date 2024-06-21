@@ -8,13 +8,12 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrappe
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
-import java.time.Duration;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CommonUtils {
-    public static Duration getFileAccessDuration() {
-        return Duration.ofMinutes(5);
-    }
+    public static final Integer PAGE = 0;
+
+    public static final Integer PAGE_SIZE = 10;
 
     public static <T> void writeResponse(
             HttpServletResponse response,

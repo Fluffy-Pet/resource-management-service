@@ -1,5 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.repository.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.Booking;
 import org.fluffy.pet.rms.resourcemanagement.repository.BookingRepository;
 import org.fluffy.pet.rms.resourcemanagement.repository.common.CommonRepository;
@@ -12,15 +13,18 @@ import org.springframework.stereotype.Repository;
 public class BookingRepositoryImpl implements BookingRepository {
     private final MongoTemplate mongoTemplate;
 
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    public BookingRepositoryImpl(MongoTemplate mongoTemplate) {
+    public BookingRepositoryImpl(MongoTemplate mongoTemplate, ObjectMapper objectMapper) {
         this.mongoTemplate = mongoTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public CommonRepository<Booking, String> getCommonRepository() {
         return new CommonRepositoryImpl<>(
-                mongoTemplate, Booking.class
+                mongoTemplate, objectMapper, Booking.class
         );
     }
 }

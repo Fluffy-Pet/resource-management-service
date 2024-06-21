@@ -145,4 +145,32 @@ public final class MongoConstants {
     public static final String PROVIDER_ID = "providerId";
 
     public static final String BOOKING_TABLE = "bookings_table";
+
+    public static final String OPR_GTE = "$gte";
+
+    public static final String OPR_LTE = "$lte";
+
+    public static final String OPR_EQ = "$eq";
+
+    public static final String OPR_NE = "$ne";
+
+    public static final String OPR_AND = "$and";
+
+    public static final String OPR_OR = "$or";
+
+    public static final String OPR_GT = "$gt";
+
+    public static final String OPR_LT = "$lt";
+
+    public static final String OPR_IN = "$in";
+
+    public static final String OPR_NIN = "$nin";
+
+    public static final String OPR_REGEX = "$regex";
+
+    public static final String SEARCH_PATTERN = ".*%s.*";
+
+    public static final String CASE_INSENSITIVE_MATCHING_OPTION = "i";
+
+    public static final String OPTIONS = "$options";
 }

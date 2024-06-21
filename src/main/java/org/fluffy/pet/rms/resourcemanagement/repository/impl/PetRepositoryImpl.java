@@ -1,5 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.repository.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.repository.PetRepository;
@@ -18,15 +19,19 @@ import java.util.List;
 public class PetRepositoryImpl implements PetRepository {
     private final MongoTemplate mongoTemplate;
 
+    private final ObjectMapper objectMapper;
+
     @Autowired
-    public PetRepositoryImpl(MongoTemplate mongoTemplate) {
+    public PetRepositoryImpl(MongoTemplate mongoTemplate, ObjectMapper objectMapper) {
         this.mongoTemplate = mongoTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public CommonRepository<Pet, String> getCommonRepository() {
         return new CommonRepositoryImpl<>(
                 mongoTemplate,
+                objectMapper,
                 Pet.class
         );
     }
