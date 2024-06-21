@@ -1,6 +1,8 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.doctor;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
@@ -24,8 +26,13 @@ public class DoctorRequest {
     @NullOrNotBlank
     private String lastName;
 
+    @NullOrNotBlank
+    private String profileImageFileName;
+
     private List<@NotNull PetType> specialization;
 
+    @Min(0)
+    @Max(50)
     private Double experience;
 
     private List<@NotNull @Valid DocumentRequest> documents;

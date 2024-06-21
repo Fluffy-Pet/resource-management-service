@@ -14,4 +14,11 @@ public final class StreamUtils {
         }
         return collection.stream();
     }
+
+    public static <T> Stream<T> emptyIfNull(Collection<T> collection, boolean parallel) {
+        if (collection == null) {
+            return Stream.empty();
+        }
+        return parallel ? collection.parallelStream() : collection.stream();
+    }
 }

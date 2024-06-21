@@ -27,8 +27,8 @@ public class Pet extends BaseEntity {
     @Field(MongoConstants.DATE_OF_BIRTH)
     private LocalDate dateOfBirth;
 
-    @Field(MongoConstants.PROFILE_URL)
-    private String profileUrl;
+    @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
+    private String profileImageFileName;
 
     @Field(MongoConstants.OWNER)
     private Owner owner;

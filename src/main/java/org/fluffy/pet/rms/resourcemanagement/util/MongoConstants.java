@@ -130,7 +130,7 @@ public final class MongoConstants {
 
     public static final String OWNER = "owner";
 
-    public static final String PROFILE_URL = "profileUrl";
+    public static final String PROFILE_IMAGE_FILE_NAME = "profileImageFileName";
 
     public static final String DATE_OF_BIRTH = "dateOfBirth";
 

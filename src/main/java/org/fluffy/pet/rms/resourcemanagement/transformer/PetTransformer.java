@@ -13,7 +13,7 @@ public class PetTransformer {
                 .builder()
                 .name(pet.getName())
                 .petType(pet.getPetType())
-                .profileUrl(pet.getProfileUrl())
+                .profileUrl(pet.getProfileImageFileName())
                 .dateOfBirth(pet.getDateOfBirth())
                 .build();
     }
@@ -23,7 +23,7 @@ public class PetTransformer {
                 .builder()
                 .name(petRequest.getName())
                 .petType(petRequest.getPetType())
-                .profileUrl(petRequest.getProfileUrl())
+                .profileImageFileName(petRequest.getProfileUrl())
                 .dateOfBirth(petRequest.getDateOfBirth())
                 .owner(convertUserIdToOwner(userId))
                 .build();
@@ -36,7 +36,7 @@ public class PetTransformer {
     public void updatePet(Pet pet, PetRequest petRequest) {
         pet.setName(petRequest.getName());
         pet.setPetType(petRequest.getPetType());
-        pet.setProfileUrl(petRequest.getProfileUrl());
+        pet.setProfileImageFileName(petRequest.getProfileUrl());
         pet.setDateOfBirth(petRequest.getDateOfBirth());
     }
 }

@@ -2,11 +2,9 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import manager.file.FileManager;
 import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
@@ -27,8 +25,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -46,15 +44,12 @@ public class DoctorServiceImpl implements DoctorService {
 
     private final UserContext userContext;
 
-    private final FileManager fileManager;
-
     @Autowired
     public DoctorServiceImpl(
             DoctorRepository doctorRepository,
             DoctorTransformer doctorTransformer,
             ClinicHelper clinicHelper,
             FilterHelper<DoctorResponse> filterHelper,
-            FileManager fileManager,
             UserContext userContext
     ){
         this.doctorRepository = doctorRepository;
@@ -62,7 +57,6 @@ public class DoctorServiceImpl implements DoctorService {
         this.clinicHelper=clinicHelper;
         this.filterHelper = filterHelper;
         this.userContext = userContext;
-        this.fileManager = fileManager;
     }
 
     @Override
@@ -70,8 +64,7 @@ public class DoctorServiceImpl implements DoctorService {
         Doctor doctor = doctorRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.DOCTOR_NOT_FOUND))
         );
-        List<DocumentResponse> documentResponses = getDocumentResponses(doctor);
-        return doctorTransformer.convertModelToResponse(doctor, getClinicsForDoctor(doctor), documentResponses);
+        return doctorTransformer.convertModelToResponse(doctor, getClinicsForDoctor(doctor));
     }
 
     @Override
@@ -81,8 +74,7 @@ public class DoctorServiceImpl implements DoctorService {
         );
         doctorTransformer.updateDoctor(doctor, updateDoctorRequest);
         Doctor updatedDoctor = doctorRepository.save(doctor);
-        List<DocumentResponse> documentResponses = getDocumentResponses(updatedDoctor);
-        return doctorTransformer.convertModelToResponse(updatedDoctor, getClinicsForDoctor(doctor), documentResponses);
+        return doctorTransformer.convertModelToResponse(updatedDoctor, getClinicsForDoctor(doctor));
     }
 
     @Override
@@ -111,23 +103,16 @@ public class DoctorServiceImpl implements DoctorService {
                 filterRequest.getPage(),
                 filterRequest.getPageSize()
         );
-        List<Clinic> clinics = clinicHelper.getClinics(
-                doctors.stream().flatMap(doctor -> doctor.getAssociatedClinics().stream().map(AssociatedClinic::getClinicIds)).collect(Collectors.toSet())
-        );
+        Set<String> clinicIdSet = doctors.flatMap(doctor -> doctor.getAssociatedClinics().stream().map(AssociatedClinic::getClinicIds)).toSet();
+        List<Clinic> clinics = clinicHelper.getClinics(clinicIdSet);
         return doctors.map(doctor -> {
-            List<DocumentResponse> documentResponses = getDocumentResponses(doctor);
-            return doctorTransformer.convertModelToResponse(doctor, clinics, documentResponses);
+            List<String> clinicList = StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList();
+            List<Clinic> doctorClinics = clinics.stream().filter(clinic -> clinicList.contains(clinic.getId())).toList();
+            return doctorTransformer.convertModelToResponse(doctor, doctorClinics);
         });
     }
 
     private List<Clinic> getClinicsForDoctor(Doctor doctor){
         return clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).collect(Collectors.toSet()));
-    }
-
-    private List<DocumentResponse> getDocumentResponses(Doctor doctor) {
-        return StreamUtils.emptyIfNull(doctor.getDocuments()).map(document -> {
-            URL url = fileManager.getFile(document.getDocumentFileName());
-            return doctorTransformer.convertDocumentToResponse(document, url.toString());
-        }).toList();
     }
 }

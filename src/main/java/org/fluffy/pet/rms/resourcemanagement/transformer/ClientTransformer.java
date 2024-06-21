@@ -12,13 +12,13 @@ public class ClientTransformer {
                 .builder()
                 .firstName(client.getFirstName())
                 .lastName(client.getLastName())
-                .profileUrl(client.getProfileUrl())
+                .profileUrl(client.getProfileImageFileName())
                 .build();
     }
 
     public void updateClient(Client client, ClientRequest clientRequest) {
         client.setFirstName(clientRequest.getFirstName());
         client.setLastName(clientRequest.getLastName());
-        client.setProfileUrl(clientRequest.getProfileUrl());
+        client.setProfileImageFileName(clientRequest.getProfileUrl());
     }
 }

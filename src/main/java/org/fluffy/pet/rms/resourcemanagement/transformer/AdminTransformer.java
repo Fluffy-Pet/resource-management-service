@@ -12,13 +12,13 @@ public class AdminTransformer {
                 .builder()
                 .firstName(admin.getFirstName())
                 .lastName(admin.getLastName())
-                .profileUrl(admin.getProfileUrl())
+                .profileUrl(admin.getProfileImageFileName())
                 .build();
     }
 
     public void updateAdmin(Admin admin, AdminRequest adminRequest) {
         admin.setFirstName(adminRequest.getFirstName());
         admin.setLastName(adminRequest.getLastName());
-        admin.setProfileUrl(adminRequest.getProfileUrl());
+        admin.setProfileImageFileName(adminRequest.getProfileUrl());
     }
 }

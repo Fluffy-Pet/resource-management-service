@@ -18,6 +18,8 @@ public class DoctorResponse {
 
     private String lastName;
 
+    private String profileImageUrl;
+
     private List<PetType> specialization;
 
     private Double experience;

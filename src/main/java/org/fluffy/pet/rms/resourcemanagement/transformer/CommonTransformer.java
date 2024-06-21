@@ -1,5 +1,6 @@
 package org.fluffy.pet.rms.resourcemanagement.transformer;
 
+import manager.file.FileManager;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
@@ -7,10 +8,24 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.net.URL;
 
 @Transformer
 public class CommonTransformer {
-    public Address convertRequestToModel(AddressRequest addressRequest){
+    private final FileManager fileManager;
+
+    @Autowired
+    public CommonTransformer(FileManager fileManager) {
+        this.fileManager = fileManager;
+    }
+
+    public URL convertFileNameToUrl(String fileName) {
+        return fileManager.getFile(fileName);
+    }
+
+    public Address convertRequestToModel(AddressRequest addressRequest) {
         return Address
                 .builder()
                 .street(addressRequest.getStreet())
@@ -20,6 +35,7 @@ public class CommonTransformer {
                 .zipCode(addressRequest.getZipCode())
                 .build();
     }
+
     public Service convertRequestToModel(ServiceRequest serviceRequest) {
         return Service
                 .builder()
@@ -29,7 +45,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours){
+    public OperatingHours convertRequestToModel(OperatingHoursRequest operatingHours) {
         return OperatingHours
                 .builder()
                 .workingDays(operatingHours.getWorkingDays())
@@ -37,7 +53,8 @@ public class CommonTransformer {
                 .endTime(operatingHours.getEndTime())
                 .build();
     }
-    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest){
+
+    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest) {
         return IdentityDocument
                 .builder()
                 .type(documentRequest.getDocumentType())
@@ -45,7 +62,8 @@ public class CommonTransformer {
                 .documentFileName(documentRequest.getDocumentFileName())
                 .build();
     }
-    public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest){
+
+    public ServedOrganization convertRequestToModel(ServedOrganizationRequest servedOrganizationRequest) {
         return ServedOrganization
                 .builder()
                 .organizationName(servedOrganizationRequest.getOrganizationName())
@@ -55,14 +73,14 @@ public class CommonTransformer {
                 .build();
     }
 
-    public AssociatedClinic convertRequestToModel(AssociatedClinicRequest associatedClinicRequest){
+    public AssociatedClinic convertRequestToModel(AssociatedClinicRequest associatedClinicRequest) {
         return AssociatedClinic
                 .builder()
                 .clinicIds(associatedClinicRequest.getClinicIds())
                 .build();
     }
 
-    public AddressResponse convertModelToResponse(Address address){
+    public AddressResponse convertModelToResponse(Address address) {
         return AddressResponse
                 .builder()
                 .street(address.getStreet())
@@ -73,7 +91,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public OperatingHoursResponse convertModelToResponse(OperatingHours operatingHours){
+    public OperatingHoursResponse convertModelToResponse(OperatingHours operatingHours) {
         return OperatingHoursResponse
                 .builder()
                 .workingDays(operatingHours.getWorkingDays())
@@ -82,7 +100,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public ServiceResponse convertModelToResponse(Service service){
+    public ServiceResponse convertModelToResponse(Service service) {
         return ServiceResponse
                 .builder()
                 .serviceGroup(service.getServiceGroup())
@@ -91,25 +109,16 @@ public class CommonTransformer {
                 .build();
     }
 
-    public DocumentResponse convertModelToResponse(IdentityDocument document){
+    public DocumentResponse convertModelToResponse(IdentityDocument document) {
         return DocumentResponse
                 .builder()
                 .documentType(document.getType())
                 .idNumber(document.getIdNumber())
-                .documentUrl(document.getDocumentFileName())
+                .documentUrl(convertFileNameToUrl(document.getDocumentFileName()).toString())
                 .build();
     }
 
-    public DocumentResponse convertModelToResponse(IdentityDocument document, String documentUrl){
-        return DocumentResponse
-                .builder()
-                .documentType(document.getType())
-                .idNumber(document.getIdNumber())
-                .documentUrl(documentUrl)
-                .build();
-    }
-
-    public ClinicResponse convertModelToResponse(Clinic clinic){
+    public ClinicResponse convertModelToResponse(Clinic clinic) {
         return ClinicResponse
                 .builder()
                 .name(clinic.getClinicName())
@@ -120,7 +129,7 @@ public class CommonTransformer {
                 .build();
     }
 
-    public ServedOrganizationResponse convertModelToResponse(ServedOrganization servedOrganization){
+    public ServedOrganizationResponse convertModelToResponse(ServedOrganization servedOrganization) {
         return ServedOrganizationResponse
                 .builder()
                 .organizationName(servedOrganization.getOrganizationName())

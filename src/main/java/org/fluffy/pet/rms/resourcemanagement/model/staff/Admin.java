@@ -21,6 +21,6 @@ public class Admin extends BaseEntity {
     @Field(MongoConstants.LAST_NAME)
     private String lastName;
 
-    @Field(MongoConstants.PROFILE_URL)
-    private String profileUrl;
+    @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
+    private String profileImageFileName;
 }
