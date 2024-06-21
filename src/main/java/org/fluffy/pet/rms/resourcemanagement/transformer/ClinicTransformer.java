@@ -16,13 +16,13 @@ public class ClinicTransformer {
     public ClinicTransformer(CommonTransformer commonTransformer) {
         this.commonTransformer = commonTransformer;
     }
+
     public Clinic convertRequestToModel(ClinicRequest clinicRequest){
         return Clinic
                 .builder()
                 .clinicName(clinicRequest.getName())
                 .description(clinicRequest.getDescription())
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))
-                .phoneNumber(clinicRequest.getPhoneNumber())
                 .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel))
                 .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList())
                 .build();
@@ -33,7 +33,6 @@ public class ClinicTransformer {
                 .builder()
                 .name(clinic.getClinicName())
                 .address(ObjectUtils.transformIfNotNull(clinic.getAddress(), commonTransformer::convertModelToResponse))
-                .phoneNumber(clinic.getPhoneNumber())
                 .openingHours(ObjectUtils.transformIfNotNull(clinic.getOperatingHours(), commonTransformer::convertModelToResponse))
                 .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(commonTransformer::convertModelToResponse).toList())
                 .build();
@@ -43,7 +42,6 @@ public class ClinicTransformer {
         clinic.setClinicName(clinicRequest.getName());
         clinic.setDescription(clinicRequest.getDescription());
         clinic.setAddress(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel));
-        clinic.setPhoneNumber(clinicRequest.getPhoneNumber());
         clinic.setOperatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel));
         clinic.setServicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList());
     }

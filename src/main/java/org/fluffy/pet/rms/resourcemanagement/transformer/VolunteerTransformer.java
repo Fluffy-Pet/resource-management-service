@@ -8,6 +8,8 @@ import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.net.URL;
+
 @Transformer
 public class VolunteerTransformer {
     private final CommonTransformer commonTransformer;
@@ -22,6 +24,15 @@ public class VolunteerTransformer {
                 .builder()
                 .firstName(volunteer.getFirstName())
                 .lastName(volunteer.getLastName())
+                .profileImageUrl(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        volunteer.getProfileImageFileName(),
+                                        commonTransformer::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
                 .availability(volunteer.getAvailability())
                 .skills(volunteer.getSkills())
                 .identityDocuments(StreamUtils.emptyIfNull(volunteer.getIdentityDocuments()).map(commonTransformer::convertModelToResponse).toList())
@@ -33,6 +44,7 @@ public class VolunteerTransformer {
     public void updateVolunteer(Volunteer volunteer, VolunteerRequest volunteerRequest){
         volunteer.setFirstName(volunteerRequest.getFirstName());
         volunteer.setLastName(volunteerRequest.getLastName());
+        volunteer.setProfileImageFileName(volunteerRequest.getProfileImageFileName());
         volunteer.setAvailability(volunteerRequest.getAvailability());
         volunteer.setSkills(volunteerRequest.getSkills());
         volunteer.setIdentityDocuments(StreamUtils.emptyIfNull(volunteerRequest.getIdentityDocuments()).map(commonTransformer::convertRequestToModel).toList());

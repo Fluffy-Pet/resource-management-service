@@ -18,15 +18,15 @@ public class ShelterHomeResponse {
 
     private String description;
 
-    private int capacity;
+    private String profileImageUrl;
+
+    private Integer capacity;
 
     private MobileResponse mobile;
 
     private EmailResponse email;
 
     private AddressResponse address;
-
-    private String website;
 
     private List<PetType> acceptedPetTypes;
 

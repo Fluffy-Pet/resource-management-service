@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import org.fluffy.pet.rms.resourcemanagement.util.Constants;
-import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
 
@@ -23,8 +23,7 @@ public class PetRequest {
     @NotNull
     private PetType petType;
 
-    @NotNull
-    @URL
+    @NullOrNotBlank
     private String profileUrl;
 
     @NotNull

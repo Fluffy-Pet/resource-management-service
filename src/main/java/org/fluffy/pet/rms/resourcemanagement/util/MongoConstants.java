@@ -118,8 +118,6 @@ public final class MongoConstants {
 
     public static final String SHELTER_HOME_DESCRIPTION = "shelterHomeDescription";
 
-    public static final String SHELTER_HOME_WEBSITE = "shelterHomeWebsite";
-
     public static final String PETS_ACCEPTED = "petsAccepted";
 
     public static final String EMAIL_ID = "emailId";

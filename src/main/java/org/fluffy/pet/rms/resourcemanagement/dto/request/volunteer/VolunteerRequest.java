@@ -24,9 +24,12 @@ public class VolunteerRequest {
     @NullOrNotBlank
     private String lastName;
 
+    @NullOrNotBlank
+    private String profileImageFileName;
+
     private List<@NotNull AvailabilityType> availability;
 
-    private List<@NotNull  SkillType> skills;
+    private List<@NotNull SkillType> skills;
 
     private List<@NotNull @Valid DocumentRequest> identityDocuments;
 

@@ -22,8 +22,6 @@ public class FluffyPetService extends BaseEntity {
 
     private String description;
 
-    private List<ServiceImage> serviceImages;
-
     @Field(MongoConstants.PROVIDER)
     private ServiceProvider provider;
 

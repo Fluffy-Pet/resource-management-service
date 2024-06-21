@@ -28,8 +28,11 @@ public class ShelterHome extends BaseEntity {
     @Field(MongoConstants.SHELTER_HOME_DESCRIPTION)
     private String description;
 
+    @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
+    private String profileImageFileName;
+
     @Field(MongoConstants.CAPACITY)
-    private int capacity;
+    private Integer capacity;
 
     @Field(MongoConstants.MOBILE)
     private Mobile mobile;
@@ -39,10 +42,6 @@ public class ShelterHome extends BaseEntity {
 
     @Field(MongoConstants.ADDRESS)
     private Address address;
-
-    @Field(MongoConstants.SHELTER_HOME_WEBSITE)
-    private String website;
-
 
     @Field(MongoConstants.PETS_ACCEPTED)
     private List<PetType> acceptedPetTypes;

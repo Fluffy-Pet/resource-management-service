@@ -15,8 +15,6 @@ public class FluffyPetServiceRequest {
 
     private String description;
 
-    private List<ServiceImageRequest> serviceImages;
-
     private ServiceProviderRequest provider;
 
     private List<ServiceChargeRequest> charges;

@@ -17,8 +17,6 @@ public class ClinicResponse {
 
     private AddressResponse address;
 
-    private String phoneNumber;
-
     private OperatingHoursResponse openingHours;
 
     private List<ServiceResponse> servicesOffered;

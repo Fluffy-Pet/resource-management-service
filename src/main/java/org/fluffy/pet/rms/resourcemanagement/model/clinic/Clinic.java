@@ -29,9 +29,6 @@ public class Clinic extends BaseEntity {
     @Field(MongoConstants.ADDRESS)
     private Address address;
 
-    @Field(MongoConstants.PHONE_NUMBER)
-    private String phoneNumber;
-
     @Field(MongoConstants.SERVICES_OFFERED)
     private List<Service> servicesOffered;
 

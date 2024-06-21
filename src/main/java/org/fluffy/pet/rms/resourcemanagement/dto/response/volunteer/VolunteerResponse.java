@@ -19,6 +19,8 @@ public class VolunteerResponse {
 
     private String lastName;
 
+    private String profileImageUrl;
+
     private List<AvailabilityType> availability;
 
     private List<SkillType> skills;

@@ -28,6 +28,9 @@ public class Volunteer extends BaseEntity {
     @Field(MongoConstants.LAST_NAME)
     private String lastName;
 
+    @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
+    private String profileImageFileName;
+
     @Field(MongoConstants.AVAILABILITY)
     private List<AvailabilityType> availability;
 

@@ -26,9 +26,6 @@ public class ClinicRequest {
     @NotNull
     private AddressRequest address;
 
-    @NotBlank
-    private String phoneNumber;
-
     @Valid
     @NotNull
     private OperatingHoursRequest operatingHours;
