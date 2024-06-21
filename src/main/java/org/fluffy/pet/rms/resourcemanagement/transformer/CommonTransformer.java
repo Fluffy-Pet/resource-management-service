@@ -123,7 +123,6 @@ public class CommonTransformer {
                 .builder()
                 .name(clinic.getClinicName())
                 .address(convertModelToResponse(clinic.getAddress()))
-                .phoneNumber(clinic.getPhoneNumber())
                 .openingHours(convertModelToResponse(clinic.getOperatingHours()))
                 .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(this::convertModelToResponse).toList())
                 .build();
