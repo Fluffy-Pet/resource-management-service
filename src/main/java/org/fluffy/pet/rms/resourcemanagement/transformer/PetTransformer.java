@@ -9,6 +9,7 @@ import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
+import java.util.UUID;
 
 @Transformer
 public class PetTransformer {
@@ -40,6 +41,7 @@ public class PetTransformer {
     public Pet convertRequestToModel(PetRequest petRequest, String userId) {
         return Pet
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .name(petRequest.getName())
                 .petType(petRequest.getPetType())
                 .profileImageFileName(petRequest.getProfileUrl())

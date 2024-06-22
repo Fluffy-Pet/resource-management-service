@@ -8,6 +8,8 @@ import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Transformer
 public class ClinicTransformer {
     private final CommonTransformer commonTransformer;
@@ -20,6 +22,7 @@ public class ClinicTransformer {
     public Clinic convertRequestToModel(ClinicRequest clinicRequest){
         return Clinic
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .clinicName(clinicRequest.getName())
                 .description(clinicRequest.getDescription())
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))

@@ -8,6 +8,7 @@ import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
+import java.util.UUID;
 
 @Transformer
 public class ShelterHomeTransformer {
@@ -43,6 +44,7 @@ public class ShelterHomeTransformer {
     public ShelterHome convertRequestToModel(ShelterHomeRequest shelterHomeRequest) {
         return ShelterHome
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .name(shelterHomeRequest.getName())
                 .description(shelterHomeRequest.getDescription())
                 .profileImageFileName(shelterHomeRequest.getProfileImageFileName())

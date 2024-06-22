@@ -15,6 +15,8 @@ import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.UUID;
+
 @Transformer
 public class UserTransformer {
     private final CommonTransformer commonTransformer;
@@ -29,6 +31,7 @@ public class UserTransformer {
     ) {
         return User
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .mobile(convertMobileRequestToModel(signupViaMobileRequest.getMobile()))
                 .mobileValid(false)
                 .emailValid(false)
@@ -40,6 +43,7 @@ public class UserTransformer {
     ) {
         return User
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .email(convertEmailRequestToModel(signupViaEmailRequest.getEmail()))
                 .mobileValid(false)
                 .emailValid(false)

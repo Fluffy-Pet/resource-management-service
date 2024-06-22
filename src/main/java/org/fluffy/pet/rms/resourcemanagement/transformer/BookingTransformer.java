@@ -13,6 +13,8 @@ import org.fluffy.pet.rms.resourcemanagement.model.booking.BookingService;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.UserInfo;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 
+import java.util.UUID;
+
 @Transformer
 public class BookingTransformer {
     public BookingResponse convertModelToResponse(Booking booking) {
@@ -47,6 +49,7 @@ public class BookingTransformer {
     public Booking convertRequestToModel(BookingRequest bookingRequest) {
         return Booking
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .bookingStatus(bookingRequest.getBookingStatus())
                 .service(ObjectUtils.transformIfNotNull(bookingRequest.getService(), this::convertRequestToModel))
                 .build();

@@ -13,6 +13,8 @@ import org.fluffy.pet.rms.resourcemanagement.model.service.ServiceProvider;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 
+import java.util.UUID;
+
 @Transformer
 public class FluffyPetServiceTransformer {
     public FluffyPetServiceResponse convertModelToResponse(FluffyPetService fluffyPetService) {
@@ -45,6 +47,7 @@ public class FluffyPetServiceTransformer {
     public FluffyPetService convertRequestToModel(FluffyPetServiceRequest fluffyPetServiceRequest) {
         return FluffyPetService
                 .builder()
+                .id(UUID.randomUUID().toString())
                 .serviceType(fluffyPetServiceRequest.getServiceType())
                 .description(fluffyPetServiceRequest.getDescription())
                 .provider(ObjectUtils.transformIfNotNull(fluffyPetServiceRequest.getProvider(), this::convertRequestToModel))
