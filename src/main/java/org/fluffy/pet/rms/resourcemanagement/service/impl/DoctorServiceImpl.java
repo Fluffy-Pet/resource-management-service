@@ -103,7 +103,7 @@ public class DoctorServiceImpl implements DoctorService {
                 filterRequest.getPage(),
                 filterRequest.getPageSize()
         );
-        Set<String> clinicIdSet = doctors.flatMap(doctor -> doctor.getAssociatedClinics().stream().map(AssociatedClinic::getClinicIds)).toSet();
+        Set<String> clinicIdSet = doctors.flatMap(doctor -> StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds)).toSet();
         List<Clinic> clinics = clinicHelper.getClinics(clinicIdSet);
         return doctors.map(doctor -> {
             List<String> clinicList = StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).toList();

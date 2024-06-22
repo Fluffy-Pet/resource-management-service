@@ -7,6 +7,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
+import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -114,7 +115,15 @@ public class CommonTransformer {
                 .builder()
                 .documentType(document.getType())
                 .idNumber(document.getIdNumber())
-                .documentUrl(convertFileNameToUrl(document.getDocumentFileName()).toString())
+                .documentUrl(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        document.getDocumentFileName(),
+                                        this::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
                 .build();
     }
 
