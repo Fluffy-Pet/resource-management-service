@@ -171,4 +171,6 @@ public final class MongoConstants {
     public static final String CASE_INSENSITIVE_MATCHING_OPTION = "i";
 
     public static final String OPTIONS = "$options";
+
+    public static final String SERVICE_TYPE = "serviceType";
 }

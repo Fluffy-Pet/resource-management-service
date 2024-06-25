@@ -18,6 +18,7 @@ import java.util.List;
 @SuperBuilder
 @Document(MongoConstants.ADMIN_TABLE)
 public class FluffyPetService extends BaseEntity {
+    @Field(MongoConstants.SERVICE_TYPE)
     private ServiceType serviceType;
 
     private String description;

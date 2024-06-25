@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import org.bson.Document;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
+import org.fluffy.pet.rms.resourcemanagement.model.service.FluffyPetService;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -55,5 +56,25 @@ public class MongoIndexConfiguration {
         document.put(String.format("%s.%s", MongoConstants.OWNER, MongoConstants.USER_ID), 1);
 
         createIndexForEntity(Pet.class, List.of(document));
+    }
+
+    @PostConstruct
+    public void createServiceIndex() {
+        Document document = new Document();
+        document.put(MongoConstants.SERVICE_TYPE, 1);
+        document.put(String.format("%s.%s", MongoConstants.PROVIDER, MongoConstants.PROVIDER_ID), 1);
+
+        createIndexForEntity(FluffyPetService.class, List.of(document));
+    }
+
+    @PostConstruct
+    public void createUserIndex() {
+        Document document = new Document();
+        document.put(MongoConstants.MOBILE, 1);
+
+        Document document1 = new Document();
+        document1.put(MongoConstants.EMAIL, 1);
+
+        createIndexForEntity(Pet.class, List.of(document, document1));
     }
 }

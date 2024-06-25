@@ -21,7 +21,6 @@ import java.util.List;
 @SuperBuilder
 @Document(MongoConstants.SHELTER_HOME_TABLE)
 public class ShelterHome extends BaseEntity {
-
     @Field(MongoConstants.SHELTER_HOME_NAME)
     private String name;
 
@@ -45,5 +44,6 @@ public class ShelterHome extends BaseEntity {
 
     @Field(MongoConstants.PETS_ACCEPTED)
     private List<PetType> acceptedPetTypes;
+
 
 }
