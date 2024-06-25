@@ -48,6 +48,7 @@ public class FluffyPetServiceTransformer {
                 .serviceSubType(fluffyPetServiceRequest.getServiceSubType())
                 .description(fluffyPetServiceRequest.getDescription())
                 .provider(ObjectUtils.transformIfNotNull(providerId, this::convertRequestToModel))
+                .serviceProviderType(fluffyPetServiceRequest.getServiceProviderType())
                 .charges(StreamUtils.emptyIfNull(fluffyPetServiceRequest.getCharges()).map(this::convertRequestToModel).toList())
                 .build();
     }

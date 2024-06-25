@@ -2,6 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.enums;
 
 import lombok.Getter;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -22,5 +23,11 @@ public enum ServiceSubType {
     ServiceSubType(ServiceType serviceType, List<ServiceProviderType> userType) {
         this.serviceType = serviceType;
         this.userType = userType;
+    }
+
+    public static List<ServiceSubType> getAllServiceSubtypeForType(ServiceType serviceType) {
+        return Arrays.stream(ServiceSubType.values()).filter(serviceSubType ->
+                serviceSubType.getServiceType().equals(serviceType)
+        ).toList();
     }
 }

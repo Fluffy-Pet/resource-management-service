@@ -61,7 +61,7 @@ public class MongoIndexConfiguration {
     @PostConstruct
     public void createServiceIndex() {
         Document document = new Document();
-        document.put(MongoConstants.SERVICE_TYPE, 1);
+        document.put(MongoConstants.SERVICE_SUB_TYPE, 1);
         document.put(String.format("%s.%s", MongoConstants.PROVIDER, MongoConstants.PROVIDER_ID), 1);
 
         createIndexForEntity(FluffyPetService.class, List.of(document));

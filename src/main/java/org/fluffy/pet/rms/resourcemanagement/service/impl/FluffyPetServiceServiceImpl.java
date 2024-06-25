@@ -5,6 +5,8 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.service.FluffyPetServic
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.FluffyPetServiceResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
+import org.fluffy.pet.rms.resourcemanagement.enums.ServiceSubType;
+import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
@@ -92,6 +94,13 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
     public List<FluffyPetServiceResponse> getServiceForProvider(String providerId) {
         List<FluffyPetService> fluffyPetServices = fluffyPetServiceRepository.findByProviderId(providerId);
         return fluffyPetServices.stream().map(this::getServiceResponse).toList();
+    }
+
+    @Override
+    public List<FluffyPetServiceResponse> getServiceForServiceType(ServiceType serviceType) {
+        List<ServiceSubType> allServiceSubtypeForType = ServiceSubType.getAllServiceSubtypeForType(serviceType);
+        List<FluffyPetService> allByAllServiceSubType = fluffyPetServiceRepository.findAllByAllServiceSubType(allServiceSubtypeForType);
+        return allByAllServiceSubType.stream().map(this::getServiceResponse).toList();
     }
 
     private FluffyPetServiceResponse getServiceResponse(FluffyPetService fluffyPetService) {
