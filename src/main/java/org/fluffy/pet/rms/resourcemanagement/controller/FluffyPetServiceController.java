@@ -39,7 +39,7 @@ public class FluffyPetServiceController {
 
     @GetMapping("/type/{serviceType}")
     public ResponseEntity<ResponseWrapper<List<FluffyPetServiceResponse>>> getServicesForServiceType(
-            @PathVariable("serviceType") ServiceType serviceType
+            @PathVariable("serviceType") String serviceType
     ) {
         List<FluffyPetServiceResponse> fluffyPetServiceResponseList = fluffyPetServiceService.getServiceForServiceType(serviceType);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(fluffyPetServiceResponseList));

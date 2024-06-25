@@ -97,8 +97,9 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
     }
 
     @Override
-    public List<FluffyPetServiceResponse> getServiceForServiceType(ServiceType serviceType) {
-        List<ServiceSubType> allServiceSubtypeForType = ServiceSubType.getAllServiceSubtypeForType(serviceType);
+    public List<FluffyPetServiceResponse> getServiceForServiceType(String serviceType) {
+
+        List<ServiceSubType> allServiceSubtypeForType = ServiceSubType.getAllServiceSubtypeForType(ServiceType.getServiceType(serviceType));
         List<FluffyPetService> allByAllServiceSubType = fluffyPetServiceRepository.findAllByAllServiceSubType(allServiceSubtypeForType);
         return allByAllServiceSubType.stream().map(this::getServiceResponse).toList();
     }

@@ -17,5 +17,5 @@ public interface FluffyPetServiceService {
 
     List<FluffyPetServiceResponse> getServiceForProvider(String providerId);
 
-    List<FluffyPetServiceResponse> getServiceForServiceType(ServiceType serviceType);
+    List<FluffyPetServiceResponse> getServiceForServiceType(String serviceType);
 }
