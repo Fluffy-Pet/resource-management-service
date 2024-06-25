@@ -8,7 +8,7 @@ import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.annotations.NullOrNotBlank;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AddressRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.AssociatedClinicRequest;
-import org.fluffy.pet.rms.resourcemanagement.dto.request.common.DocumentRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.IdentityDocumentRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.ServedOrganizationRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 
@@ -35,7 +35,7 @@ public class DoctorRequest {
     @Max(50)
     private Double experience;
 
-    private List<@NotNull @Valid DocumentRequest> documents;
+    private List<@NotNull @Valid IdentityDocumentRequest> documents;
 
     private List<@NotNull @Valid AssociatedClinicRequest> associatedClinics;
 

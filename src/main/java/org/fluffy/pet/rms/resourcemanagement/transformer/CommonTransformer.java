@@ -55,12 +55,12 @@ public class CommonTransformer {
                 .build();
     }
 
-    public IdentityDocument convertRequestToModel(DocumentRequest documentRequest) {
+    public IdentityDocument convertRequestToModel(IdentityDocumentRequest identityDocumentRequest) {
         return IdentityDocument
                 .builder()
-                .type(documentRequest.getDocumentType())
-                .idNumber(documentRequest.getIdNumber())
-                .documentFileName(documentRequest.getDocumentFileName())
+                .type(identityDocumentRequest.getDocumentType())
+                .idNumber(identityDocumentRequest.getIdNumber())
+                .documentFileName(identityDocumentRequest.getDocumentFileName())
                 .build();
     }
 
@@ -110,8 +110,8 @@ public class CommonTransformer {
                 .build();
     }
 
-    public DocumentResponse convertModelToResponse(IdentityDocument document) {
-        return DocumentResponse
+    public IdentityDocumentResponse convertModelToResponse(IdentityDocument document) {
+        return IdentityDocumentResponse
                 .builder()
                 .documentType(document.getType())
                 .idNumber(document.getIdNumber())
@@ -130,7 +130,7 @@ public class CommonTransformer {
     public ClinicResponse convertModelToResponse(Clinic clinic) {
         return ClinicResponse
                 .builder()
-                .name(clinic.getClinicName())
+                .clinicName(clinic.getClinicName())
                 .address(convertModelToResponse(clinic.getAddress()))
                 .openingHours(convertModelToResponse(clinic.getOperatingHours()))
                 .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(this::convertModelToResponse).toList())

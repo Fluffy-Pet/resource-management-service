@@ -8,7 +8,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class DocumentResponse {
+public class IdentityDocumentResponse {
     private String idNumber;
 
     private DocumentType documentType;

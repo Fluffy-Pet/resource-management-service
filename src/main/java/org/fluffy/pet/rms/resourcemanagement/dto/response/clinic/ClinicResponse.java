@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Builder
 public class ClinicResponse {
-    private String name;
+    private String clinicName;
 
     private AddressResponse address;
 

@@ -10,7 +10,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.DocumentType;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-public class DocumentRequest {
+public class IdentityDocumentRequest {
     @NotBlank
     private String idNumber;
 

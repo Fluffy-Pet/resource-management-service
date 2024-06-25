@@ -3,7 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.doctor;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.common.DocumentResponse;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.common.IdentityDocumentResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ServedOrganizationResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import java.util.List;
@@ -24,7 +24,7 @@ public class DoctorResponse {
 
     private Double experience;
 
-    private List<DocumentResponse> documents;
+    private List<IdentityDocumentResponse> documents;
 
     private List<ClinicResponse> associatedClinics;
 

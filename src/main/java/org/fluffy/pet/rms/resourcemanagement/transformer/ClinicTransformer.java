@@ -23,7 +23,7 @@ public class ClinicTransformer {
         return Clinic
                 .builder()
                 .id(UUID.randomUUID().toString())
-                .clinicName(clinicRequest.getName())
+                .clinicName(clinicRequest.getClinicName())
                 .description(clinicRequest.getDescription())
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel))
@@ -34,7 +34,7 @@ public class ClinicTransformer {
     public ClinicResponse convertModelToResponse(Clinic clinic){
         return ClinicResponse
                 .builder()
-                .name(clinic.getClinicName())
+                .clinicName(clinic.getClinicName())
                 .address(ObjectUtils.transformIfNotNull(clinic.getAddress(), commonTransformer::convertModelToResponse))
                 .openingHours(ObjectUtils.transformIfNotNull(clinic.getOperatingHours(), commonTransformer::convertModelToResponse))
                 .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(commonTransformer::convertModelToResponse).toList())
@@ -42,7 +42,7 @@ public class ClinicTransformer {
     }
 
     public void updateClinic(Clinic clinic, ClinicRequest clinicRequest){
-        clinic.setClinicName(clinicRequest.getName());
+        clinic.setClinicName(clinicRequest.getClinicName());
         clinic.setDescription(clinicRequest.getDescription());
         clinic.setAddress(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel));
         clinic.setOperatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel));

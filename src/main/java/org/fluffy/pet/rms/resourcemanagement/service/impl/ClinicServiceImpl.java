@@ -47,7 +47,7 @@ public class ClinicServiceImpl implements ClinicService {
             Clinic createdClinic = clinicRepository.save(clinic);
             return clinicTransformer.convertModelToResponse(createdClinic);
         } catch (DuplicateKeyException e) {
-            log.error(String.format("Exception happened in creating user for %s", clinicRequest.getName()), e
+            log.error(String.format("Exception happened in creating user for %s", clinicRequest.getClinicName()), e
             );
             throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.CLINIC_ALREADY_EXISTS));
         }

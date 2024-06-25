@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class ClinicRequest {
     @NotBlank
-    private String name;
+    private String clinicName;
 
     @NotBlank
     private String description;
