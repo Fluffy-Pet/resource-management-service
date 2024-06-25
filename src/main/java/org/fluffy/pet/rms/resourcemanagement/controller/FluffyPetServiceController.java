@@ -31,13 +31,13 @@ public class FluffyPetServiceController {
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(fluffyPetServiceResponse));
     }
 
-    @GetMapping("/{providerId}")
+    @GetMapping("/provider/{providerId}")
     public ResponseEntity<ResponseWrapper<List<FluffyPetServiceResponse>>> getServiceForProvider(@PathVariable("providerId") String providerId) {
         List<FluffyPetServiceResponse> fluffyPetServiceResponseList = fluffyPetServiceService.getServiceForProvider(providerId);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(fluffyPetServiceResponseList));
     }
 
-    @GetMapping("/{serviceType}")
+    @GetMapping("/type/{serviceType}")
     public ResponseEntity<ResponseWrapper<List<FluffyPetServiceResponse>>> getServicesForServiceType(
             @PathVariable("serviceType") ServiceType serviceType
     ) {
