@@ -7,6 +7,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClientHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.client.Client;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.repository.ClientRepository;
 import org.fluffy.pet.rms.resourcemanagement.transformer.ClientTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.Result;
@@ -52,5 +53,14 @@ public class ClientHelperImpl implements ClientHelper {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }
         return Result.success(clientTransformer.convertModelToResponse(optionalClient.get()));
+    }
+
+    @Override
+    public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        if (optionalClient.isEmpty()) {
+            return Result.error(ErrorCode.USER_NOT_FOUND);
+        }
+        return Result.success(clientTransformer.convertModelToIdentity(optionalClient.get()));
     }
 }

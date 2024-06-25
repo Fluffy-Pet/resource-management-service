@@ -6,6 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerRes
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.VolunteerHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.repository.VolunteerRepository;
 import org.fluffy.pet.rms.resourcemanagement.transformer.VolunteerTransformer;
@@ -53,5 +54,14 @@ public class VolunteerHelperImpl implements VolunteerHelper {
         }
         Volunteer volunteer = optionalVolunteer.get();
         return Result.success(volunteerTransformer.convertModelToResponse(volunteer));
+    }
+
+    @Override
+    public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
+        Optional<Volunteer> optionalVolunteer = volunteerRepository.findById(userId);
+        if (optionalVolunteer.isEmpty()) {
+            return Result.error(ErrorCode.USER_NOT_FOUND);
+        }
+        return Result.success(volunteerTransformer.convertModelToIdentity(optionalVolunteer.get()));
     }
 }

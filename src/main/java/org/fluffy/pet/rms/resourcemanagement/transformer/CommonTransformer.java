@@ -5,6 +5,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
+import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
@@ -24,6 +25,42 @@ public class CommonTransformer {
 
     public URL convertFileNameToUrl(String fileName) {
         return fileManager.getFile(fileName);
+    }
+
+    public PetIdentityResponse convertModelToIdentity(Pet pet) {
+        return PetIdentityResponse
+                .builder()
+                .petId(pet.getId())
+                .petName(pet.getName())
+                .petType(pet.getPetType())
+                .profilePicture(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        pet.getProfileImageFileName(),
+                                        this::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
+    }
+
+    public UserIdentityResponse convertModelToIdentity(UserIdentity userIdentity) {
+        return UserIdentityResponse
+                .builder()
+                .userId(userIdentity.getUserId())
+                .firstName(userIdentity.getFirstName())
+                .lastName(userIdentity.getLastName())
+                .profilePhoto(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        userIdentity.getProfilePhotoFileName(),
+                                        this::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
     }
 
     public Address convertRequestToModel(AddressRequest addressRequest) {

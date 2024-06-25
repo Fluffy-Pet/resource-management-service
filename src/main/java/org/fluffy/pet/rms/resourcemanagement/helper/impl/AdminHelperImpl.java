@@ -6,6 +6,7 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.admin.AdminResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.AdminHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Admin;
 import org.fluffy.pet.rms.resourcemanagement.repository.AdminRepository;
 import org.fluffy.pet.rms.resourcemanagement.transformer.AdminTransformer;
@@ -52,5 +53,14 @@ public class AdminHelperImpl implements AdminHelper {
             return Result.error(ErrorCode.USER_NOT_FOUND);
         }
         return Result.success(adminTransformer.convertModelToResponse(optionalAdmin.get()));
+    }
+
+    @Override
+    public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(userId);
+        if (optionalAdmin.isEmpty()) {
+            return Result.error(ErrorCode.USER_NOT_FOUND);
+        }
+        return Result.success(adminTransformer.convertModelToIdentity(optionalAdmin.get()));
     }
 }

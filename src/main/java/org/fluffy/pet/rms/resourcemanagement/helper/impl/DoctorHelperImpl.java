@@ -7,8 +7,10 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.client.Client;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.AssociatedClinic;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.repository.DoctorRepository;
 import org.fluffy.pet.rms.resourcemanagement.transformer.DoctorTransformer;
@@ -63,5 +65,14 @@ public class DoctorHelperImpl implements DoctorHelper {
         Doctor doctor = optionalDoctor.get();
         List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).collect(Collectors.toSet()));
         return Result.success(doctorTransformer.convertModelToResponse(doctor, clinics));
+    }
+
+    @Override
+    public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(userId);
+        if (optionalDoctor.isEmpty()) {
+            return Result.error(ErrorCode.USER_NOT_FOUND);
+        }
+        return Result.success(doctorTransformer.convertModelToIdentity(optionalDoctor.get()));
     }
 }

@@ -3,6 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
@@ -50,5 +51,23 @@ public class VolunteerTransformer {
         volunteer.setIdentityDocuments(StreamUtils.emptyIfNull(volunteerRequest.getIdentityDocuments()).map(commonTransformer::convertRequestToModel).toList());
         volunteer.setAddress(ObjectUtils.transformIfNotNull(volunteerRequest.getAddress(), commonTransformer::convertRequestToModel));
         volunteer.setServedOrganizations(StreamUtils.emptyIfNull(volunteerRequest.getServedOrganizations()).map(commonTransformer::convertRequestToModel).toList());
+    }
+
+    public UserIdentity convertModelToIdentity(Volunteer volunteer) {
+        return UserIdentity
+                .builder()
+                .userId(volunteer.getId())
+                .firstName(volunteer.getFirstName())
+                .lastName(volunteer.getLastName())
+                .profilePhotoFileName(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        volunteer.getProfileImageFileName(),
+                                        commonTransformer::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
     }
 }

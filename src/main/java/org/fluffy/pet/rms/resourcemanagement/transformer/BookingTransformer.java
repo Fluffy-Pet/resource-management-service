@@ -7,21 +7,33 @@ import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingServiceR
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingScheduleResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingServiceResponse;
+import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.Booking;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.BookingSchedule;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.BookingService;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.UserInfo;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
 @Transformer
 public class BookingTransformer {
-    public BookingResponse convertModelToResponse(Booking booking) {
+    private final CommonTransformer commonTransformer;
+
+    @Autowired
+    public BookingTransformer(CommonTransformer commonTransformer) {
+        this.commonTransformer = commonTransformer;
+    }
+
+    public BookingResponse convertModelToResponse(Booking booking, Pet pet, UserIdentity userIdentity) {
         return BookingResponse
                 .builder()
                 .bookingStatus(booking.getBookingStatus())
                 .service(ObjectUtils.transformIfNotNull(booking.getService(), this::convertModelToResponse))
+                .userIdentity(commonTransformer.convertModelToIdentity(userIdentity))
+                .petIdentity(commonTransformer.convertModelToIdentity(pet))
                 .build();
     }
 

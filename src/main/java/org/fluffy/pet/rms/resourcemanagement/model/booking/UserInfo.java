@@ -9,4 +9,6 @@ import lombok.*;
 @Builder
 public class UserInfo {
     private String userId;
+
+    private String petId;
 }

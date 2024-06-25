@@ -1,8 +1,10 @@
 package org.fluffy.pet.rms.resourcemanagement.dto.request.booking;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.PetIdentityRequest;
 import org.fluffy.pet.rms.resourcemanagement.enums.BookingStatus;
 
 @Getter
@@ -17,4 +19,7 @@ public class BookingRequest {
     @NotNull
     @Valid
     private BookingServiceRequest service;
+
+    @NotBlank
+    private PetIdentityRequest petIdentity;
 }
