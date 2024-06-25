@@ -72,8 +72,7 @@ public class BookingServiceImpl implements BookingService {
         if (!petOwnerResult.getData().getUserId().equals(userContext.getUserId())) {
             throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.PET_OWNER_MIS_MATCH));
         }
-        Booking booking = bookingTransformer.convertRequestToModel(bookingRequest);
-        booking.setUserInfo(bookingTransformer.convertRequestToModel(userContext.getUserId()));
+        Booking booking = bookingTransformer.convertRequestToModel(bookingRequest, userContext.getUserId());
         booking.setStatus(Status.ACTIVE);
         try {
             Booking createdBooking = bookingRepository.save(booking);

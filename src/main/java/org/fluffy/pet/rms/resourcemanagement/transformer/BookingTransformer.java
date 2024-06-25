@@ -4,6 +4,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingScheduleRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.booking.BookingServiceRequest;
+import org.fluffy.pet.rms.resourcemanagement.dto.request.common.PetIdentityRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingScheduleResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.booking.BookingServiceResponse;
@@ -58,17 +59,18 @@ public class BookingTransformer {
                 .build();
     }
 
-    public Booking convertRequestToModel(BookingRequest bookingRequest) {
+    public Booking convertRequestToModel(BookingRequest bookingRequest, String currentUserId) {
         return Booking
                 .builder()
                 .id(UUID.randomUUID().toString())
                 .bookingStatus(bookingRequest.getBookingStatus())
+                .userInfo(convertRequestToModel(bookingRequest.getPetIdentity(), currentUserId))
                 .service(ObjectUtils.transformIfNotNull(bookingRequest.getService(), this::convertRequestToModel))
                 .build();
     }
 
-    public UserInfo convertRequestToModel(String userId) {
-        return UserInfo.builder().userId(userId).build();
+    public UserInfo convertRequestToModel(PetIdentityRequest petIdentityRequest, String userId) {
+        return UserInfo.builder().petId(petIdentityRequest.getId()).userId(userId).build();
     }
 
     public BookingService convertRequestToModel(BookingServiceRequest bookingServiceRequest) {
