@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
+import org.fluffy.pet.rms.resourcemanagement.enums.ServiceSubType;
 
 import java.util.List;
 
@@ -15,14 +15,14 @@ import java.util.List;
 @Builder
 public class FluffyPetServiceRequest {
     @NotNull
-    private ServiceType serviceType;
+    private ServiceSubType serviceSubType;
 
     @NotBlank
     private String description;
 
     @NotNull
     @Valid
-    private ServiceProviderRequest provider;
+    private String providerId;
 
     @NotNull
     private List<@NotNull @Valid ServiceChargeRequest> charges;

@@ -5,11 +5,11 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.common.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.*;
+import org.fluffy.pet.rms.resourcemanagement.dto.response.service.ProviderIdentityResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
 import org.fluffy.pet.rms.resourcemanagement.model.common.*;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
-import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.net.URL;
@@ -29,6 +29,23 @@ public class CommonTransformer {
 
     public Owner convertUserIdToOwner(String userId) {
         return Owner.builder().userId(userId).build();
+    }
+
+    public ProviderIdentityResponse convertModelToIdentity(ProviderIdentity providerIdentity) {
+        return ProviderIdentityResponse
+                .builder()
+                .providerId(providerIdentity.getProviderId())
+                .name(providerIdentity.getName())
+                .profileUrl(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        providerIdentity.getProfileImageFileName(),
+                                        this::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
     }
 
     public PetIdentityResponse convertModelToIdentity(Pet pet) {
@@ -172,7 +189,6 @@ public class CommonTransformer {
                 .clinicName(clinic.getClinicName())
                 .address(convertModelToResponse(clinic.getAddress()))
                 .openingHours(convertModelToResponse(clinic.getOperatingHours()))
-                .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(this::convertModelToResponse).toList())
                 .build();
     }
 

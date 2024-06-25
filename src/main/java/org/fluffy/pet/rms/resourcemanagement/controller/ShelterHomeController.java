@@ -2,10 +2,12 @@ package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.shelter.ShelterHomeRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.shelter.ShelterHomeResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.ShelterHomeService;
 import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ public class ShelterHomeController {
     }
 
     @PostMapping
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<ShelterHomeResponse>> createShelterHome(
             @RequestBody @Valid ShelterHomeRequest createShelterHomeRequest
     ) {
@@ -42,6 +45,7 @@ public class ShelterHomeController {
     }
 
     @PutMapping("/{shelterHomeId}")
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<ShelterHomeResponse>> updateShelterHome(
             @PathVariable("shelterHomeId") String shelterHomeId,
             @RequestBody @Valid ShelterHomeRequest updateShelterHomeRequest
@@ -51,6 +55,7 @@ public class ShelterHomeController {
     }
 
     @DeleteMapping("/{shelterHomeId}")
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<Void>> deleteShelterHome(
             @PathVariable("shelterHomeId") String shelterHomeId
     ) {

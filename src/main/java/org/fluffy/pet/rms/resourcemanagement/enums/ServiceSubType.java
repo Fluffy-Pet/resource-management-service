@@ -1,7 +1,10 @@
 package org.fluffy.pet.rms.resourcemanagement.enums;
 
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public enum ServiceSubType {
     GENERAL_CHECK_UP(ServiceType.CHECK_UP, List.of(ServiceProviderType.DOCTOR, ServiceProviderType.CLINIC)),
     SURGERY(ServiceType.CHECK_UP, List.of(ServiceProviderType.DOCTOR, ServiceProviderType.CLINIC)),

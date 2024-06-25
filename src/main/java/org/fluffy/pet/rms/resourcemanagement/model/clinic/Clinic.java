@@ -5,15 +5,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
 import org.fluffy.pet.rms.resourcemanagement.model.common.OperatingHours;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Service;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,11 +27,11 @@ public class Clinic extends BaseEntity {
     @Field(MongoConstants.ADDRESS)
     private Address address;
 
+    @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
+    private String profileImageFileName;
+
     @Field(MongoConstants.OWNER)
     private Owner owner;
-
-    @Field(MongoConstants.SERVICES_OFFERED)
-    private List<Service> servicesOffered;
 
     @Field(MongoConstants.OPERATING_HOURS)
     private OperatingHours operatingHours;

@@ -3,10 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.clinic;
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.AddressResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.OperatingHoursResponse;
-import org.fluffy.pet.rms.resourcemanagement.dto.response.common.ServiceResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.common.UserIdentityResponse;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -20,9 +17,9 @@ public class ClinicResponse {
 
     private AddressResponse address;
 
-    private OperatingHoursResponse openingHours;
+    private String profileImageUrl;
 
-    private List<ServiceResponse> servicesOffered;
+    private OperatingHoursResponse openingHours;
 
     private UserIdentityResponse owner;
 }

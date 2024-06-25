@@ -40,8 +40,6 @@ public final class MongoConstants {
 
     public static final String ADDRESS = "address";
 
-    public static final String SERVICES_OFFERED = "servicesOffered";
-
     public static final String OPERATING_HOURS = "operatingHours";
 
     public static final String SERVED_ORGANIZATIONS = "servedOrganizations";
@@ -110,13 +108,7 @@ public final class MongoConstants {
 
     public static final String SHELTER_HOME_NAME = "shelterHomeName";
 
-    public static final String CAPACITY = "capacity";
-
     public static final String SHELTER_HOME_DESCRIPTION = "shelterHomeDescription";
-
-    public static final String PETS_ACCEPTED = "petsAccepted";
-
-    public static final String EMAIL_ID = "emailId";
 
     public static final String PET_TABLE = "pet_table";
 
@@ -169,4 +161,6 @@ public final class MongoConstants {
     public static final String OPTIONS = "$options";
 
     public static final String SERVICE_TYPE = "serviceType";
+
+    public static final String SERVICE_PROVIDER_TYPE = "serviceProviderType";
 }

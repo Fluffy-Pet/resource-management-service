@@ -3,6 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.volunteer.VolunteerRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.volunteer.VolunteerResponse;
+import org.fluffy.pet.rms.resourcemanagement.model.common.ProviderIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Volunteer;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
@@ -60,6 +61,23 @@ public class VolunteerTransformer {
                 .firstName(volunteer.getFirstName())
                 .lastName(volunteer.getLastName())
                 .profilePhotoFileName(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        volunteer.getProfileImageFileName(),
+                                        commonTransformer::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
+    }
+
+    public ProviderIdentity convertModelToProviderIdentity(Volunteer volunteer) {
+        return ProviderIdentity
+                .builder()
+                .providerId(volunteer.getId())
+                .name(volunteer.getFirstName())
+                .profileImageFileName(
                         ObjectUtils.transformIfNotNull(
                                 ObjectUtils.transformIfNotNull(
                                         volunteer.getProfileImageFileName(),

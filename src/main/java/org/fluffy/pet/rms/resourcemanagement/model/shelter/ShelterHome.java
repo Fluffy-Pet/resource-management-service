@@ -4,16 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.Address;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Email;
-import org.fluffy.pet.rms.resourcemanagement.model.common.Mobile;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -30,20 +26,9 @@ public class ShelterHome extends BaseEntity {
     @Field(MongoConstants.PROFILE_IMAGE_FILE_NAME)
     private String profileImageFileName;
 
-    @Field(MongoConstants.CAPACITY)
-    private Integer capacity;
-
-    @Field(MongoConstants.MOBILE)
-    private Mobile mobile;
-
-    @Field(MongoConstants.EMAIL_ID)
-    private Email email;
-
     @Field(MongoConstants.ADDRESS)
     private Address address;
 
-    @Field(MongoConstants.PETS_ACCEPTED)
-    private List<PetType> acceptedPetTypes;
-
-
+    @Field(MongoConstants.OWNER)
+    private Owner owner;
 }

@@ -2,19 +2,24 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.shelter.ShelterHomeRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.shelter.ShelterHomeResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.exception.AppException;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.FilterHelper;
+import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.shelter.ShelterHome;
 import org.fluffy.pet.rms.resourcemanagement.repository.ShelterHomeRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.ShelterHomeService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.ShelterHomeTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
+import org.fluffy.pet.rms.resourcemanagement.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
@@ -32,19 +37,25 @@ public class ShelterHomeServiceImpl implements ShelterHomeService {
 
     private final FilterHelper<ShelterHomeResponse> filterHelper;
 
+    private final UserHelper userHelper;
+
+    private final UserContext userContext;
+
     @Autowired
-    public ShelterHomeServiceImpl(ShelterHomeRepository shelterHomeRepository, ShelterHomeTransformer shelterHomeTransformer, FilterHelper<ShelterHomeResponse> filterHelper){
+    public ShelterHomeServiceImpl(ShelterHomeRepository shelterHomeRepository, ShelterHomeTransformer shelterHomeTransformer, FilterHelper<ShelterHomeResponse> filterHelper, UserHelper userHelper, UserContext userContext){
         this.shelterHomeRepository = shelterHomeRepository;
         this.shelterHomeTransformer = shelterHomeTransformer;
         this.filterHelper = filterHelper;
+        this.userHelper = userHelper;
+        this.userContext = userContext;
     }
 
     @Override
     public ShelterHomeResponse createShelterHome(ShelterHomeRequest shelterHomeRequest) {
-        ShelterHome shelterHome = shelterHomeTransformer.convertRequestToModel(shelterHomeRequest);
+        ShelterHome shelterHome = shelterHomeTransformer.convertRequestToModel(shelterHomeRequest, userContext.getUserId());
         try {
             ShelterHome createdShelterHome = shelterHomeRepository.save(shelterHome);
-            return shelterHomeTransformer.convertModelToResponse(createdShelterHome);
+            return getShelterHomeResponse(createdShelterHome);
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", shelterHomeRequest.getName()), e
             );
@@ -57,7 +68,7 @@ public class ShelterHomeServiceImpl implements ShelterHomeService {
         ShelterHome shelterHome = shelterHomeRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.SHELTER_HOME_NOT_FOUND))
         );
-        return shelterHomeTransformer.convertModelToResponse(shelterHome);
+        return getShelterHomeResponse(shelterHome);
     }
 
     @Override
@@ -67,7 +78,7 @@ public class ShelterHomeServiceImpl implements ShelterHomeService {
         );
         shelterHomeTransformer.updateShelterHome(shelterHome, shelterHomeRequest);
         ShelterHome updatedShelterHome = shelterHomeRepository.save(shelterHome);
-        return shelterHomeTransformer.convertModelToResponse(updatedShelterHome);
+        return getShelterHomeResponse(updatedShelterHome);
     }
 
     @Override
@@ -96,6 +107,14 @@ public class ShelterHomeServiceImpl implements ShelterHomeService {
                 filterRequest.getPage(),
                 filterRequest.getPageSize()
         );
-        return shelterHomes.map(shelterHomeTransformer::convertModelToResponse);
+        return shelterHomes.map(this::getShelterHomeResponse);
+    }
+
+    private ShelterHomeResponse getShelterHomeResponse(ShelterHome shelterHome) {
+        Result<UserIdentity, ErrorCode> userIdentityResult = userHelper.getUserIdentity(userContext.getUserId(), UserType.ADMIN);
+        if (userIdentityResult.isFailure()) {
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorResponse.from(userIdentityResult.getError()));
+        }
+        return shelterHomeTransformer.convertModelToResponse(shelterHome, userIdentityResult.getData());
     }
 }

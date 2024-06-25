@@ -4,6 +4,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.doctor.DoctorRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.doctor.DoctorResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.common.ProviderIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.model.staff.Doctor;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
@@ -60,6 +61,23 @@ public class DoctorTransformer {
                 .firstName(doctor.getFirstName())
                 .lastName(doctor.getLastName())
                 .profilePhotoFileName(
+                        ObjectUtils.transformIfNotNull(
+                                ObjectUtils.transformIfNotNull(
+                                        doctor.getProfileImageFileName(),
+                                        commonTransformer::convertFileNameToUrl
+                                ),
+                                URL::toString
+                        )
+                )
+                .build();
+    }
+
+    public ProviderIdentity convertModelToProviderIdentity(Doctor doctor) {
+        return ProviderIdentity
+                .builder()
+                .providerId(doctor.getId())
+                .name(doctor.getFirstName())
+                .profileImageFileName(
                         ObjectUtils.transformIfNotNull(
                                 ObjectUtils.transformIfNotNull(
                                         doctor.getProfileImageFileName(),

@@ -1,5 +1,8 @@
 package org.fluffy.pet.rms.resourcemanagement.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum ServiceProviderType {
     CLINIC(UserType.ADMIN),
     DOCTOR(UserType.DOCTOR),
