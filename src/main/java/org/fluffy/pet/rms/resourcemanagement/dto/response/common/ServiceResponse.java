@@ -2,6 +2,7 @@ package org.fluffy.pet.rms.resourcemanagement.dto.response.common;
 
 import lombok.*;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
+import org.fluffy.pet.rms.resourcemanagement.enums.ServiceSubType;
 
 @Getter
 @Setter
@@ -9,9 +10,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ServiceResponse {
-    private String serviceGroup;
-
-    private String serviceSubGroup;
+    private ServiceSubType serviceSubType;
 
     private PetType petType;
 }

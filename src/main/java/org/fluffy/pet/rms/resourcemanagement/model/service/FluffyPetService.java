@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
+import org.fluffy.pet.rms.resourcemanagement.enums.ServiceSubType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,7 +19,7 @@ import java.util.List;
 @Document(MongoConstants.ADMIN_TABLE)
 public class FluffyPetService extends BaseEntity {
     @Field(MongoConstants.SERVICE_TYPE)
-    private ServiceType serviceType;
+    private ServiceSubType serviceSubType;
 
     private String description;
 

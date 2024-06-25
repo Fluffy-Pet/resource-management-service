@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Helper;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.helper.PetHelper;
-import org.fluffy.pet.rms.resourcemanagement.model.animal.Owner;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.repository.PetRepository;
 import org.fluffy.pet.rms.resourcemanagement.util.Result;

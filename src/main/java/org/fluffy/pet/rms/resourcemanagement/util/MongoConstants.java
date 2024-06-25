@@ -40,8 +40,6 @@ public final class MongoConstants {
 
     public static final String ADDRESS = "address";
 
-    public static final String PHONE_NUMBER = "phoneNumber";
-
     public static final String SERVICES_OFFERED = "servicesOffered";
 
     public static final String OPERATING_HOURS = "operatingHours";
@@ -88,9 +86,7 @@ public final class MongoConstants {
 
     public static final String END_DATE = "endDate";
 
-    public static final String SERVICE_GROUP = "serviceGroup";
-
-    public static final String SERVICE_SUB_GROUP = "serviceSubGroup";
+    public static final String SERVICE_SUB_TYPE = "serviceSubType";
 
     public static final String PET_TYPE = "petType";
 

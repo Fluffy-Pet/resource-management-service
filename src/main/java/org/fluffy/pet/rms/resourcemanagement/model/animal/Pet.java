@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.fluffy.pet.rms.resourcemanagement.enums.PetType;
 import org.fluffy.pet.rms.resourcemanagement.model.BaseEntity;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.util.MongoConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

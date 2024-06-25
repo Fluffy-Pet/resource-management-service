@@ -3,7 +3,7 @@ package org.fluffy.pet.rms.resourcemanagement.transformer;
 import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.pet.PetRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.pet.PetResponse;
-import org.fluffy.pet.rms.resourcemanagement.model.animal.Owner;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class PetTransformer {
     }
 
     public Owner convertUserIdToOwner(String userId) {
-        return Owner.builder().userId(userId).build();
+        return commonTransformer.convertUserIdToOwner(userId);
     }
 
     public void updatePet(Pet pet, PetRequest petRequest) {

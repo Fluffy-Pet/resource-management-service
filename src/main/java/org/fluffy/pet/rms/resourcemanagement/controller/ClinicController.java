@@ -2,10 +2,12 @@ package org.fluffy.pet.rms.resourcemanagement.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.validation.Valid;
+import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.ClinicService;
 import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,7 @@ public class ClinicController {
     }
 
     @PostMapping
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<ClinicResponse>> createClinic(
             @RequestBody @Valid ClinicRequest createClinicRequest
     ) {
@@ -42,6 +45,7 @@ public class ClinicController {
     }
 
     @PutMapping("/{clinicId}")
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<ClinicResponse>> updateClinic(
             @PathVariable("clinicId") String clinicId,
             @RequestBody @Valid ClinicRequest updateClinicRequest
@@ -51,6 +55,7 @@ public class ClinicController {
     }
 
     @DeleteMapping("/{clinicId}")
+    @CheckAccess(values = {UserType.ADMIN})
     public ResponseEntity<ResponseWrapper<Void>> deleteClinic(
             @PathVariable("clinicId") String clinicId
     ) {

@@ -14,7 +14,7 @@ import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.FilterHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.PetHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
-import org.fluffy.pet.rms.resourcemanagement.model.animal.Owner;
+import org.fluffy.pet.rms.resourcemanagement.model.common.Owner;
 import org.fluffy.pet.rms.resourcemanagement.model.animal.Pet;
 import org.fluffy.pet.rms.resourcemanagement.model.booking.Booking;
 import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;

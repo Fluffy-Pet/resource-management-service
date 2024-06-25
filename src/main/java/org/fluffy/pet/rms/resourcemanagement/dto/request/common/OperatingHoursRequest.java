@@ -18,11 +18,11 @@ public class OperatingHoursRequest {
     @NotNull
     private List<@NotNull WorkingDays> workingDays;
 
-    @JsonFormat(pattern = Constants.DATE_FORMAT)
+    @JsonFormat(pattern = Constants.TIME_FORMAT)
     @NotNull
     private LocalTime startTime;
 
-    @JsonFormat(pattern = Constants.DATE_FORMAT)
+    @JsonFormat(pattern = Constants.TIME_FORMAT)
     @NotNull
     private LocalTime endTime;
 }

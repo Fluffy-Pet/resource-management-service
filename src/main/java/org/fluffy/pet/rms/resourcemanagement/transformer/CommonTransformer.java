@@ -27,6 +27,10 @@ public class CommonTransformer {
         return fileManager.getFile(fileName);
     }
 
+    public Owner convertUserIdToOwner(String userId) {
+        return Owner.builder().userId(userId).build();
+    }
+
     public PetIdentityResponse convertModelToIdentity(Pet pet) {
         return PetIdentityResponse
                 .builder()
@@ -77,8 +81,7 @@ public class CommonTransformer {
     public Service convertRequestToModel(ServiceRequest serviceRequest) {
         return Service
                 .builder()
-                .serviceGroup(serviceRequest.getServiceGroup())
-                .serviceSubGroup(serviceRequest.getServiceSubGroup())
+                .serviceSubType(serviceRequest.getServiceSubType())
                 .petType(serviceRequest.getPetType())
                 .build();
     }
@@ -141,8 +144,7 @@ public class CommonTransformer {
     public ServiceResponse convertModelToResponse(Service service) {
         return ServiceResponse
                 .builder()
-                .serviceGroup(service.getServiceGroup())
-                .serviceSubGroup(service.getServiceSubGroup())
+                .serviceSubType(service.getServiceSubType())
                 .petType(service.getPetType())
                 .build();
     }

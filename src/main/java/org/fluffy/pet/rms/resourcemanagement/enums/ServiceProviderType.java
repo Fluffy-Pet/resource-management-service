@@ -1,8 +1,15 @@
 package org.fluffy.pet.rms.resourcemanagement.enums;
 
 public enum ServiceProviderType {
-    CLINIC,
-    DOCTOR,
-    SHELTER_HOME,
-    VOLUNTEER
+    CLINIC(UserType.ADMIN),
+    DOCTOR(UserType.DOCTOR),
+    SHELTER_HOME(UserType.ADMIN),
+    VOLUNTEER(UserType.VOLUNTEER)
+    ;
+
+    private final UserType userType;
+
+    ServiceProviderType(UserType userType) {
+        this.userType = userType;
+    }
 }

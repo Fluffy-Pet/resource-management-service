@@ -2,19 +2,24 @@ package org.fluffy.pet.rms.resourcemanagement.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
+import org.fluffy.pet.rms.resourcemanagement.configuration.contexts.UserContext;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.filter.FilterRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ErrorResponse;
 import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
+import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.exception.AppException;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.FilterHelper;
+import org.fluffy.pet.rms.resourcemanagement.helper.UserHelper;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.repository.ClinicRepository;
 import org.fluffy.pet.rms.resourcemanagement.service.ClinicService;
 import org.fluffy.pet.rms.resourcemanagement.transformer.ClinicTransformer;
 import org.fluffy.pet.rms.resourcemanagement.util.PaginationWrapper;
+import org.fluffy.pet.rms.resourcemanagement.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.Page;
@@ -33,19 +38,25 @@ public class ClinicServiceImpl implements ClinicService {
 
     private final FilterHelper<ClinicResponse> filterHelper;
 
+    private final UserHelper userHelper;
+
+    private final UserContext userContext;
+
     @Autowired
-    public ClinicServiceImpl(ClinicRepository clinicRepository, ClinicTransformer clinicTransformer, FilterHelper<ClinicResponse> filterHelper){
+    public ClinicServiceImpl(ClinicRepository clinicRepository, ClinicTransformer clinicTransformer, FilterHelper<ClinicResponse> filterHelper, UserHelper userHelper, UserContext userContext){
         this.clinicRepository = clinicRepository;
         this.clinicTransformer = clinicTransformer;
         this.filterHelper = filterHelper;
+        this.userHelper = userHelper;
+        this.userContext = userContext;
     }
 
     @Override
     public ClinicResponse createClinic(ClinicRequest clinicRequest) {
-        Clinic clinic = clinicTransformer.convertRequestToModel(clinicRequest);
+        Clinic clinic = clinicTransformer.convertRequestToModel(clinicRequest, userContext.getUserId());
         try {
             Clinic createdClinic = clinicRepository.save(clinic);
-            return clinicTransformer.convertModelToResponse(createdClinic);
+            return getClinicResponse(createdClinic);
         } catch (DuplicateKeyException e) {
             log.error(String.format("Exception happened in creating user for %s", clinicRequest.getClinicName()), e
             );
@@ -58,7 +69,7 @@ public class ClinicServiceImpl implements ClinicService {
         Clinic clinic = clinicRepository.findById(id).orElseThrow(
                 () -> new RestException(HttpStatus.NOT_FOUND, ErrorResponse.from(ErrorCode.CLINIC_NOT_FOUND))
         );
-        return clinicTransformer.convertModelToResponse(clinic);
+        return getClinicResponse(clinic);
     }
 
     @Override
@@ -68,7 +79,7 @@ public class ClinicServiceImpl implements ClinicService {
         );
         clinicTransformer.updateClinic(clinic, updateClinicRequest);
         Clinic updatedClinic = clinicRepository.save(clinic);
-        return clinicTransformer.convertModelToResponse(updatedClinic);
+        return getClinicResponse(updatedClinic);
     }
 
     @Override
@@ -97,6 +108,14 @@ public class ClinicServiceImpl implements ClinicService {
                 filterRequest.getPage(),
                 filterRequest.getPageSize()
         );
-        return clinics.map(clinicTransformer::convertModelToResponse);
+        return clinics.map(this::getClinicResponse);
+    }
+
+    private ClinicResponse getClinicResponse(Clinic createdClinic) {
+        Result<UserIdentity, ErrorCode> userIdentityResult = userHelper.getUserIdentity(userContext.getUserId(), UserType.ADMIN);
+        if (userIdentityResult.isFailure()) {
+            throw new RestException(HttpStatus.INTERNAL_SERVER_ERROR, ErrorResponse.from(userIdentityResult.getError()));
+        }
+        return clinicTransformer.convertModelToResponse(createdClinic, userIdentityResult.getData());
     }
 }

@@ -20,7 +20,7 @@ public class FluffyPetServiceTransformer {
     public FluffyPetServiceResponse convertModelToResponse(FluffyPetService fluffyPetService) {
         return FluffyPetServiceResponse
                 .builder()
-                .serviceType(fluffyPetService.getServiceType())
+                .serviceType(fluffyPetService.getServiceSubType())
                 .description(fluffyPetService.getDescription())
                 .provider(ObjectUtils.transformIfNotNull(fluffyPetService.getProvider(), this::convertModelToResponse))
                 .charges(StreamUtils.emptyIfNull(fluffyPetService.getCharges()).map(this::convertModelToResponse).toList())
@@ -48,7 +48,7 @@ public class FluffyPetServiceTransformer {
         return FluffyPetService
                 .builder()
                 .id(UUID.randomUUID().toString())
-                .serviceType(fluffyPetServiceRequest.getServiceType())
+                .serviceSubType(fluffyPetServiceRequest.getServiceType())
                 .description(fluffyPetServiceRequest.getDescription())
                 .provider(ObjectUtils.transformIfNotNull(fluffyPetServiceRequest.getProvider(), this::convertRequestToModel))
                 .charges(StreamUtils.emptyIfNull(fluffyPetServiceRequest.getCharges()).map(this::convertRequestToModel).toList())
@@ -73,7 +73,7 @@ public class FluffyPetServiceTransformer {
     }
 
     public void updateFluffyPetService(FluffyPetService fluffyPetService, FluffyPetServiceRequest fluffyPetServiceRequest) {
-        fluffyPetService.setServiceType(fluffyPetServiceRequest.getServiceType());
+        fluffyPetService.setServiceSubType(fluffyPetServiceRequest.getServiceType());
         fluffyPetService.setDescription(fluffyPetServiceRequest.getDescription());
         fluffyPetService.setProvider(ObjectUtils.transformIfNotNull(fluffyPetServiceRequest.getProvider(), this::convertRequestToModel));
     }

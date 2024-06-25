@@ -4,6 +4,7 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.Transformer;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.clinic.ClinicRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.clinic.ClinicResponse;
 import org.fluffy.pet.rms.resourcemanagement.model.clinic.Clinic;
+import org.fluffy.pet.rms.resourcemanagement.model.common.UserIdentity;
 import org.fluffy.pet.rms.resourcemanagement.util.ObjectUtils;
 import org.fluffy.pet.rms.resourcemanagement.util.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ClinicTransformer {
         this.commonTransformer = commonTransformer;
     }
 
-    public Clinic convertRequestToModel(ClinicRequest clinicRequest){
+    public Clinic convertRequestToModel(ClinicRequest clinicRequest, String userId){
         return Clinic
                 .builder()
                 .id(UUID.randomUUID().toString())
@@ -28,16 +29,19 @@ public class ClinicTransformer {
                 .address(ObjectUtils.transformIfNotNull(clinicRequest.getAddress(), commonTransformer::convertRequestToModel))
                 .operatingHours(ObjectUtils.transformIfNotNull(clinicRequest.getOperatingHours(), commonTransformer::convertRequestToModel))
                 .servicesOffered(StreamUtils.emptyIfNull(clinicRequest.getServicesOffered()).map(commonTransformer::convertRequestToModel).toList())
+                .owner(commonTransformer.convertUserIdToOwner(userId))
                 .build();
     }
 
-    public ClinicResponse convertModelToResponse(Clinic clinic){
+    public ClinicResponse convertModelToResponse(Clinic clinic, UserIdentity userIdentity){
         return ClinicResponse
                 .builder()
                 .clinicName(clinic.getClinicName())
+                .description(clinic.getDescription())
                 .address(ObjectUtils.transformIfNotNull(clinic.getAddress(), commonTransformer::convertModelToResponse))
                 .openingHours(ObjectUtils.transformIfNotNull(clinic.getOperatingHours(), commonTransformer::convertModelToResponse))
                 .servicesOffered(StreamUtils.emptyIfNull(clinic.getServicesOffered()).map(commonTransformer::convertModelToResponse).toList())
+                .owner(commonTransformer.convertModelToIdentity(userIdentity))
                 .build();
     }
 
