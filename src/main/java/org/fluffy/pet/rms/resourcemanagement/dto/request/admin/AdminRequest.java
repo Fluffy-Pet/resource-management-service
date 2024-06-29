@@ -13,7 +13,7 @@ public class AdminRequest {
     @NotBlank
     private String firstName;
 
-    @NotBlank
+    @NullOrNotBlank
     private String lastName;
 
     @NullOrNotBlank

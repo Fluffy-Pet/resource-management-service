@@ -13,7 +13,7 @@ public class ClientRequest {
     @NotBlank
     private String firstName;
 
-    @NotBlank
+    @NullOrNotBlank
     private String lastName;
 
     @NullOrNotBlank
