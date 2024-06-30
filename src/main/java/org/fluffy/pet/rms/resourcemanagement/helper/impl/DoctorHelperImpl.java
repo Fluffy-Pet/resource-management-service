@@ -60,7 +60,7 @@ public class DoctorHelperImpl implements DoctorHelper {
     public Result<DoctorResponse, ErrorCode> getUserEntityById(String userId) {
         Optional<Doctor> optionalDoctor = doctorRepository.findById(userId);
         if (optionalDoctor.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.DOCTOR_NOT_FOUND);
         }
         Doctor doctor = optionalDoctor.get();
         List<Clinic> clinics = clinicHelper.getClinics(StreamUtils.emptyIfNull(doctor.getAssociatedClinics()).map(AssociatedClinic::getClinicIds).collect(Collectors.toSet()));
@@ -71,9 +71,21 @@ public class DoctorHelperImpl implements DoctorHelper {
     public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
         Optional<Doctor> optionalDoctor = doctorRepository.findById(userId);
         if (optionalDoctor.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.DOCTOR_NOT_FOUND);
         }
         return Result.success(doctorTransformer.convertModelToIdentity(optionalDoctor.get()));
+    }
+
+    @Override
+    public Result<Void, ErrorCode> updateProfilePicture(String userId, String profilePictureFileName) {
+        Optional<Doctor> optionalDoctor = doctorRepository.findById(userId);
+        if (optionalDoctor.isEmpty()) {
+            return Result.error(ErrorCode.DOCTOR_NOT_FOUND);
+        }
+        Doctor doctor = optionalDoctor.get();
+        doctor.setProfileImageFileName(profilePictureFileName);
+        doctorRepository.save(doctor);
+        return Result.success(null);
     }
 
     @Override

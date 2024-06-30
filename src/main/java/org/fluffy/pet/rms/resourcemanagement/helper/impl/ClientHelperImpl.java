@@ -63,4 +63,16 @@ public class ClientHelperImpl implements ClientHelper {
         }
         return Result.success(clientTransformer.convertModelToIdentity(optionalClient.get()));
     }
+
+    @Override
+    public Result<Void, ErrorCode> updateProfilePicture(String userId, String profilePictureFileName) {
+        Optional<Client> optionalClient = clientRepository.findById(userId);
+        if (optionalClient.isEmpty()) {
+            return Result.error(ErrorCode.CLIENT_NOT_FOUND);
+        }
+        Client client = optionalClient.get();
+        client.setProfileImageFileName(profilePictureFileName);
+        clientRepository.save(client);
+        return Result.success(null);
+    }
 }

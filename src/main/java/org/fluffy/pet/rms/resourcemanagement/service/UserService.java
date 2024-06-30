@@ -20,4 +20,6 @@ public interface UserService {
     void updateCredentials(UpdateMobileRequest updateMobileRequest);
 
     <T> UserResponse<T> getCurrentUser();
+
+    void updateCredentials(UpdateProfilePictureRequest updateProfilePictureRequest);
 }

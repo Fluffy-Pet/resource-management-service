@@ -50,7 +50,7 @@ public class AdminHelperImpl implements AdminHelper {
     public Result<AdminResponse, ErrorCode> getUserEntityById(String userId) {
         Optional<Admin> optionalAdmin = adminRepository.findById(userId);
         if (optionalAdmin.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.ADMIN_NOT_FOUND);
         }
         return Result.success(adminTransformer.convertModelToResponse(optionalAdmin.get()));
     }
@@ -59,8 +59,20 @@ public class AdminHelperImpl implements AdminHelper {
     public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
         Optional<Admin> optionalAdmin = adminRepository.findById(userId);
         if (optionalAdmin.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.ADMIN_NOT_FOUND);
         }
         return Result.success(adminTransformer.convertModelToIdentity(optionalAdmin.get()));
+    }
+
+    @Override
+    public Result<Void, ErrorCode> updateProfilePicture(String userId, String profilePictureFileName) {
+        Optional<Admin> optionalAdmin = adminRepository.findById(userId);
+        if (optionalAdmin.isEmpty()) {
+            return Result.error(ErrorCode.ADMIN_NOT_FOUND);
+        }
+        Admin admin = optionalAdmin.get();
+        admin.setProfileImageFileName(profilePictureFileName);
+        adminRepository.save(admin);
+        return Result.success(null);
     }
 }

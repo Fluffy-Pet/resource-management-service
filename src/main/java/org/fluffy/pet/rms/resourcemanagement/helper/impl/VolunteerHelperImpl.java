@@ -51,7 +51,7 @@ public class VolunteerHelperImpl implements VolunteerHelper {
     public Result<VolunteerResponse, ErrorCode> getUserEntityById(String userId) {
         Optional<Volunteer> optionalVolunteer = volunteerRepository.findById(userId);
         if (optionalVolunteer.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.VOLUNTEER_NOT_FOUND);
         }
         Volunteer volunteer = optionalVolunteer.get();
         return Result.success(volunteerTransformer.convertModelToResponse(volunteer));
@@ -61,9 +61,21 @@ public class VolunteerHelperImpl implements VolunteerHelper {
     public Result<UserIdentity, ErrorCode> getUserIdentity(String userId) {
         Optional<Volunteer> optionalVolunteer = volunteerRepository.findById(userId);
         if (optionalVolunteer.isEmpty()) {
-            return Result.error(ErrorCode.USER_NOT_FOUND);
+            return Result.error(ErrorCode.VOLUNTEER_NOT_FOUND);
         }
         return Result.success(volunteerTransformer.convertModelToIdentity(optionalVolunteer.get()));
+    }
+
+    @Override
+    public Result<Void, ErrorCode> updateProfilePicture(String userId, String profilePictureFileName) {
+        Optional<Volunteer> optionalVolunteer = volunteerRepository.findById(userId);
+        if (optionalVolunteer.isEmpty()) {
+            return Result.error(ErrorCode.VOLUNTEER_NOT_FOUND);
+        }
+        Volunteer volunteer = optionalVolunteer.get();
+        volunteer.setProfileImageFileName(profilePictureFileName);
+        volunteerRepository.save(volunteer);
+        return Result.success(null);
     }
 
     @Override

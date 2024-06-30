@@ -12,4 +12,6 @@ public interface BaseUserEntityHelper<T> {
     Result<T, ErrorCode> getUserEntityById(String userId);
 
     Result<UserIdentity, ErrorCode> getUserIdentity(String userId);
+
+    Result<Void, ErrorCode> updateProfilePicture(String userId, String profilePictureFileName);
 }

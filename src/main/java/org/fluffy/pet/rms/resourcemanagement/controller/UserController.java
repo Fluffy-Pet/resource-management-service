@@ -82,4 +82,12 @@ public class UserController {
         userService.updateCredentials(updateMobileRequest);
         return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
     }
+
+    @PutMapping("/update-profile-photo")
+    public ResponseEntity<ResponseWrapper<Void>> updateProfilePhoto(
+            @RequestBody @Valid UpdateProfilePictureRequest updateProfilePictureRequest
+    ) {
+        userService.updateCredentials(updateProfilePictureRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(ResponseWrapper.success(null));
+    }
 }

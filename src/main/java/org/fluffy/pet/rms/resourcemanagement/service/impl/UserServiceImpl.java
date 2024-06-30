@@ -153,6 +153,14 @@ public class UserServiceImpl implements UserService {
         return userTransformer.convertModelToResponse(optionalUser.get(), data);
     }
 
+    @Override
+    public void updateCredentials(UpdateProfilePictureRequest updateProfilePictureRequest) {
+        Result<Void, ErrorCode> result = this.updateProfilePicture(userContext.getUserId(), userContext.getUserType(), updateProfilePictureRequest.getProfileImageFileName());
+        if (result.isFailure()) {
+            throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(result.getError()));
+        }
+    }
+
     private <T> SignInResponse signupUserOrThrowException(
             T signupRequest,
             String password,
@@ -232,6 +240,19 @@ public class UserServiceImpl implements UserService {
             case VOLUNTEER -> (Result<T, ErrorCode>) volunteerHelper.getUserEntityById(userId);
             case ADMIN -> (Result<T, ErrorCode>) adminHelper.getUserEntityById(userId);
             case CLIENT -> (Result<T, ErrorCode>) clientHelper.getUserEntityById(userId);
+        };
+    }
+
+    private Result<Void, ErrorCode> updateProfilePicture(
+            String userId,
+            UserType userType,
+            String profilePictureFileName
+    ) {
+        return switch (userType) {
+            case DOCTOR -> doctorHelper.updateProfilePicture(userId, profilePictureFileName);
+            case VOLUNTEER -> volunteerHelper.updateProfilePicture(userId, profilePictureFileName);
+            case ADMIN -> adminHelper.updateProfilePicture(userId, profilePictureFileName);
+            case CLIENT -> clientHelper.updateProfilePicture(userId, profilePictureFileName);
         };
     }
 }
