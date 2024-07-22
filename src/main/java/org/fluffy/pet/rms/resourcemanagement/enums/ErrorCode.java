@@ -36,7 +36,8 @@ public enum ErrorCode {
     BOOKING_NOT_FOUND("026", "Booking not found"),
     BOOKING_ALREADY_EXISTS("027", "Booking already exists"),
     INVALID_FILTER_REQUEST("028", "Invalid Filter Request"),
-    PET_OWNER_MIS_MATCH("029", "Pet is not owned by current user");
+    PET_OWNER_MIS_MATCH("029", "Pet is not owned by current user"),
+    UNKNOWN_TYPE("030", "Unknown enum type");
 
     private final String code;
 

@@ -48,7 +48,8 @@ public class WebSecurityConfig {
                 "/users/sign-up/mobile",
                 "/users/sign-up/email",
                 "/users/sign-in/mobile",
-                "/users/sign-in/email"
+                "/users/sign-in/email",
+                "/services/type/**"
         );
         String[] finalPermittedRoutes = Stream.concat(defaultPermittedRoutes.stream(), permittedRoutes.stream())
                 .toArray(String[]::new);

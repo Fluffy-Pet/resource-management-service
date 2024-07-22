@@ -8,6 +8,7 @@ import org.fluffy.pet.rms.resourcemanagement.enums.ErrorCode;
 import org.fluffy.pet.rms.resourcemanagement.enums.ServiceSubType;
 import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
 import org.fluffy.pet.rms.resourcemanagement.enums.Status;
+import org.fluffy.pet.rms.resourcemanagement.exception.AppException;
 import org.fluffy.pet.rms.resourcemanagement.exception.RestException;
 import org.fluffy.pet.rms.resourcemanagement.helper.ClinicHelper;
 import org.fluffy.pet.rms.resourcemanagement.helper.DoctorHelper;
@@ -98,10 +99,14 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
 
     @Override
     public List<FluffyPetServiceResponse> getServiceForServiceType(String serviceType) {
-
-        List<ServiceSubType> allServiceSubtypeForType = ServiceSubType.getAllServiceSubtypeForType(ServiceType.getServiceType(serviceType));
-        List<FluffyPetService> allByAllServiceSubType = fluffyPetServiceRepository.findAllByAllServiceSubType(allServiceSubtypeForType);
-        return allByAllServiceSubType.stream().map(this::getServiceResponse).toList();
+        try {
+            ServiceType serviceTypeEnum = ServiceType.getServiceType(serviceType);
+            List<ServiceSubType> allServiceSubtypeForType = ServiceSubType.getAllServiceSubtypeForType(serviceTypeEnum);
+            List<FluffyPetService> allByAllServiceSubType = fluffyPetServiceRepository.findAllByAllServiceSubType(allServiceSubtypeForType);
+            return allByAllServiceSubType.stream().map(this::getServiceResponse).toList();
+        } catch (AppException appException) {
+            throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.UNKNOWN_TYPE));
+        }
     }
 
     private FluffyPetServiceResponse getServiceResponse(FluffyPetService fluffyPetService) {
