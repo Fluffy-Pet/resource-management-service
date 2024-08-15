@@ -68,6 +68,7 @@ public class UserTransformer {
 
     public <T> UserResponse<T> convertModelToResponse(User user, T data) {
         UserResponse<T> userResponse = new UserResponse<>();
+        userResponse.setUserId(user.getId());
         userResponse.setUserData(data);
         userResponse.setEmail(ObjectUtils.transformIfNotNull(user.getEmail(), commonTransformer::convertModelToResponse));
         userResponse.setMobile(ObjectUtils.transformIfNotNull(user.getMobile(), commonTransformer::convertModelToResponse));

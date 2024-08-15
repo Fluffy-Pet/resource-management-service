@@ -15,6 +15,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Repository
 public class FluffyPetServiceRepositoryImpl implements FluffyPetServiceRepository {
@@ -48,7 +50,7 @@ public class FluffyPetServiceRepositoryImpl implements FluffyPetServiceRepositor
         Query query = new Query(
                 Criteria.where(MongoConstants.STATUS).is(Status.ACTIVE)
                         .and(MongoConstants.SERVICE_SUB_TYPE)
-                        .in(serviceSubTypes)
+                        .in(StreamSupport.stream(serviceSubTypes.spliterator(), false).collect(Collectors.toList()))
         );
         return mongoTemplate.find(query, FluffyPetService.class);
     }

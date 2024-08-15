@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndexDefinition;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexOperations;
 import org.springframework.data.mongodb.core.index.PartialIndexFilter;
-import org.springframework.data.mongodb.core.query.Collation;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.List;
@@ -30,9 +29,6 @@ public class MongoIndexConfiguration {
     private <T> void createIndexForEntity(Class<T> entityClass, List<Document> indexFields) {
         IndexOperations indexOperations = mongoTemplate.indexOps(entityClass);
 
-        Collation collation = Collation.of("en")
-                .strength(Collation.ComparisonLevel.secondary());
-
         PartialIndexFilter statusPartialIndexFilter = PartialIndexFilter.of(
                 Criteria.where(MongoConstants.STATUS).in(Status.ACTIVE)
         );
@@ -40,7 +36,7 @@ public class MongoIndexConfiguration {
         List<Index> indices = new java.util.ArrayList<>(
                 indexFields.stream()
                         .map(
-                                indexField -> new CompoundIndexDefinition(indexField).collation(collation)
+                                indexField -> new CompoundIndexDefinition(indexField)
                                         .partial(statusPartialIndexFilter)
                                         .unique()
                         )

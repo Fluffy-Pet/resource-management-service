@@ -10,6 +10,8 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.common.MobileResponse;
 @NoArgsConstructor
 @Builder
 public class UserResponse<T> {
+    private String userId;
+
     private T userData;
 
     private EmailResponse email;

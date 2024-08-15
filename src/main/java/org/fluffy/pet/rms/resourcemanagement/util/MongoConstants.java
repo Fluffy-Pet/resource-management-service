@@ -160,8 +160,6 @@ public final class MongoConstants {
 
     public static final String OPTIONS = "$options";
 
-    public static final String SERVICE_TYPE = "serviceType";
-
     public static final String SERVICE_PROVIDER_TYPE = "serviceProviderType";
 
     public static final String SERVICE_TABLE = "services_table";
