@@ -69,8 +69,9 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
         fluffyPetService.setId(UUID.randomUUID().toString());
         fluffyPetService.setStatus(Status.ACTIVE);
         try {
+            ProviderIdentity providerIdentity = getProviderIdentityOrThrowException(fluffyPetService);
             FluffyPetService createdFluffyPetService = fluffyPetServiceRepository.save(fluffyPetService);
-            return getServiceResponse(createdFluffyPetService);
+            return getServiceResponse(createdFluffyPetService, providerIdentity);
         } catch (DuplicateKeyException exception) {
             throw new RestException(HttpStatus.BAD_REQUEST, ErrorResponse.from(ErrorCode.SERVICE_ALREADY_EXISTS));
         }
@@ -111,11 +112,15 @@ public class FluffyPetServiceServiceImpl implements FluffyPetServiceService {
 
     private FluffyPetServiceResponse getServiceResponse(FluffyPetService fluffyPetService) {
         ProviderIdentity providerIdentity = getProviderIdentityOrThrowException(fluffyPetService);
+        return getServiceResponse(fluffyPetService, providerIdentity);
+    }
+
+    private FluffyPetServiceResponse getServiceResponse(FluffyPetService fluffyPetService, ProviderIdentity providerIdentity) {
         return fluffyPetServiceTransformer.convertModelToResponse(fluffyPetService, providerIdentity);
     }
 
     private ProviderIdentity getProviderIdentityOrThrowException(FluffyPetService fluffyPetService) {
-        String providerId = fluffyPetService.getProvider().getProviderId();
+        String providerId = fluffyPetService.getProvider().getProviderEntityId();
         Result<ProviderIdentity, ErrorCode> result = switch (fluffyPetService.getServiceProviderType()) {
             case CLINIC -> clinicHelper.getProviderIdentityById(providerId);
             case DOCTOR -> doctorHelper.getProviderIdentityById(providerId);

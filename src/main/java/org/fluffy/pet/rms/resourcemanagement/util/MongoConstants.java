@@ -163,4 +163,6 @@ public final class MongoConstants {
     public static final String SERVICE_PROVIDER_TYPE = "serviceProviderType";
 
     public static final String SERVICE_TABLE = "services_table";
+
+    public static final String PROVIDER_ENTITY_ID = "providerEntityId";
 }

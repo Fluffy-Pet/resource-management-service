@@ -25,5 +25,9 @@ public class FluffyPetServiceRequest {
     private String description;
 
     @NotNull
+    @Valid
+    private String providerId;
+
+    @NotNull
     private List<@NotNull @Valid ServiceChargeRequest> charges;
 }

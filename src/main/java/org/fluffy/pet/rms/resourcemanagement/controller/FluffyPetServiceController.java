@@ -5,7 +5,6 @@ import org.fluffy.pet.rms.resourcemanagement.annotations.CheckAccess;
 import org.fluffy.pet.rms.resourcemanagement.dto.request.service.FluffyPetServiceRequest;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.service.FluffyPetServiceResponse;
 import org.fluffy.pet.rms.resourcemanagement.dto.response.wrapper.ResponseWrapper;
-import org.fluffy.pet.rms.resourcemanagement.enums.ServiceType;
 import org.fluffy.pet.rms.resourcemanagement.enums.UserType;
 import org.fluffy.pet.rms.resourcemanagement.service.FluffyPetServiceService;
 import org.springframework.beans.factory.annotation.Autowired;

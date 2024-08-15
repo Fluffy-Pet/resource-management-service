@@ -47,16 +47,17 @@ public class FluffyPetServiceTransformer {
                 .id(UUID.randomUUID().toString())
                 .serviceSubType(fluffyPetServiceRequest.getServiceSubType())
                 .description(fluffyPetServiceRequest.getDescription())
-                .provider(ObjectUtils.transformIfNotNull(providerId, this::convertRequestToModel))
+                .provider(ObjectUtils.transformIfNotNull(providerId, providerIdInput -> this.convertRequestToModel(providerIdInput, fluffyPetServiceRequest.getProviderId())))
                 .serviceProviderType(fluffyPetServiceRequest.getServiceProviderType())
                 .charges(StreamUtils.emptyIfNull(fluffyPetServiceRequest.getCharges()).map(this::convertRequestToModel).toList())
                 .build();
     }
 
-    public ServiceProvider convertRequestToModel(String providerId) {
+    public ServiceProvider convertRequestToModel(String providerId, String providerEntityId) {
         return ServiceProvider
                 .builder()
                 .providerId(providerId)
+                .providerEntityId(providerEntityId)
                 .build();
     }
 

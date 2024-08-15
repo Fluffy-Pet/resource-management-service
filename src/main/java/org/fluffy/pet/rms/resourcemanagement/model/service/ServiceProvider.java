@@ -12,4 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 public class ServiceProvider {
     @Field(MongoConstants.PROVIDER_ID)
     private String providerId;
+
+    @Field(MongoConstants.PROVIDER_ENTITY_ID)
+    private String providerEntityId;
 }
