@@ -27,6 +27,7 @@ public class DoctorTransformer {
     public DoctorResponse convertModelToResponse(Doctor doctor, List<Clinic> clinics){
         return DoctorResponse
                 .builder()
+                .id(doctor.getId())
                 .firstName(doctor.getFirstName())
                 .lastName(doctor.getLastName())
                 .profileImageUrl(ObjectUtils.transformIfNotNull(

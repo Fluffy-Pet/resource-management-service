@@ -14,6 +14,8 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class DoctorResponse {
+    private String id;
+
     private String firstName;
 
     private String lastName;

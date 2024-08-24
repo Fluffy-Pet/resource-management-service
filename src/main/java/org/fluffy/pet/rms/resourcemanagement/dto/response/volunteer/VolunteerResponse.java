@@ -15,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class VolunteerResponse {
+    private  String id;
+
     private String firstName;
 
     private String lastName;

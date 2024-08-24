@@ -37,6 +37,7 @@ public class ClinicTransformer {
     public ClinicResponse convertModelToResponse(Clinic clinic, UserIdentity userIdentity){
         return ClinicResponse
                 .builder()
+                .id(clinic.getId())
                 .clinicName(clinic.getClinicName())
                 .description(clinic.getDescription())
                 .profileImageUrl(

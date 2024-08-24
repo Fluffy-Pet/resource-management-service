@@ -11,6 +11,8 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.common.UserIdentityRes
 @AllArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @Builder
 public class ClinicResponse {
+    private String id;
+
     private String clinicName;
 
     private String description;

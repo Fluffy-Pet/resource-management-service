@@ -24,6 +24,7 @@ public class VolunteerTransformer {
     public VolunteerResponse convertModelToResponse(Volunteer volunteer){
         return VolunteerResponse
                 .builder()
+                .id(volunteer.getId())
                 .firstName(volunteer.getFirstName())
                 .lastName(volunteer.getLastName())
                 .profileImageUrl(

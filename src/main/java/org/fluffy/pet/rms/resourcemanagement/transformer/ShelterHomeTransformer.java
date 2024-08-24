@@ -24,6 +24,7 @@ public class ShelterHomeTransformer {
     public ShelterHomeResponse convertModelToResponse(ShelterHome shelterHome, UserIdentity userIdentity) {
         return ShelterHomeResponse
                 .builder()
+                .id(shelterHome.getId())
                 .name(shelterHome.getName())
                 .description(shelterHome.getDescription())
                 .profileImageUrl(

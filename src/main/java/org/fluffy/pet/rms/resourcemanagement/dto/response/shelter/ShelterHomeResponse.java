@@ -10,6 +10,8 @@ import org.fluffy.pet.rms.resourcemanagement.dto.response.common.UserIdentityRes
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 public class ShelterHomeResponse {
+    private String id;
+
     private String name;
 
     private String description;
